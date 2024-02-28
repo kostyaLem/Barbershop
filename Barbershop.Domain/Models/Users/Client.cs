@@ -1,15 +1,13 @@
-﻿using Barbershop.Domain.Models.Services_Products;
-
-namespace Barbershop.Domain.Models.Users;
+﻿namespace Barbershop.Domain.Models;
 
 public class Client : User
 {
-    public virtual ICollection<Order> Orders { get; set; }
-
     public string Notes { get; set; }
+
+    public virtual ICollection<Order> Orders { get; set; }
 
     public Client()
     {
-            Orders = new HashSet<Order>();
+        Orders = new HashSet<Order>();
     }
 }

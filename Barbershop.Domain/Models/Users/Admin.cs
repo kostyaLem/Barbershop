@@ -1,6 +1,6 @@
-﻿namespace Barbershop.Domain.Models.Users;
+﻿namespace Barbershop.Domain.Models;
 
 public class Admin : User
 {
-    public string Password { get; set; }
+    public string PasswordHash { get; set; }
 }

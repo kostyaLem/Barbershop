@@ -1,12 +1,8 @@
-﻿using Barbershop.Domain.Models.Common;
-using Barbershop.Domain.Models.Services_Products;
-
-namespace Barbershop.Domain.Models.Users;
+﻿namespace Barbershop.Domain.Models;
 
 public class Barber : User
 {
-    public string Password { get; set; }
-
+    public string PasswordHash { get; set; }
     public SkillLevel SkillLevel { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; }
