@@ -1,12 +1,6 @@
 ﻿using Barbershop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Storage.Context;
 
@@ -21,17 +15,13 @@ public class BarbershopContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<BarbershopParameterRow> BarbershopParameterRows { get; set; }
 
-
-
     public BarbershopContext(DbContextOptions<BarbershopContext> options) : base(options)
     {
-      this.Database.Migrate();
+      //this.Database.Migrate(); Применять при обращении к контексту.
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-
     }
 }

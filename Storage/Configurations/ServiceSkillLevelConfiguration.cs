@@ -15,12 +15,6 @@ internal class ServiceSkillLevelConfiguration : IEntityTypeConfiguration<Service
         builder.Property(p => p.ServiceId).IsRequired();
 
         builder
-           .HasOne(s => s.Order)
-           .WithMany(o => o.ServiceSkillLevels)
-           .HasForeignKey(k => k.OrderId)
-           .OnDelete(DeleteBehavior.Cascade);
-
-        builder
          .HasOne(s => s.Service)
          .WithMany(o => o.ServiceSkillLevels)
          .HasForeignKey(k => k.ServiceId)

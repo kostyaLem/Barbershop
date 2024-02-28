@@ -5,7 +5,7 @@ public class Order : Entity
     public OrderStatus OrderStatus { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime? CompletedOn { get; set; }
-    public int? BarbersGain { get; set; }
+    public int BarbersGain { get; set; }
 
     public int? BarberId { get; set; }
     public virtual Barber? Barber { get; set; }

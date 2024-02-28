@@ -12,7 +12,7 @@ using Storage.Context;
 namespace Storage.Migrations
 {
     [DbContext(typeof(BarbershopContext))]
-    [Migration("20240228172105_Init")]
+    [Migration("20240228203207_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -92,8 +92,9 @@ namespace Storage.Migrations
                     b.Property<byte[]>("Photo")
                         .HasColumnType("bytea");
 
-                    b.Property<int>("SkillLevel")
-                        .HasColumnType("integer");
+                    b.Property<string>("SkillLevel")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
                         .HasColumnType("text");
@@ -104,6 +105,40 @@ namespace Storage.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Barber", (string)null);
+                });
+
+            modelBuilder.Entity("Barbershop.Domain.Models.BarbershopParameterRow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JuniorServiceSalePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MiddleServiceSalePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PercentFromProductSelling")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SeniorServiceSalePercent")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("WorkDayEndsOn")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WorkDayStartsOn")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BarbershopParameterRows");
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Client", b =>
@@ -156,7 +191,7 @@ namespace Storage.Migrations
                     b.Property<int?>("BarberId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("BarbersGain")
+                    b.Property<int>("BarbersGain")
                         .HasColumnType("integer");
 
                     b.Property<int>("ClientId")
@@ -168,8 +203,9 @@ namespace Storage.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -198,15 +234,10 @@ namespace Storage.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -245,25 +276,51 @@ namespace Storage.Migrations
                     b.Property<int>("MinutesDuration")
                         .HasColumnType("integer");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ServiceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SkillLevel")
-                        .HasColumnType("integer");
+                    b.Property<string>("SkillLevel")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceSkillLevel", (string)null);
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrdersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
+            modelBuilder.Entity("OrderServiceSkillLevel", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ServiceSkillLevelsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("OrdersId", "ServiceSkillLevelsId");
+
+                    b.HasIndex("ServiceSkillLevelsId");
+
+                    b.ToTable("OrderServiceSkillLevel");
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Order", b =>
@@ -284,34 +341,45 @@ namespace Storage.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Barbershop.Domain.Models.Product", b =>
-                {
-                    b.HasOne("Barbershop.Domain.Models.Order", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("Barbershop.Domain.Models.ServiceSkillLevel", b =>
                 {
-                    b.HasOne("Barbershop.Domain.Models.Order", "Order")
-                        .WithMany("Services")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Barbershop.Domain.Models.Service", "Service")
                         .WithMany("ServiceSkillLevels")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Order");
-
                     b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("Barbershop.Domain.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Barbershop.Domain.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrderServiceSkillLevel", b =>
+                {
+                    b.HasOne("Barbershop.Domain.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Barbershop.Domain.Models.ServiceSkillLevel", null)
+                        .WithMany()
+                        .HasForeignKey("ServiceSkillLevelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Barber", b =>
@@ -322,13 +390,6 @@ namespace Storage.Migrations
             modelBuilder.Entity("Barbershop.Domain.Models.Client", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("Barbershop.Domain.Models.Order", b =>
-                {
-                    b.Navigation("Products");
-
-                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Service", b =>
