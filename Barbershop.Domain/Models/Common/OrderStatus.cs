@@ -1,4 +1,4 @@
-﻿namespace Barbershop.Domain.Models.Common;
+﻿namespace Barbershop.Domain.Models;
 
 public enum OrderStatus
 {
