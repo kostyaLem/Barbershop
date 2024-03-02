@@ -10,7 +10,11 @@ internal class BarberConfiguration : IEntityTypeConfiguration<Barber>
     public void Configure(EntityTypeBuilder<Barber> builder)
     {
         builder.ToTable("Barber");
-        builder.Property(p => p.FirstName).IsRequired();
         builder.Property(e => e.SkillLevel).HasConversion(new EnumToStringConverter<SkillLevel>());
+
+        builder
+            .HasOne(p => p.User)
+            .WithOne()
+            .HasForeignKey<Barber>(p => p.Id);
     }
 }

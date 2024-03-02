@@ -1,11 +1,13 @@
 ﻿namespace Barbershop.Domain.Models;
 
-public class Barber : User
+public class Barber : Entity
 {
     public string PasswordHash { get; set; }
     public SkillLevel SkillLevel { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; }
+
+    public User User { get; set; }
 
     public Barber()
     {

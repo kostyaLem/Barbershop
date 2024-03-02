@@ -9,7 +9,11 @@ internal class AdminConfiguration : IEntityTypeConfiguration<Admin>
     public void Configure(EntityTypeBuilder<Admin> builder)
     {
         builder.ToTable("Admin");
-        builder.Property(p => p.FirstName).IsRequired();
         builder.Property(p => p.PasswordHash).IsRequired();
+
+        builder
+            .HasOne(p => p.User)
+            .WithOne()
+            .HasForeignKey<Admin>(p => p.Id);
     }
 }

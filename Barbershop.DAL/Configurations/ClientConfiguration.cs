@@ -9,6 +9,10 @@ internal class ClientConfiguration : IEntityTypeConfiguration<Client>
     public void Configure(EntityTypeBuilder<Client> builder)
     {
         builder.ToTable("Client");
-        builder.Property(p => p.FirstName).IsRequired();
+
+        builder
+            .HasOne(p => p.User)
+            .WithOne()
+            .HasForeignKey<Client>(p => p.Id);
     }
 }
