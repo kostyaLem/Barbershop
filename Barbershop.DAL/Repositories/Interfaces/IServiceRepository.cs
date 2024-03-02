@@ -1,17 +1,17 @@
-﻿using Barbershop.DAL.Models.ServicesAndProducts;
+﻿using Barbershop.DAL.Models;
 
 namespace Barbershop.DAL.Repositories.Interfaces
 {
     public interface IServiceRepository
     {
-        public void AddService(ServiceModel service);
+        public Task AddService(ServiceModel service);
 
-        public ServiceModel GetService(int id);
+        public Task<ServiceModel> GetService(int id);
 
-        public ICollection<ServiceModel> GetAllServices();
+        public Task<IReadOnlyList<ServiceModel>> GetAllServices();
 
-        public void UpdateService(ServiceModel service);
+        public Task UpdateService(ServiceModel service);
 
-        public void DeleteService(int id);
+        public Task DeleteService(int id);
     }
 }

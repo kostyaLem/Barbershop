@@ -1,27 +1,30 @@
-﻿using Barbershop.DAL.Models.ServicesAndProducts;
-using Barbershop.DAL.Models.UserModels;
+﻿using Barbershop.DAL.Models;
 using Barbershop.Domain.Models;
 
 namespace Barbershop.DAL.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        public void AddUser(UserModel user);
+        public Task AddUser(UserModel user);
 
-        // Тут апкаст, возвращать будем барбера, админа или клиента, в зависимости от типа сущности
-        public UserModel GetUser(int id);
+        public Task<AdminModel> GetAdmin(int id);
+        public Task<ClientModel> GetClient(int id);
+        public Task<BarberModel> GetBarber(int id);
 
-        public ICollection<UserModel> GetAllUsers();
+        public Task<IReadOnlyList<AdminModel>> GetAdmins();
+        public Task<IReadOnlyList<ClientModel>> GetClients();
+        public Task<IReadOnlyList<BarberModel>> GetBarbers();
 
-        //Можно было бы сделать подобный отдельный метод для каждого типа юзеров, но хз надо ли
-        public ICollection<BarberModel> GetBarbers(SkillLevel usersSkillLevel);
+        public Task<IReadOnlyList<BarberModel>> GetBarbers(SkillLevel usersSkillLevel);
 
-        //Этот метод покрывает все необходимые запросы из ТЗ, но можно и разбить/добавить на несколько более точечных
-        public ICollection<OrderModel> GetBarbersWorkSchedule(int barberId, DateTime startPeriod, DateTime endPeriod, bool doneOnly = false);
+        public Task<IReadOnlyList<OrderModel>> GetBarbersWorkSchedule(int barberId, DateTime? startPeriod, DateTime? endPeriod, bool doneOnly = false);
 
-        // Тут даункаст, внутри проверим является ли UserModel кем-то из наследников - если да - ок, обновляем.
-        public void UpdateUser(UserModel user);
+        public Task UpdateUser(UserModel user);
 
-        public void DeleteUser(int id);
+        public Task UpdateUserNotes(int userId, string notes);
+
+        public Task UpdateUserPassword(int userId, string password);
+
+        public Task DeleteUser(int id);
     }
 }

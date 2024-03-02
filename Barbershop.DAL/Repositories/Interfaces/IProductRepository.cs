@@ -1,18 +1,17 @@
-﻿using Barbershop.DAL.Models.ServicesAndProducts;
-using Barbershop.Domain.Models;
+﻿using Barbershop.DAL.Models;
 
 namespace Barbershop.DAL.Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        public void AddProduct(ProductModel product);
+        public Task AddProduct(ProductModel product);
 
-        public ProductModel GetProduct(int id);
+        public Task<ProductModel> GetProduct(int id);
 
-        public ICollection<ProductModel> GetAllProducts();
+        public Task<IReadOnlyList<ProductModel>> GetAllProducts();
 
-        public void UpdateProduct(ProductModel product);
+        public Task UpdateProduct(ProductModel product);
 
-        public void DeleteProduct(int id);
+        public Task DeleteProduct(int id);
     }
 }

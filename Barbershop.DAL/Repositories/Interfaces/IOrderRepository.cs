@@ -1,19 +1,19 @@
-﻿using Barbershop.DAL.Models.ServicesAndProducts;
+﻿using Barbershop.DAL.Models;
 
 namespace Barbershop.DAL.Repositories.Interfaces
 {
     public interface IOrderRepository
     {
-        public void AddOrder(OrderModel order);
+        public Task AddOrder(OrderModel order);
 
-        public OrderModel GetOrder(int id);
+        public Task<OrderModel> GetOrder(int id);
 
-        public ICollection<OrderModel> GetAllOrders();
+        public Task<IReadOnlyList<OrderModel>> GetAllOrders();
 
-        public ICollection<OrderModel> GetAllOrders(DateTime startPeriod, DateTime endPeriod);
+        public Task<IReadOnlyList<OrderModel>> GetAllOrders(DateTime? from, DateTime? to);
 
-        public void UpdateOrder(OrderModel order);
+        public Task UpdateOrder(OrderModel order);
 
-        public void DeleteOrder(int id);
+        public Task DeleteOrder(int id);
     }
 }
