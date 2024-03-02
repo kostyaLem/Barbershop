@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Storage.Configurations;
+namespace Barbershop.DAL.Configurations;
 
 internal class ClientConfiguration : IEntityTypeConfiguration<Client>
 {

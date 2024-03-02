@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Barbershop.DAL.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Storage.Context;
+using Barbershop.DAL.Context;
 
 #nullable disable
 
-namespace Storage.Migrations
+namespace Barbershop.DAL.Migrations
 {
     [DbContext(typeof(BarbershopContext))]
-    partial class BarbershopContextModelSnapshot : ModelSnapshot
+    [Migration("20240228203207_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

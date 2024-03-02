@@ -1,9 +1,9 @@
 ﻿using Barbershop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Barbershop.DAL.ValueConversion;
 
-namespace Storage.Configurations;
+namespace Barbershop.DAL.Configurations;
 
 internal class OrderConfiguration : IEntityTypeConfiguration<Order>
 {

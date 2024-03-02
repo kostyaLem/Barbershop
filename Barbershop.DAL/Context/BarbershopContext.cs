@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Storage.Context;
+namespace Barbershop.DAL.Context;
 
 public class BarbershopContext : DbContext
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 
-namespace Storage.Context;
+namespace Barbershop.DAL.Context;
 
 internal class BarbershopContextFactory : IDesignTimeDbContextFactory<BarbershopContext>
 {

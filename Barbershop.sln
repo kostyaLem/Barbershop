@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.Domain", "Barbershop.Domain\Barbershop.Domain.csproj", "{36E90F08-7EE0-4481-BB4E-67C2FAE1B1C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.Storage", "Barbershop.Storage\Barbershop.Storage.csproj", "{6B277F6E-D66B-4D5A-8948-292D0C510FD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.DAL", "Barbershop.DAL\Barbershop.DAL.csproj", "{6B277F6E-D66B-4D5A-8948-292D0C510FD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
