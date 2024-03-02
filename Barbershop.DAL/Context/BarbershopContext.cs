@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Barbershop.DAL.Context;
 
-public class BarbershopContext : DbContext
+internal class BarbershopContext : DbContext
 {
     public DbSet<Order> Orders { get; set; }
     public DbSet<Product> Products { get; set; }

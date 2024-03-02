@@ -1,7 +1,7 @@
 ﻿using Barbershop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Barbershop.DAL.ValueConversion;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Barbershop.DAL.Configurations;
 
