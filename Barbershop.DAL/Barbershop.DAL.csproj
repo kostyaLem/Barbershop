@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\Models\**" />
+    <EmbeddedResource Remove="Repositories\Models\**" />
+    <None Remove="Repositories\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
@@ -18,10 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Barbershop.Domain\Barbershop.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\Models\" />
   </ItemGroup>
 
 </Project>

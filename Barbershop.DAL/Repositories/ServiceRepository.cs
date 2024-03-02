@@ -7,5 +7,6 @@ namespace Barbershop.DAL.Repositories
     /// </summary>
     internal class ServiceRepository : IServiceRepository
     {
+
     }
 }
