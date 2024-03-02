@@ -9,6 +9,9 @@ namespace Barbershop.DAL
         public static ServiceCollection AddDependencies(this ServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IProductRepository, ProductRepository>();
+            serviceCollection.AddTransient<IServiceRepository, ServiceRepository>();
+            serviceCollection.AddTransient<IOrderRepository, OrderRepository>();
+            serviceCollection.AddTransient<IUserRepository, UserRepository>();
 
             return serviceCollection;
         }

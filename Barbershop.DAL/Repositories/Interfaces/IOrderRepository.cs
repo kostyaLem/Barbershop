@@ -3,7 +3,8 @@
     /// <summary>
     /// 
     /// </summary>
-    public interface IProductRepository
+    public interface IOrderRepository
     {
+
     }
 }

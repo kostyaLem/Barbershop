@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Barbershop.Domain\Barbershop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Models\" />
+  </ItemGroup>
+
 </Project>
