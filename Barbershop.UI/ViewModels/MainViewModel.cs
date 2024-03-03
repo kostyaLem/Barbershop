@@ -1,6 +1,11 @@
-﻿namespace Barbershop.UI.ViewModels
+﻿using Barbershop.UI.ViewModels.Base;
+
+namespace Barbershop.UI.ViewModels
 {
-    public class MainViewModel
+    /// <summary>
+    /// Модель главного окна приложения.
+    /// </summary>
+    public class MainViewModel : BaseItemsViewModel<int>
     {
     }
 }
