@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Barbershop.DAL", "Barbersho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.Contracts", "Barbershop.Contracts\Barbershop.Contracts.csproj", "{4800EE95-E997-42EC-B68B-61395E6CB6BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0D71E673-9AFB-4C1C-A39D-3907B5E56183}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2FEA692D-7494-442B-8A0F-6FE787A9AA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.UI", "Barbershop.UI\Barbershop.UI.csproj", "{1B856F21-B876-4845-A282-E8871BC0ED57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +33,18 @@ Global
 		{4800EE95-E997-42EC-B68B-61395E6CB6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4800EE95-E997-42EC-B68B-61395E6CB6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4800EE95-E997-42EC-B68B-61395E6CB6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B856F21-B876-4845-A282-E8871BC0ED57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B856F21-B876-4845-A282-E8871BC0ED57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B856F21-B876-4845-A282-E8871BC0ED57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B856F21-B876-4845-A282-E8871BC0ED57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36E90F08-7EE0-4481-BB4E-67C2FAE1B1C8} = {0D71E673-9AFB-4C1C-A39D-3907B5E56183}
+		{6B277F6E-D66B-4D5A-8948-292D0C510FD0} = {2FEA692D-7494-442B-8A0F-6FE787A9AA37}
+		{4800EE95-E997-42EC-B68B-61395E6CB6BC} = {0D71E673-9AFB-4C1C-A39D-3907B5E56183}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21012271-7D31-4501-85B4-6D61A3F5C3D5}
