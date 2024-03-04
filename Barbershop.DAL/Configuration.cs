@@ -6,7 +6,6 @@ namespace Barbershop.DAL
     {
         public static ServiceCollection RegisterDataAccessLayerServies(this ServiceCollection serviceCollection)
         {
-
             return serviceCollection;
         }
     }

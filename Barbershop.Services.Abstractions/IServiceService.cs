@@ -1,8 +1,8 @@
 ﻿using Barbershop.Domain.Models;
 
-namespace Barbershop.Domain.Repositories;
+namespace Barbershop.Services.Abstractions;
 
-public interface IServiceRepository
+public interface IServiceService
 {
     public Task AddService(Service service);
 

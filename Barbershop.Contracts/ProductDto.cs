@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Barbershop.Contracts;
 
-namespace Barbershop.Contracts
+public class ProductDto : EntityDto
 {
-    internal class ProductDto
-    {
-    }
+    public string Name { get; set; }
+    public decimal Cost { get; set; }
 }

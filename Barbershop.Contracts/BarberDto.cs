@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Barbershop.Contracts;
 
-namespace Barbershop.Contracts
+public class BarberDto : UserDto
 {
-    internal class BarberDto
-    {
-    }
+    public string PasswordHash { get; set; }
+
+    public string SkillLevel { get; set; }
+
+    public virtual ICollection<OrderDto> Orders { get; set; }
 }

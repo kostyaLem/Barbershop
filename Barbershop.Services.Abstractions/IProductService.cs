@@ -1,8 +1,8 @@
 ﻿using Barbershop.Domain.Models;
 
-namespace Barbershop.Domain.Repositories;
+namespace Barbershop.Services.Abstractions;
 
-public interface IProductRepository
+public interface IProductService
 {
     public Task AddProduct(Product product);
 

@@ -1,8 +1,8 @@
 ﻿using Barbershop.Domain.Models;
 
-namespace Barbershop.Domain.Repositories;
+namespace Barbershop.Services.Abstractions;
 
-public interface IOrderRepository
+public interface IOrderService
 {
     public Task AddOrder(Order order);
 

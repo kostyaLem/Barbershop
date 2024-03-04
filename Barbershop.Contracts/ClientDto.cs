@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Barbershop.Contracts;
 
-namespace Barbershop.Contracts
+public class ClientDto : UserDto
 {
-    internal class ClientDto
-    {
-    }
+    public string Notes { get; set; }
+
+    public virtual ICollection<OrderDto> Orders { get; set; }
 }

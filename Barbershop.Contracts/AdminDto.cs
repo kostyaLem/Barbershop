@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Barbershop.Contracts;
 
-namespace Barbershop.Contracts
+public class AdminDto : UserDto
 {
-    internal class AdminDto
-    {
-    }
+    public string PasswordHash { get; set; }
 }
