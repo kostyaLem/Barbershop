@@ -7,7 +7,7 @@ internal class BarbershopContextFactory : IDesignTimeDbContextFactory<Barbershop
 {
     public string ConnectionString { get; } = "Host=localhost;Port=5432;Database=Barbershop;Username=postgres;Password=12345";
 
-    public BarbershopContext CreateDbContext() => CreateDbContext(Array.Empty<string>());
+    public BarbershopContext CreateContext() => CreateDbContext(Array.Empty<string>());
 
     public BarbershopContext CreateDbContext(string[] args)
     {

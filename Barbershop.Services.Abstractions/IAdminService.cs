@@ -1,18 +1,16 @@
-﻿using Barbershop.Domain.Models;
+﻿using Barbershop.Contracts.Commands;
+using Barbershop.Contracts.Models;
 
-namespace Barbershop.Services.Abstractions;
-
-public interface IAdminService
+namespace Barbershop.Services.Abstractions
 {
-    public Task AddAdmin(Admin admin);
+    public interface IAdminService
+    {
+        Task<AdminDto> Login(string username, string password);
 
-    public Task<Admin> GetAdmin(int id);
+        Task<IReadOnlyList<AdminDto>> GetAll();
 
-    public Task<IReadOnlyList<Admin>> GetAllAdmins();
+        Task Create(CreateAdminCommand command);
 
-    public Task UpdateAdmin(Admin admin);
-
-    public Task UpdateAdminsPassword(int adminId, string password);
-
-    public Task DeleteAdmin(int id);
+        Task RemoveById(int id);
+    }
 }

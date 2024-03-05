@@ -1,4 +1,4 @@
-﻿namespace Barbershop.Contracts;
+﻿namespace Barbershop.Contracts.Models;
 
 public class EntityDto
 {
