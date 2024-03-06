@@ -14,6 +14,7 @@ namespace Barbershop.UI.Services
         {
             _titles = new Dictionary<Type, string>()
             {
+                { typeof(AuthViewModel), "Авторизация" },
                 { typeof(MainViewModel), "Терминал сотрудника" }
             };
         }
