@@ -2,6 +2,7 @@
 
 public class Barber : Entity
 {
+    public string Login { get; set; }
     public string PasswordHash { get; set; }
     public SkillLevel SkillLevel { get; set; }
 
