@@ -1,4 +1,5 @@
 ﻿using Barbershop.Contracts;
+using Barbershop.Contracts.Models;
 using System.Windows;
 
 namespace Barbershop.UI

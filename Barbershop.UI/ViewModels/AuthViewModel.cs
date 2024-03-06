@@ -1,4 +1,5 @@
-﻿using Barbershop.Services.Abstractions.Exceptions;
+﻿using Barbershop.Services.Abstractions;
+using Barbershop.Services.Abstractions.Exceptions;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.Views;
 using DevExpress.Mvvm;
@@ -15,7 +16,7 @@ namespace Barbershop.UI.ViewModels
     /// </summary>
     public class AuthViewModel : BaseViewModel
     {
-        //private readonly IAuthService _authService;
+        private readonly IAdminService _adminService;
 
         public string Login
         {
@@ -39,8 +40,8 @@ namespace Barbershop.UI.ViewModels
                 try
                 {
                     var passwordBox = (PasswordBox)passwordControl;
-                    //var admin = await _authService.Login()
-                    //App.CurrentUser = admin;
+                    var admin = await _adminService.Login(Login, passwordBox.Password);
+                    App.CurrentUser = admin;
                     Application.Current.MainWindow.Visibility = Visibility.Collapsed;
 
                     Container.ServiceProvider.GetRequiredService<MainView>().ShowDialog();

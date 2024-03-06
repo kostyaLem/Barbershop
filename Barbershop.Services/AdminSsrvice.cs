@@ -12,12 +12,12 @@ namespace Barbershop.Services
     /// <summary>
     /// Сервис управления администраторами.
     /// </summary>
-    internal class AdminSsrvice : IAdminService
+    internal class AdminService : IAdminService
     {
         private readonly IBaseRepository<Admin> _adminRepository;
         private readonly IMapper _mapper;
 
-        public AdminSsrvice(IBaseRepository<Admin> adminRepo, IMapper mapper)
+        public AdminService(IBaseRepository<Admin> adminRepo, IMapper mapper)
         {
             _adminRepository = adminRepo ?? throw new ArgumentNullException(nameof(adminRepo));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

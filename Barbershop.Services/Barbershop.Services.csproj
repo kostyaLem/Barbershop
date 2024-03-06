@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Barbershop.Contracts\Barbershop.Contracts.csproj" />
     <ProjectReference Include="..\Barbershop.Services.Abstractions\Barbershop.Services.Abstractions.csproj" />
   </ItemGroup>
 
