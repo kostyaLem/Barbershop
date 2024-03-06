@@ -8,6 +8,9 @@ namespace Barbershop.UI
     {
         public static ServiceCollection RegisterViews(this ServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<AuthView>();
+            serviceCollection.AddTransient<AuthViewModel>();
+
             serviceCollection.AddTransient<MainView>();
             serviceCollection.AddTransient<MainViewModel>();
 

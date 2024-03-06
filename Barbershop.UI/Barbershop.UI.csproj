@@ -9,13 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DevExpressMvvm" Version="23.2.3" />
     <PackageReference Include="HandyControls" Version="3.5.0" />
+    <PackageReference Include="HandyControls.Lang.ru" Version="3.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Barbershop.Contracts\Barbershop.Contracts.csproj" />
     <ProjectReference Include="..\Barbershop.DAL\Barbershop.DAL.csproj" />
+    <ProjectReference Include="..\Barbershop.Services.Abstractions\Barbershop.Services.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icon.ico" />
   </ItemGroup>
 
 </Project>

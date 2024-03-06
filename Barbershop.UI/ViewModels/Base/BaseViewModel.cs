@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm;
+﻿using Barbershop.UI.Services;
+using DevExpress.Mvvm;
 using HandyControl.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,6 +21,11 @@ namespace Barbershop.UI.ViewModels.Base
         {
             get => GetValue<bool>(nameof(IsUploading));
             set => SetValue(value, nameof(IsUploading));
+        }
+
+        public BaseViewModel()
+        {
+            Title = ViewTitleService.Get(this);
         }
 
         // Метод, устанавливающий флаг и выполняющий передаваемую функцию
