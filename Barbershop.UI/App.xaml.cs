@@ -2,6 +2,7 @@
 using DevExpress.Mvvm;
 using HandyControl.Themes;
 using HandyControl.Tools;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,13 +13,15 @@ namespace Barbershop.UI
         public static AdminDto CurrentUser { get; set; }
 
         public static ICommand ChangeThemeCommand { get; }
+        public static ICommand ChangeAccountCommand { get; }
 
         static App()
         {
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
 
             ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
-        }
+            ChangeAccountCommand = new DelegateCommand(ChangeAccount);
+        }        
 
         private static void ChangeTheme(ApplicationTheme selectedTheme)
         {
@@ -28,6 +31,12 @@ namespace Barbershop.UI
             ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Top, 0.3, 1, 0.5);
             ThemeManager.Current.ApplicationTheme = selectedTheme;
             ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Bottom, 0.3, 0.5, 1);
+        }
+
+        private static void ChangeAccount()
+        {
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+            Application.Current.Shutdown();
         }
 
         protected override void OnStartup(StartupEventArgs e)

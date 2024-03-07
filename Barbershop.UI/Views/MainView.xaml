@@ -30,7 +30,7 @@
                         </Viewbox>
                     </MenuItem.Icon>
 
-                    <MenuItem Command="{Binding ChangeAccountCommand}" Header="Сменить аккаунт" />
+                    <MenuItem Command="{Binding Source={x:Static b:App.ChangeAccountCommand}}" Header="Сменить аккаунт" />
 
                     <MenuItem
                         Command="{Binding Source={x:Static b:App.ChangeThemeCommand}}"
