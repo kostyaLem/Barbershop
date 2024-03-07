@@ -46,7 +46,7 @@ namespace Barbershop.UI
 
         public static void ShowWindow()
         {
-            ServiceProvider.GetRequiredService<AuthView>().ShowDialog();
+            ServiceProvider.GetRequiredService<MainView>().ShowDialog();
         }
     }
 }

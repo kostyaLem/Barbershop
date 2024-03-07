@@ -1,5 +1,5 @@
 ﻿using Barbershop.UI.ViewModels;
-using System.Windows;
+using HandyControl.Controls;
 
 namespace Barbershop.UI.Views
 {

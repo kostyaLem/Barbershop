@@ -15,7 +15,7 @@ namespace Barbershop.UI.Services
             _titles = new Dictionary<Type, string>()
             {
                 { typeof(AuthViewModel), "Авторизация" },
-                { typeof(MainViewModel), "Терминал сотрудника" }
+                { typeof(MainViewModel), "Терминал администратора" }
             };
         }
 
@@ -23,7 +23,7 @@ namespace Barbershop.UI.Services
         {
             if (_titles.TryGetValue(baseViewModel.GetType(), out var prefix))
             {
-                return prefix;
+                return $"Barbershop | {prefix}";
             }
 
             return string.Empty;
@@ -33,7 +33,7 @@ namespace Barbershop.UI.Services
         {
             if (_titles.TryGetValue(typeof(T), out var prefix))
             {
-                return prefix;
+                return $"Barbershop | {prefix}";
             }
 
             return string.Empty;
