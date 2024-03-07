@@ -1,5 +1,6 @@
 ﻿using Barbershop.UI.ViewModels;
 using Barbershop.UI.Views;
+using Barbershop.UI.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Barbershop.UI
@@ -13,6 +14,15 @@ namespace Barbershop.UI
 
             serviceCollection.AddTransient<MainView>();
             serviceCollection.AddTransient<MainViewModel>();
+
+            serviceCollection.AddPages();
+
+            return serviceCollection;
+        }
+
+        private static ServiceCollection AddPages(this ServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<MainPage>();
 
             return serviceCollection;
         }

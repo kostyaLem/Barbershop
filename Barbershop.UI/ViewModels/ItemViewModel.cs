@@ -9,10 +9,13 @@
 
         public string ImageName { get; set; }
 
-        public ItemViewModel(string header, string imageName)
+        public Type PageType { get; set; }
+
+        public ItemViewModel(string header, string imageName, Type pageType = default)
         {
             Header = header;
             ImageName = imageName;
+            PageType = pageType;
         }
     }
 }

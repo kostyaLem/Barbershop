@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using Barbershop.DAL;
+﻿using Barbershop.DAL;
 using Barbershop.Services;
 using Barbershop.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Barbershop.UI
 {
@@ -37,6 +37,11 @@ namespace Barbershop.UI
         public static void PrepareApp()
         {
             Task.Run(() => ServiceProvider.Migrate()).Wait();
+        }
+
+        public static Page? GetPage(Type pageType)
+        {
+            return (Page?)ServiceProvider.GetService(pageType);
         }
 
         public static void ShowView<T>() where T : Window

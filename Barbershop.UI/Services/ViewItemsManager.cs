@@ -1,4 +1,5 @@
 ﻿using Barbershop.UI.ViewModels;
+using Barbershop.UI.Views.Pages;
 
 namespace Barbershop.UI.Services
 {
@@ -10,6 +11,7 @@ namespace Barbershop.UI.Services
             {
                 return new List<ItemViewModel>()
                 {
+                    new("Главная", string.Empty, typeof(MainPage)),
                     new("Барберы", "BarberImage"),
                     new("Клиенты", "ClientImage"),
                     new("Администраторы", "AdminImage"),

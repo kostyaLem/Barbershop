@@ -12,6 +12,8 @@
     Title="{Binding Title}"
     Width="800"
     Height="450"
+    MinWidth="800"
+    MinHeight="450"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     mc:Ignorable="d">
 
@@ -137,6 +139,7 @@
             <hc:SideMenu
                 x:Name="sideMenu"
                 Grid.Row="1"
+                AutoSelect="True"
                 BorderThickness="1">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SelectionChanged">

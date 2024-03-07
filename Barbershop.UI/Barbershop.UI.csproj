@@ -14,6 +14,7 @@
     <None Remove="Resources\Images\barber.png" />
     <None Remove="Resources\Images\client.png" />
     <None Remove="Resources\Images\Icon.ico" />
+    <None Remove="Resources\Images\largeIcon.png" />
     <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\product.png" />
     <None Remove="Resources\Images\salary.png" />
@@ -38,6 +39,7 @@
     <Resource Include="Resources\Images\barber.png" />
     <Resource Include="Resources\Images\client.png" />
     <Resource Include="Resources\Images\Icon.ico" />
+    <Resource Include="Resources\Images\largeIcon.png" />
     <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\product.png" />
     <Resource Include="Resources\Images\salary.png" />
