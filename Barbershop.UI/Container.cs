@@ -4,6 +4,7 @@ using Barbershop.Services;
 using Barbershop.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Windows;
 
 namespace Barbershop.UI
 {
@@ -36,6 +37,11 @@ namespace Barbershop.UI
         public static void PrepareApp()
         {
             Task.Run(() => ServiceProvider.Migrate()).Wait();
+        }
+
+        public static void ShowView<T>() where T : Window
+        {
+            ServiceProvider.GetRequiredService<T>().ShowDialog();
         }
 
         public static void ShowWindow()

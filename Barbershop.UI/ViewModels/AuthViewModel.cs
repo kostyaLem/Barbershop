@@ -3,7 +3,6 @@ using Barbershop.Services.Abstractions.Exceptions;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.Views;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
 using HandyControl.Controls;
 using System.Windows;
 using System.Windows.Input;
@@ -53,7 +52,8 @@ namespace Barbershop.UI.ViewModels
                     App.CurrentUser = admin;
                     Application.Current.MainWindow.Visibility = Visibility.Collapsed;
 
-                    Container.ServiceProvider.GetRequiredService<MainView>().ShowDialog();
+                    Container.ShowView<MainView>();
+
                     Application.Current?.Shutdown();
                 }
                 catch (CredentialsException exc)
