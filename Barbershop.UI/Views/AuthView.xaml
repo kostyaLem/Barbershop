@@ -7,8 +7,8 @@
     xmlns:local="clr-namespace:Barbershop.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding Title}"
-    Width="600"
-    Height="350"
+    Width="420"
+    Height="400"
     Icon="{StaticResource IconImage}"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
@@ -44,11 +44,12 @@
             <hc:ButtonGroup Grid.Row="0" Margin="0,30,0,0">
                 <RadioButton
                     hc:BorderElement.CornerRadius="13,0,0,13"
-                    BorderThickness="0"
-                    Content="Администратор" />
+                    BorderThickness="3,0,0,1"
+                    Content="Администратор"
+                    IsChecked="True" />
                 <RadioButton
                     hc:BorderElement.CornerRadius="0,13,13,0"
-                    BorderThickness="0"
+                    BorderThickness="0,0,3,1"
                     Content="Барбер" />
             </hc:ButtonGroup>
 
@@ -56,22 +57,26 @@
                 <hc:TextBox
                     hc:InfoElement.Placeholder="Логин"
                     hc:InfoElement.ShowClearButton="True"
+                    BorderThickness="3,0,0,0"
                     Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <hc:PasswordBox
                     x:Name="PswrdBox"
                     Margin="0,4,0,0"
                     hc:InfoElement.Placeholder="Пароль"
                     hc:InfoElement.ShowClearButton="True"
+                    BorderThickness="3,0,0,0"
                     ShowEyeButton="True" />
                 <Button
                     Margin="0,30,0,0"
                     Padding="0"
                     HorizontalAlignment="Stretch"
+                    Background="{StaticResource DarkPrimaryBrush}"
+                    BorderThickness="0"
                     Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName=PswrdBox}"
-                    Content="Гойда"
+                    Content="Войти"
                     FontSize="17"
-                    Style="{StaticResource ButtonInfo}" />
+                    Style="{StaticResource ButtonInfo}" FontFamily="Corbel" />
             </StackPanel>
         </Grid>
 

@@ -1,6 +1,9 @@
-﻿using Barbershop.DAL;
+﻿using AutoMapper;
+using Barbershop.DAL;
+using Barbershop.Services;
 using Barbershop.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Barbershop.UI
 {
@@ -22,9 +25,17 @@ namespace Barbershop.UI
 
             serviceCollection
                 .RegisterDataAccessLayerServies()
+                .RegisterServices()
                 .RegisterViews();
+            
+            serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return serviceCollection.BuildServiceProvider();
+        }
+
+        public static void PrepareApp()
+        {
+            Task.Run(() => ServiceProvider.Migrate()).Wait();
         }
 
         public static void ShowWindow()

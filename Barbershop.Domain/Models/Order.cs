@@ -11,7 +11,7 @@ public class Order : Entity
     public virtual Barber? Barber { get; set; }
 
     public int ClientId { get; set; }
-    public Client Client { get; set; }
+    public virtual Client Client { get; set; }
 
     public virtual ICollection<Product> Products { get; set; }
     public virtual ICollection<ServiceSkillLevel> ServiceSkillLevels { get; set; }

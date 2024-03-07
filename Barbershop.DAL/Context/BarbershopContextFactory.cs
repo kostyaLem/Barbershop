@@ -11,8 +11,8 @@ internal class BarbershopContextFactory : IDesignTimeDbContextFactory<Barbershop
 
     public BarbershopContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<BarbershopContext>();
-        optionsBuilder.UseNpgsql(ConnectionString);
+        var optionsBuilder = new DbContextOptionsBuilder<BarbershopContext>()
+            .UseNpgsql(ConnectionString);            
 
         return new BarbershopContext(optionsBuilder.Options);
     }

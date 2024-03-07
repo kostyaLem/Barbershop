@@ -17,7 +17,7 @@ internal class BarbershopContext : DbContext
 
     public BarbershopContext(DbContextOptions<BarbershopContext> options) : base(options)
     {
-      //this.Database.Migrate(); Применять при обращении к контексту.
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

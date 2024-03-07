@@ -32,7 +32,7 @@ namespace Barbershop.Services
 
         public async Task<IReadOnlyList<AdminDto>> GetAll()
         {
-            var admins = await _adminRepository.GetAll();
+            var admins = await _adminRepository.GetAll(x => x.User);
 
             return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
         }
@@ -44,7 +44,13 @@ namespace Barbershop.Services
 
             var passwordHash = HashService.Compute(password);
 
-            var admin = await _adminRepository.FindSingle(x => x.Login == username && x.PasswordHash == passwordHash);
+            var admin = await _adminRepository.FindSingle(x => x.Login == username, x => x.User);
+
+            if (admin == null)
+                throw new AdminNotFoundException();
+
+            if (admin.PasswordHash != passwordHash)
+                throw new CredentialsException();
 
             return _mapper.Map<AdminDto>(admin);
         }

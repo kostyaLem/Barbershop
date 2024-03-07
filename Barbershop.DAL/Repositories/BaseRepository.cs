@@ -29,30 +29,6 @@ namespace Barbershop.DAL.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyList<T>> FindAll(Expression<Func<T, bool>> predicate)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            return await context.Set<T>().Where(predicate).ToListAsync();
-        }
-
-        public async Task<List<T>> GetAll()
-        {
-            using var context = _contextFactory.CreateContext();
-
-            return await context.Set<T>().ToListAsync();
-        }
-
-        public async Task<T> GetById(int id)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            var entity = await context.Set<T>().FindAsync(id)
-                ?? throw new EntityNotFoundException<T>(id);
-
-            return entity;
-        }
-
         public async Task Remove(int id)
         {
             using var context = _contextFactory.CreateContext();
@@ -76,6 +52,68 @@ namespace Barbershop.DAL.Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] including)
+        {
+            using var context = _contextFactory.CreateContext();
+
+            var query = context.Set<T>().AsQueryable();
+
+            foreach (var include in including)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
+        {
+            using var context = _contextFactory.CreateContext();
+
+            var query = context.Set<T>().Where(predicate);
+
+            foreach (var include in including)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
+        
+        public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
+        {
+            using var context = _contextFactory.CreateContext();
+
+            var query = context.Set<T>().AsQueryable();
+
+            foreach (var include in including)
+            {
+                query = query.Include(include);
+            }
+
+            var entity = await query
+                .FirstOrDefaultAsync(predicate);
+
+            return entity;
+        }
+        
+        public async Task<T> GetById(int id, params Expression<Func<T, object>>[] including)
+        {
+            using var context = _contextFactory.CreateContext();
+
+            var query = context.Set<T>().AsQueryable();
+
+            foreach (var include in including)
+            {
+                query = query.Include(include);
+            }
+
+            var entity = await query.FirstAsync()
+                ?? throw new EntityNotFoundException<T>(id);
+
+            return entity;
+        }
+        
         public async Task<int> Count()
         {
             using var context = _contextFactory.CreateContext();
@@ -84,15 +122,6 @@ namespace Barbershop.DAL.Repositories
                 return count;
 
             return await context.Set<T>().CountAsync();
-        }
-
-        public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            var entity = await context.Set<T>().FirstOrDefaultAsync(predicate);
-
-            return entity;
         }
     }
 }

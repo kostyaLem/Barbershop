@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Barbershop.Contracts\Barbershop.Contracts.csproj" />
     <ProjectReference Include="..\Barbershop.DAL\Barbershop.DAL.csproj" />
-    <ProjectReference Include="..\Barbershop.Services.Abstractions\Barbershop.Services.Abstractions.csproj" />
+    <ProjectReference Include="..\Barbershop.Services\Barbershop.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

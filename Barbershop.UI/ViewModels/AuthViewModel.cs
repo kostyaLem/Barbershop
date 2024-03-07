@@ -26,20 +26,29 @@ namespace Barbershop.UI.ViewModels
 
         public ICommand LoginCommand { get; }
 
-        public AuthViewModel()
+        public AuthViewModel(IAdminService adminService)
         {
+            _adminService = adminService ?? throw new ArgumentNullException(nameof(adminService));
+
             LoginCommand = new AsyncCommand<object>(TryLogin, x => !string.IsNullOrWhiteSpace(Login));
         }
 
         public async Task TryLogin(object passwordControl)
         {
+            var passwordBox = (PasswordBox)passwordControl;
+
+            if (string.IsNullOrWhiteSpace(passwordBox.Password))
+            {
+                MessageBox.Warning("Заполните пароль.");
+                return;
+            }
+
             await Execute(async () =>
             {
                 await Task.Delay(200);
 
                 try
                 {
-                    var passwordBox = (PasswordBox)passwordControl;
                     var admin = await _adminService.Login(Login, passwordBox.Password);
                     App.CurrentUser = admin;
                     Application.Current.MainWindow.Visibility = Visibility.Collapsed;

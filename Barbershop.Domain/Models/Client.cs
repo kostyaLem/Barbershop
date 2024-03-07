@@ -6,7 +6,7 @@ public class Client : Entity
 
     public virtual ICollection<Order> Orders { get; set; }
 
-    public User User { get; set; }
+    public virtual User User { get; set; }
 
     public Client()
     {

@@ -1,5 +1,4 @@
-﻿using Barbershop.Contracts;
-using Barbershop.Contracts.Models;
+﻿using Barbershop.Contracts.Models;
 using System.Windows;
 
 namespace Barbershop.UI
@@ -10,6 +9,7 @@ namespace Barbershop.UI
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Container.PrepareApp();
             Container.ShowWindow();
         }
     }

@@ -8,7 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Barbershop.UI;Component/Resources/Dictionaries/ImageDictionary.xaml" />
                 <hc:IntellisenseResources Source="/HandyControl;Component/DesignTime/DesignTimeResources.xaml" />
-                <hc:ThemeResources />
+                <hc:ThemeResources AccentColor="DeepSkyBlue" />
                 <hc:Theme />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
