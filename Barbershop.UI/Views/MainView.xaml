@@ -2,6 +2,7 @@
     x:Class="Barbershop.UI.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:Barbershop.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:Barbershop.UI.Views"
@@ -32,7 +33,7 @@
                     <MenuItem Command="{Binding ChangeAccountCommand}" Header="Сменить аккаунт" />
 
                     <MenuItem
-                        Command="{Binding ChangeThemeCommand}"
+                        Command="{Binding Source={x:Static b:App.ChangeThemeCommand}}"
                         CommandParameter="{x:Static hc:ApplicationTheme.Light}"
                         Header="Светлая">
                         <MenuItem.Icon>
@@ -40,7 +41,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem
-                        Command="{Binding ChangeThemeCommand}"
+                        Command="{Binding Source={x:Static b:App.ChangeThemeCommand}}"
                         CommandParameter="{x:Static hc:ApplicationTheme.Dark}"
                         Header="Тёмная">
                         <MenuItem.Icon>
