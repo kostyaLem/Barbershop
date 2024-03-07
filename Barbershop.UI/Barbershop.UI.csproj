@@ -13,6 +13,7 @@
     <None Remove="Resources\Images\admin.png" />
     <None Remove="Resources\Images\barber.png" />
     <None Remove="Resources\Images\client.png" />
+    <None Remove="Resources\Images\home.png" />
     <None Remove="Resources\Images\Icon.ico" />
     <None Remove="Resources\Images\largeIcon.png" />
     <None Remove="Resources\Images\menu.png" />
@@ -38,6 +39,7 @@
     <Resource Include="Resources\Images\admin.png" />
     <Resource Include="Resources\Images\barber.png" />
     <Resource Include="Resources\Images\client.png" />
+    <Resource Include="Resources\Images\home.png" />
     <Resource Include="Resources\Images\Icon.ico" />
     <Resource Include="Resources\Images\largeIcon.png" />
     <Resource Include="Resources\Images\menu.png" />

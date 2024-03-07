@@ -15,6 +15,7 @@
     MinWidth="800"
     MinHeight="450"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <hc:Window.Resources>
@@ -102,13 +103,13 @@
                                     Storyboard.TargetName="NavPanel"
                                     Storyboard.TargetProperty="Width"
                                     To="60"
-                                    Duration="0:0:0.5" />
+                                    Duration="0:0:0.3" />
                                 <ThicknessAnimation
                                     BeginTime="0:0:0"
                                     Storyboard.TargetName="ToggleMenuButton"
                                     Storyboard.TargetProperty="Margin"
                                     To="15"
-                                    Duration="0:0:0.5" />
+                                    Duration="0:0:0.3" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
@@ -121,13 +122,13 @@
                                     Storyboard.TargetName="NavPanel"
                                     Storyboard.TargetProperty="Width"
                                     To="200"
-                                    Duration="0:0:0.5" />
+                                    Duration="0:0:0.3" />
                                 <ThicknessAnimation
                                     BeginTime="0:0:0"
                                     Storyboard.TargetName="ToggleMenuButton"
                                     Storyboard.TargetProperty="Margin"
                                     To="0"
-                                    Duration="0:0:0.5" />
+                                    Duration="0:0:0.3" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>

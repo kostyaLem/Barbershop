@@ -68,7 +68,7 @@
                                             Storyboard.TargetName="MenuRotate"
                                             Storyboard.TargetProperty="(RotateTransform.Angle)"
                                             To="90"
-                                            Duration="0:0:0.5" />
+                                            Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -80,7 +80,7 @@
                                             Storyboard.TargetName="MenuRotate"
                                             Storyboard.TargetProperty="(RotateTransform.Angle)"
                                             To="0"
-                                            Duration="0:0:0.5" />
+                                            Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
