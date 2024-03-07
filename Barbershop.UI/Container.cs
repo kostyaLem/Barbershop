@@ -1,6 +1,5 @@
 ﻿using Barbershop.DAL;
 using Barbershop.Services;
-using Barbershop.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Windows;
@@ -47,11 +46,6 @@ namespace Barbershop.UI
         public static void ShowView<T>() where T : Window
         {
             ServiceProvider.GetRequiredService<T>().ShowDialog();
-        }
-
-        public static void ShowWindow()
-        {
-            ServiceProvider.GetRequiredService<MainView>().ShowDialog();
         }
     }
 }

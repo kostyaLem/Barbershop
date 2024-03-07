@@ -1,4 +1,5 @@
 ﻿using Barbershop.Contracts.Models;
+using Barbershop.UI.Views;
 using DevExpress.Mvvm;
 using HandyControl.Themes;
 using HandyControl.Tools;
@@ -42,7 +43,7 @@ namespace Barbershop.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             Container.PrepareApp();
-            Container.ShowWindow();
+            Container.ShowView<MainView>();
         }
     }
 }

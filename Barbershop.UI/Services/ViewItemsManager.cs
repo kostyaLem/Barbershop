@@ -11,7 +11,7 @@ namespace Barbershop.UI.Services
             {
                 return new List<ItemViewModel>()
                 {
-                    new("Главная", string.Empty, typeof(MainPage)),
+                    new("Главная", "HomeImage", typeof(MainPage)),
                     new("Барберы", "BarberImage"),
                     new("Клиенты", "ClientImage"),
                     new("Администраторы", "AdminImage"),
