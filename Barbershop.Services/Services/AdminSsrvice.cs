@@ -7,62 +7,58 @@ using Barbershop.Services.Abstractions;
 using Barbershop.Services.Abstractions.Exceptions;
 using Barbershop.Services.Helpers;
 
-namespace Barbershop.Services
+namespace Barbershop.Services;
+
+public class AdminService : IAdminService
 {
-    /// <summary>
-    /// Сервис управления администраторами.
-    /// </summary>
-    internal class AdminService : IAdminService
+    private readonly IBaseRepository<Admin> _adminRepository;
+    private readonly IMapper _mapper;
+
+    public AdminService(IBaseRepository<Admin> adminRepo, IMapper mapper)
     {
-        private readonly IBaseRepository<Admin> _adminRepository;
-        private readonly IMapper _mapper;
+        _adminRepository = adminRepo ?? throw new ArgumentNullException(nameof(adminRepo));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
-        public AdminService(IBaseRepository<Admin> adminRepo, IMapper mapper)
-        {
-            _adminRepository = adminRepo ?? throw new ArgumentNullException(nameof(adminRepo));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        }
+    public async Task Create(CreateAdminCommand command)
+    {
+        var admin = _mapper.Map<Admin>(command);
 
-        public async Task Create(CreateAdminCommand command)
-        {
-            var admin = _mapper.Map<Admin>(command);
+        await _adminRepository.Add(admin);
+    }
 
-            await _adminRepository.Add(admin);
-        }
+    public async Task<IReadOnlyList<AdminDto>> GetAll()
+    {
+        var admins = await _adminRepository.GetAll(x => x.User);
 
-        public async Task<IReadOnlyList<AdminDto>> GetAll()
-        {
-            var admins = await _adminRepository.GetAll(x => x.User);
+        return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
+    }
 
-            return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
-        }
+    public async Task<AdminDto> Login(string username, string password)
+    {
+        ArgumentNullException.ThrowIfNull(username);
+        ArgumentNullException.ThrowIfNull(password);
 
-        public async Task<AdminDto> Login(string username, string password)
-        {
-            ArgumentNullException.ThrowIfNull(username);
-            ArgumentNullException.ThrowIfNull(password);
+        var passwordHash = HashService.Compute(password);
 
-            var passwordHash = HashService.Compute(password);
+        var admin = await _adminRepository.FindSingle(x => x.Login == username, x => x.User);
 
-            var admin = await _adminRepository.FindSingle(x => x.Login == username, x => x.User);
+        if (admin == null)
+            throw new UserNotFoundException();
 
-            if (admin == null)
-                throw new AdminNotFoundException();
+        if (admin.PasswordHash != passwordHash)
+            throw new CredentialsException();
 
-            if (admin.PasswordHash != passwordHash)
-                throw new CredentialsException();
+        return _mapper.Map<AdminDto>(admin);
+    }
 
-            return _mapper.Map<AdminDto>(admin);
-        }
+    public async Task RemoveById(int id)
+    {
+        var adminsCount = await _adminRepository.Count();
 
-        public async Task RemoveById(int id)
-        {
-            var adminsCount = await _adminRepository.Count();
+        if (adminsCount == 1)
+            throw new RemoveAdminException();
 
-            if (adminsCount == 1)
-                throw new RemoveAdminException();
-
-            await _adminRepository.Remove(id);
-        }
+        await _adminRepository.Remove(id);
     }
 }

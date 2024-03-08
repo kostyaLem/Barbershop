@@ -3,17 +3,16 @@ using Barbershop.DAL.Repositories;
 using Barbershop.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Barbershop.DAL
+namespace Barbershop.DAL;
+
+public static class Configuration
 {
-    public static class Configuration
+    public static ServiceCollection RegisterDataAccessLayerServies(this ServiceCollection serviceCollection)
     {
-        public static ServiceCollection RegisterDataAccessLayerServies(this ServiceCollection serviceCollection)
-        {
-            serviceCollection.AddTransient<BarbershopContextFactory>();
+        serviceCollection.AddTransient<BarbershopContextFactory>();
 
-            serviceCollection.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        serviceCollection.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-            return serviceCollection;
-        }
+        return serviceCollection;
     }
 }
