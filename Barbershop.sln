@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Barbershop.UI", "Barbershop.UI\Barbershop.UI.csproj", "{1B856F21-B876-4845-A282-E8871BC0ED57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.Services.Abstractions", "Barbershop.Services.Abstractions\Barbershop.Services.Abstractions.csproj", "{9900DB05-978B-45F1-BADD-49FC45B10A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Barbershop.Services.Abstractions", "Barbershop.Services.Abstractions\Barbershop.Services.Abstractions.csproj", "{9900DB05-978B-45F1-BADD-49FC45B10A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbershop.Services", "Barbershop.Services\Barbershop.Services.csproj", "{B2146241-49D5-4A45-B545-C707A4B6683A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Barbershop.Services", "Barbershop.Services\Barbershop.Services.csproj", "{B2146241-49D5-4A45-B545-C707A4B6683A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
