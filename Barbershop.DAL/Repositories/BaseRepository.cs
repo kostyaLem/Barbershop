@@ -5,123 +5,122 @@ using Barbershop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Barbershop.DAL.Repositories
+namespace Barbershop.DAL.Repositories;
+
+/// <summary>
+/// Базовый класс репозитория для управления сущностью <typeparamref name="T"/>.
+/// </summary>
+/// <typeparam name="T">Сущность базы данных.</typeparam>
+internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 {
-    /// <summary>
-    /// Базовый класс репозитория для управления сущностью <typeparamref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T">Сущность базы данных.</typeparam>
-    internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
+    private readonly BarbershopContextFactory _contextFactory;
+
+    public BaseRepository(BarbershopContextFactory contextFactory)
     {
-        private readonly BarbershopContextFactory _contextFactory;
+        _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+    }
 
-        public BaseRepository(BarbershopContextFactory contextFactory)
+    public async Task Add(T entity)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        context.Add(entity);
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task Remove(int id)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var entity = await context.Set<T>().FindAsync(id) 
+            ?? throw new EntityNotFoundException<T>(id);
+
+        context.Set<T>().Remove(entity);
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task Update(T entity)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        await GetById(entity.Id);
+
+        context.Entry(entity).State = EntityState.Modified;
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] including)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().AsQueryable();
+
+        foreach (var include in including)
         {
-            _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+            query = query.Include(include);
         }
 
-        public async Task Add(T entity)
+        return await query.ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<T>> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().Where(predicate);
+
+        foreach (var include in including)
         {
-            using var context = _contextFactory.CreateContext();
-
-            context.Add(entity);
-
-            await context.SaveChangesAsync();
+            query = query.Include(include);
         }
 
-        public async Task Remove(int id)
+        return await query.ToListAsync();
+    }
+    
+    public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().AsQueryable();
+
+        foreach (var include in including)
         {
-            using var context = _contextFactory.CreateContext();
-
-            var entity = await context.Set<T>().FindAsync(id) 
-                ?? throw new EntityNotFoundException<T>(id);
-
-            context.Set<T>().Remove(entity);
-
-            await context.SaveChangesAsync();
+            query = query.Include(include);
         }
 
-        public async Task Update(T entity)
+        var entity = await query
+            .FirstOrDefaultAsync(predicate);
+
+        return entity;
+    }
+    
+    public async Task<T> GetById(int id, params Expression<Func<T, object>>[] including)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().AsQueryable();
+
+        foreach (var include in including)
         {
-            using var context = _contextFactory.CreateContext();
-
-            await GetById(entity.Id);
-
-            context.Entry(entity).State = EntityState.Modified;
-
-            await context.SaveChangesAsync();
+            query = query.Include(include);
         }
 
-        public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] including)
-        {
-            using var context = _contextFactory.CreateContext();
+        var entity = await query.FirstAsync()
+            ?? throw new EntityNotFoundException<T>(id);
 
-            var query = context.Set<T>().AsQueryable();
+        return entity;
+    }
+    
+    public async Task<int> Count()
+    {
+        using var context = _contextFactory.CreateContext();
 
-            foreach (var include in including)
-            {
-                query = query.Include(include);
-            }
+        if (context.Set<T>().TryGetNonEnumeratedCount(out var count))
+            return count;
 
-            return await query.ToListAsync();
-        }
-
-        public async Task<IReadOnlyList<T>> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            var query = context.Set<T>().Where(predicate);
-
-            foreach (var include in including)
-            {
-                query = query.Include(include);
-            }
-
-            return await query.ToListAsync();
-        }
-        
-        public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            var query = context.Set<T>().AsQueryable();
-
-            foreach (var include in including)
-            {
-                query = query.Include(include);
-            }
-
-            var entity = await query
-                .FirstOrDefaultAsync(predicate);
-
-            return entity;
-        }
-        
-        public async Task<T> GetById(int id, params Expression<Func<T, object>>[] including)
-        {
-            using var context = _contextFactory.CreateContext();
-
-            var query = context.Set<T>().AsQueryable();
-
-            foreach (var include in including)
-            {
-                query = query.Include(include);
-            }
-
-            var entity = await query.FirstAsync()
-                ?? throw new EntityNotFoundException<T>(id);
-
-            return entity;
-        }
-        
-        public async Task<int> Count()
-        {
-            using var context = _contextFactory.CreateContext();
-
-            if (context.Set<T>().TryGetNonEnumeratedCount(out var count))
-                return count;
-
-            return await context.Set<T>().CountAsync();
-        }
+        return await context.Set<T>().CountAsync();
     }
 }

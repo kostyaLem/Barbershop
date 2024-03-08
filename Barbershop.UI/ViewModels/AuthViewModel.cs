@@ -60,7 +60,7 @@ namespace Barbershop.UI.ViewModels
                 {
                     MessageBox.Error(exc.Message, "Ошибка авторизации");
                 }
-                catch (AdminNotFoundException exc)
+                catch (UserNotFoundException exc)
                 {
                     MessageBox.Error(exc.Message, "Ошибка авторизации");
                 }

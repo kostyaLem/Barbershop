@@ -1,10 +1,9 @@
-﻿namespace Barbershop.Services.Abstractions.Exceptions
+﻿namespace Barbershop.Services.Abstractions.Exceptions;
+
+public class RemoveAdminException : Exception
 {
-    public class RemoveAdminException : Exception
+    public RemoveAdminException()
+        : base("Невозможно удалить единственного администратора.")
     {
-        public RemoveAdminException()
-            : base("Невозможно удалить единственного администратора.")
-        {
-        }
     }
 }
