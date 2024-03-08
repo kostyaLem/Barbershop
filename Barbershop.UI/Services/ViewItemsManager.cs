@@ -12,9 +12,9 @@ namespace Barbershop.UI.Services
                 return new List<ItemViewModel>()
                 {
                     new("Главная", "HomeImage", typeof(MainPage)),
+                    new("Администраторы", "AdminImage", typeof(AdminsPage)),
                     new("Барберы", "BarberImage"),
                     new("Клиенты", "ClientImage"),
-                    new("Администраторы", "AdminImage"),
                     new("Услуги", "ServiceImage"),
                     new("Товары", "ProductImage"),
                     //TODO: элементы ниже вынести для барбера

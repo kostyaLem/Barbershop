@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿using HandyControl.Controls;
 using System.Windows.Controls;
 
 namespace Barbershop.UI.Views.Base

@@ -5,7 +5,7 @@ namespace Barbershop.UI.Services
     /// <summary>
     /// Интерфейс управления диалоговым окном.
     /// </summary>
-    internal interface IWindowDialogService
+    public interface IWindowDialogService
     {
         bool ShowDialog(Type controlType, BaseViewModel dataContext);
         bool SelectImage(out byte[] imageBytes);

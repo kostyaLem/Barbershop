@@ -10,9 +10,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Barbershop.UI.ViewModels"
     Title="{Binding Title}"
-    Width="800"
-    Height="450"
-    MinWidth="800"
+    Width="1000"
+    Height="600"
+    MinWidth="900"
     MinHeight="450"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     WindowStartupLocation="CenterScreen"
@@ -81,67 +81,68 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <ToggleButton
-                x:Name="ToggleMenuButton"
-                Grid.Row="0"
-                Width="30"
-                Height="30"
-                Margin="3"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Background="{StaticResource MenuBackground}"
-                IsChecked="False"
-                Style="{StaticResource ToggleButtonStyle}">
+            <Grid Grid.Row="0" Background="{Binding ElementName=sideMenu, Path=Background}">
+                <ToggleButton
+                    x:Name="ToggleMenuButton"
+                    Grid.Row="0"
+                    Width="30"
+                    Height="30"
+                    Margin="3"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource MenuBackground}"
+                    IsChecked="False"
+                    Style="{StaticResource ToggleButtonStyle}">
 
-                <ToggleButton.Triggers>
+                    <ToggleButton.Triggers>
 
-                    <EventTrigger RoutedEvent="ToggleButton.Checked">
-                        <BeginStoryboard>
-                            <Storyboard x:Name="hideStackPanel">
-                                <DoubleAnimation
-                                    BeginTime="0:0:0"
-                                    Storyboard.TargetName="NavPanel"
-                                    Storyboard.TargetProperty="Width"
-                                    To="60"
-                                    Duration="0:0:0.3" />
-                                <ThicknessAnimation
-                                    BeginTime="0:0:0"
-                                    Storyboard.TargetName="ToggleMenuButton"
-                                    Storyboard.TargetProperty="Margin"
-                                    To="15"
-                                    Duration="0:0:0.3" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="hideStackPanel">
+                                    <DoubleAnimation
+                                        BeginTime="0:0:0"
+                                        Storyboard.TargetName="NavPanel"
+                                        Storyboard.TargetProperty="Width"
+                                        To="60"
+                                        Duration="0:0:0.3" />
+                                    <ThicknessAnimation
+                                        BeginTime="0:0:0"
+                                        Storyboard.TargetName="ToggleMenuButton"
+                                        Storyboard.TargetProperty="Margin"
+                                        To="15"
+                                        Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
 
-                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                        <BeginStoryboard>
-                            <Storyboard x:Name="showStackPanel">
-                                <DoubleAnimation
-                                    BeginTime="0:0:0"
-                                    Storyboard.TargetName="NavPanel"
-                                    Storyboard.TargetProperty="Width"
-                                    To="200"
-                                    Duration="0:0:0.3" />
-                                <ThicknessAnimation
-                                    BeginTime="0:0:0"
-                                    Storyboard.TargetName="ToggleMenuButton"
-                                    Storyboard.TargetProperty="Margin"
-                                    To="0"
-                                    Duration="0:0:0.3" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="showStackPanel">
+                                    <DoubleAnimation
+                                        BeginTime="0:0:0"
+                                        Storyboard.TargetName="NavPanel"
+                                        Storyboard.TargetProperty="Width"
+                                        To="200"
+                                        Duration="0:0:0.3" />
+                                    <ThicknessAnimation
+                                        BeginTime="0:0:0"
+                                        Storyboard.TargetName="ToggleMenuButton"
+                                        Storyboard.TargetProperty="Margin"
+                                        To="0"
+                                        Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
 
-                </ToggleButton.Triggers>
+                    </ToggleButton.Triggers>
 
-            </ToggleButton>
+                </ToggleButton>
+            </Grid>
 
             <hc:SideMenu
                 x:Name="sideMenu"
                 Grid.Row="1"
-                AutoSelect="True"
-                BorderThickness="1">
+                AutoSelect="True">
                 <hc:Interaction.Triggers>
                     <hc:EventTrigger EventName="SelectionChanged">
                         <hc:EventToCommand Command="{Binding SwitchItemCommand}" PassEventArgsToCommand="True" />
@@ -153,6 +154,7 @@
 
         <Frame
             Grid.Column="1"
+            BorderThickness="0"
             Content="{Binding CurrentPage}"
             NavigationUIVisibility="Hidden" />
 

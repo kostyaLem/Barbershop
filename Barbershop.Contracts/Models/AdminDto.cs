@@ -2,5 +2,5 @@
 
 public class AdminDto : UserDto
 {
-    public string Username { get; }
+    public string Username { get; set; }
 }

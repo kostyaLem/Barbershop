@@ -1,4 +1,6 @@
-﻿using Barbershop.UI.ViewModels;
+﻿using Barbershop.UI.Services;
+using Barbershop.UI.ViewModels;
+using Barbershop.UI.ViewModels.Pages;
 using Barbershop.UI.Views;
 using Barbershop.UI.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,16 @@ namespace Barbershop.UI
         private static ServiceCollection AddPages(this ServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<MainPage>();
+            
+            serviceCollection.AddSingleton<AdminsPage>();
+            serviceCollection.AddSingleton<AdminsPageViewModel>();
+
+            return serviceCollection;
+        }
+
+        public static ServiceCollection RegisterExternalServices(this ServiceCollection serviceCollection)
+        {
+            serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();
 
             return serviceCollection;
         }

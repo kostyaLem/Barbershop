@@ -1,7 +1,9 @@
-﻿namespace Barbershop.UI.Services
+﻿using Barbershop.Contracts.Models;
+
+namespace Barbershop.UI.Services
 {
     /// <summary>
-    /// Генерация префикса кона по его типу.
+    /// Генерация префикса окона по его типу.
     /// </summary>
     internal class ViewPrefixService
     {
@@ -9,7 +11,10 @@
 
         static ViewPrefixService()
         {
-            _prefixes = new Dictionary<Type, string>();
+            _prefixes = new Dictionary<Type, string>()
+            {
+                { typeof(AdminDto), "администратора"}
+            };
         }
 
         public static string Get<T>()
