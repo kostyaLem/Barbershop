@@ -23,7 +23,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
            .HasForeignKey(k => k.ClientId)
            .OnDelete(DeleteBehavior.NoAction);
 
-        builder.Property(e => e.OrderStatus).HasConversion(new EnumToStringConverter<OrderStatus>());          
+        builder.Property(e => e.OrderStatus).HasConversion(new EnumToStringConverter<OrderStatus>());
 
     }
 }

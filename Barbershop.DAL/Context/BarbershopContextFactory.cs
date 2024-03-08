@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Barbershop.DAL.Context;
 
@@ -12,7 +12,7 @@ internal class BarbershopContextFactory : IDesignTimeDbContextFactory<Barbershop
     public BarbershopContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<BarbershopContext>()
-            .UseNpgsql(ConnectionString);            
+            .UseNpgsql(ConnectionString);
 
         return new BarbershopContext(optionsBuilder.Options);
     }

@@ -33,7 +33,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
     {
         using var context = _contextFactory.CreateContext();
 
-        var entity = await context.Set<T>().FindAsync(id) 
+        var entity = await context.Set<T>().FindAsync(id)
             ?? throw new EntityNotFoundException<T>(id);
 
         context.Set<T>().Remove(entity);
@@ -79,7 +79,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 
         return await query.ToListAsync();
     }
-    
+
     public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
     {
         using var context = _contextFactory.CreateContext();
@@ -96,7 +96,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 
         return entity;
     }
-    
+
     public async Task<T> GetById(int id, params Expression<Func<T, object>>[] including)
     {
         using var context = _contextFactory.CreateContext();
@@ -113,7 +113,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 
         return entity;
     }
-    
+
     public async Task<int> Count()
     {
         using var context = _contextFactory.CreateContext();

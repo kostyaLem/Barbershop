@@ -22,7 +22,7 @@ namespace Barbershop.UI
 
             ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
             ChangeAccountCommand = new DelegateCommand(ChangeAccount);
-        }        
+        }
 
         private static void ChangeTheme(ApplicationTheme selectedTheme)
         {

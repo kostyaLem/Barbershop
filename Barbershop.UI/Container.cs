@@ -28,7 +28,7 @@ namespace Barbershop.UI
                 .RegisterServices()
                 .RegisterExternalServices()
                 .RegisterViews();
-            
+
             serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return serviceCollection.BuildServiceProvider();

@@ -9,6 +9,6 @@ public class Product : Entity
 
     public Product()
     {
-        Orders = new HashSet<Order>();   
+        Orders = new HashSet<Order>();
     }
 }

@@ -25,7 +25,7 @@ namespace Barbershop.UI
         private static ServiceCollection AddPages(this ServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<MainPage>();
-            
+
             serviceCollection.AddSingleton<AdminsPage>();
             serviceCollection.AddSingleton<AdminsPageViewModel>();
 
