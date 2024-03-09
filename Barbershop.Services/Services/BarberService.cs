@@ -14,9 +14,9 @@ public class BarberService : IBarberService
     private readonly IBaseRepository<Barber> _barberRepository;
     private readonly IMapper _mapper;
 
-    public BarberService(IBaseRepository<Barber> barberRepo, IMapper mapper)
+    public BarberService(IBaseRepository<Barber> barberRepository, IMapper mapper)
     {
-        _barberRepository = barberRepo ?? throw new ArgumentNullException(nameof(barberRepo));
+        _barberRepository = barberRepository ?? throw new ArgumentNullException(nameof(barberRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 

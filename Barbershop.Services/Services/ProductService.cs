@@ -12,9 +12,9 @@ public class ProductService : IProductService
     private readonly IBaseRepository<Product> _productRepository;
     private readonly IMapper _mapper;
 
-    public ProductService(IBaseRepository<Product> barberRepo, IMapper mapper)
+    public ProductService(IBaseRepository<Product> barberRepository, IMapper mapper)
     {
-        _productRepository = barberRepo ?? throw new ArgumentNullException(nameof(barberRepo));
+        _productRepository = barberRepository ?? throw new ArgumentNullException(nameof(barberRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
