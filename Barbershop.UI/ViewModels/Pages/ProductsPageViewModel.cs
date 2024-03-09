@@ -36,9 +36,17 @@ public class ProductsPageViewModel : BaseItemsViewModel<ProductDto>
         }
     }
 
-    public override Task EditItem()
+    public override async Task EditItem()
     {
-        throw new NotImplementedException();
+        var currentProduct = await _productService.GetById(SelectedItem.Id);
+        var vm = new EditViewModel<ProductDto>(currentProduct, _dialogService);
+
+        if (_dialogService.ShowDialog(typeof(EditProductPage), vm))
+        {
+            var command = _mapper.Map<UpsertProductCommand>(vm.Item);
+            await _productService.Update(command);
+            await LoadItems();
+        }
     }
 
     public override async Task RemoveItem()

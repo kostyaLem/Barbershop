@@ -22,12 +22,10 @@ public static class MigrationManager
                 User = new()
                 {
                     FirstName = "Администратор",
-                    UpdatedOn = DateTime.UtcNow,
                     PhoneNumber = "89211234567"
                 },
                 Login = "admin",
-                PasswordHash = "x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==",
-                UpdatedOn = DateTime.UtcNow
+                PasswordHash = "x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="
             });
 
             await context.SaveChangesAsync();

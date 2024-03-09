@@ -4,7 +4,6 @@ using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace Barbershop.UI.ViewModels.Pages.Edit;
 

@@ -23,6 +23,7 @@ public interface IAdminService
     /// <summary>
     /// Изменить администратора.
     /// </summary>
+    /// <param name="command">Описание администратора.</param>  
     /// <returns>Список администраторов.</returns>
     Task Update(UpsertAdminCommand command);
 
@@ -30,7 +31,7 @@ public interface IAdminService
     /// Получить администратора по Id.
     /// </summary>
     /// <param name="id">Id администратора.</param>
-    /// <returns></returns>
+    /// <returns>Администратор.</returns>
     Task<AdminDto> GetById(int id);
 
     /// <summary>

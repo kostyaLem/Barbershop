@@ -13,10 +13,10 @@ public static class ViewItemsManager
             {
                 new("Главная", "HomeImage", typeof(MainPage)),
                 new("Администраторы", "AdminImage", typeof(AdminsPage)),
+                new("Товары", "ProductImage", typeof(ProductsPage)),
                 new("Барберы", "BarberImage"),
                 new("Клиенты", "ClientImage"),
                 new("Услуги", "ServiceImage"),
-                new("Товары", "ProductImage"),
                 //TODO: элементы ниже вынести для барбера
                 new("Расписание", "ScheduleImage"),
                 new("Зарплата", "SalaryImage")

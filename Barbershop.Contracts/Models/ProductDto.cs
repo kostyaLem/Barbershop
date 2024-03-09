@@ -4,4 +4,5 @@ public class ProductDto : EntityDto
 {
     public string Name { get; set; }
     public decimal Cost { get; set; }
+    public int SalesCount { get; set; }
 }

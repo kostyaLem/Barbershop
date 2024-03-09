@@ -27,18 +27,27 @@ public class ProductService : IProductService
 
     public async Task<IReadOnlyList<ProductDto>> GetAll()
     {
-        var products = await _productRepository.GetAll();
+        var products = await _productRepository.GetAll(x => x.Orders);
 
         return _mapper.Map<IReadOnlyList<ProductDto>>(products);
     }
 
     public async Task Update(UpsertProductCommand command)
     {
-        await _productRepository.Update(_mapper.Map<Product>(command));
+        var product = _mapper.Map<Product>(command);
+
+        await _productRepository.Update(product);
     }
 
     public async Task RemoveById(int id)
     {
         await _productRepository.Remove(id);
+    }
+
+    public async Task<ProductDto> GetById(int id)
+    {
+        var product = await _productRepository.GetById(id);
+
+        return _mapper.Map<ProductDto>(product);
     }
 }

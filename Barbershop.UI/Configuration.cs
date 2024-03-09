@@ -29,6 +29,9 @@ internal static class Configuration
         serviceCollection.AddSingleton<AdminsPage>();
         serviceCollection.AddSingleton<AdminsPageViewModel>();
 
+        serviceCollection.AddSingleton<ProductsPage>();
+        serviceCollection.AddSingleton<ProductsPageViewModel>();
+
         return serviceCollection;
     }
 
