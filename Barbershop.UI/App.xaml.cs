@@ -36,7 +36,7 @@ public partial class App : Application
 
     private static void ChangeAccount()
     {
-        Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+        Process.Start(Environment.ProcessPath!);
         Application.Current.Shutdown();
     }
 

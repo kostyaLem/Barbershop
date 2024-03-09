@@ -22,6 +22,8 @@ public class EditAdminViewModel : EditViewModel<AdminDto>
 
     public EditAdminViewModel(IWindowDialogService dialogService, Action<AdminDto> preUpdate = null)
     {
+        _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
+
         Item = new AdminDto();
         Title = $"Создание {_viewModelName}";
 
