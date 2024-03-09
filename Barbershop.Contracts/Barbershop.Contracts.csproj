@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DevExpressMvvm" Version="23.2.3" />
+  </ItemGroup>
+
 </Project>

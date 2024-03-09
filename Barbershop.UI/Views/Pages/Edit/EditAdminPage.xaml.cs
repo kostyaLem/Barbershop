@@ -1,4 +1,4 @@
-﻿using Barbershop.UI.ViewModels.Pages;
+﻿using Barbershop.UI.ViewModels.Pages.Edit;
 using System.Windows.Controls;
 
 namespace Barbershop.UI.Views.Pages.Edit;

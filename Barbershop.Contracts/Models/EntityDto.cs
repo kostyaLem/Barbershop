@@ -1,6 +1,8 @@
-﻿namespace Barbershop.Contracts.Models;
+﻿using DevExpress.Mvvm;
 
-public class EntityDto
+namespace Barbershop.Contracts.Models;
+
+public class EntityDto : BindableBase
 {
     public int Id { get; set; }
 }

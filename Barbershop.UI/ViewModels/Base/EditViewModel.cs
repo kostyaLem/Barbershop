@@ -1,4 +1,5 @@
 ﻿using Barbershop.UI.Services;
+using System.Dynamic;
 
 namespace Barbershop.UI.ViewModels.Base;
 
@@ -12,20 +13,24 @@ public class EditViewModel<T> : BaseViewModel where T : class, new()
 
     public dynamic? Args { get; set; }
 
-    public T Item { get; set; }
+    public T Item
+    {
+        get => GetValue<T>(nameof(Item));
+        set => SetValue(value, nameof(Item));
+    }
 
     public EditViewModel(T itemViewModel, dynamic? args = null)
     {
         Item = itemViewModel;
         Title = $"Редактирование {_viewModelName}";
-        Args = args;
+        Args = args ?? new ExpandoObject();
     }
 
-    public EditViewModel(Action<T> preUpdate = null, dynamic? args = null)
+    public EditViewModel(Action<T>? preUpdate = default, dynamic? args = null)
     {
         Item = new T();
         Title = $"Создание {_viewModelName}";
-        Args = args;
+        Args = args ?? new ExpandoObject();
 
         preUpdate?.Invoke(Item);
     }

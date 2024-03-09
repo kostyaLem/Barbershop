@@ -5,6 +5,7 @@ using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
 using Barbershop.Services.Abstractions;
 using Barbershop.Services.Abstractions.Exceptions;
+using Barbershop.Services.Helpers;
 
 namespace Barbershop.Services;
 
@@ -21,6 +22,7 @@ public class AdminService : IAdminService
 
     public async Task Create(UpsertAdminCommand command)
     {
+        command.Password = HashService.Compute(command.Password);
         var admin = _mapper.Map<Admin>(command);
 
         await _adminRepository.Add(admin);
@@ -29,6 +31,15 @@ public class AdminService : IAdminService
     public async Task Update(UpsertAdminCommand command)
     {
         var admin = _mapper.Map<Admin>(command);
+
+        if (string.IsNullOrEmpty(admin.PasswordHash))
+        {
+            admin.PasswordHash = (await _adminRepository.GetById(admin.Id)).PasswordHash;
+        }
+        else
+        {
+            admin.PasswordHash = HashService.Compute(command.Password);
+        }
 
         await _adminRepository.Update(admin);
     }
@@ -48,5 +59,12 @@ public class AdminService : IAdminService
             throw new RemoveAdminException();
 
         await _adminRepository.Remove(id);
+    }
+
+    public async Task<AdminDto> GetById(int id)
+    {
+        var admin = await _adminRepository.GetById(id, x => x.User);
+
+        return _mapper.Map<AdminDto>(admin);
     }
 }

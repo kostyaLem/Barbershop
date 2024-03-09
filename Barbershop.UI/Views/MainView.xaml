@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:Barbershop.UI.ViewModels"
     Title="{Binding Title}"
-    Width="1000"
+    Width="1200"
     Height="600"
     MinWidth="900"
     MinHeight="450"

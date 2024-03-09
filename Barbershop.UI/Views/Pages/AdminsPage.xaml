@@ -91,7 +91,7 @@
                             Header="Дата рождения"
                             IsReadOnly="True" />
                         <DataGridTextColumn
-                            Width="*"
+                            Width="180"
                             Binding="{Binding Email}"
                             Header="Email"
                             IsReadOnly="True" />

@@ -27,6 +27,13 @@ public interface IAdminService
     Task Update(UpsertAdminCommand command);
 
     /// <summary>
+    /// Получить администратора по Id.
+    /// </summary>
+    /// <param name="id">Id администратора.</param>
+    /// <returns></returns>
+    Task<AdminDto> GetById(int id);
+
+    /// <summary>
     /// Удалить администратора по Id.
     /// </summary>
     /// <param name="id">Id администратора.</param>

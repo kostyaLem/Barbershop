@@ -41,13 +41,14 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
         await context.SaveChangesAsync();
     }
 
-    public async Task Update(T entity)
+    public async Task Update(T item)
     {
         using var context = _contextFactory.CreateContext();
 
-        await GetById(entity.Id);
+        await GetById(item.Id);
 
-        context.Entry(entity).State = EntityState.Modified;
+        context.Set<T>().Update(item);
+        context.Entry(item).State = EntityState.Modified;
 
         await context.SaveChangesAsync();
     }
@@ -108,7 +109,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
             query = query.Include(include);
         }
 
-        var entity = await query.FirstAsync()
+        var entity = await query.FirstOrDefaultAsync()
             ?? throw new EntityNotFoundException<T>(id);
 
         return entity;

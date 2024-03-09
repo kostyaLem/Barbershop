@@ -18,6 +18,7 @@ public partial class App : Application
 
     static App()
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
 
         ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
@@ -43,6 +44,6 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         Container.PrepareApp();
-        Container.ShowView<AuthView>();
+        Container.ShowView<MainView>();
     }
 }

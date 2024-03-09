@@ -8,14 +8,15 @@
     xmlns:local="clr-namespace:Barbershop.UI.Views.Pages.Edit"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:Barbershop.Contracts.Models;assembly=Barbershop.Contracts"
+    xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages.Edit"
     x:Name="control"
     Width="600"
     Height="420"
     d:Background="White"
-    d:DataContext="{d:DesignInstance models:AdminDto}"
+    d:DataContext="{d:DesignInstance vm:EditAdminViewModel}"
     mc:Ignorable="d">
 
-    <Grid DataContext="{Binding Item}">
+    <Grid d:DataContext="{d:DesignInstance models:AdminDto}" DataContext="{Binding Item, UpdateSourceTrigger=PropertyChanged}">
         <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Left" />
@@ -24,6 +25,7 @@
             <Style TargetType="StackPanel">
                 <Setter Property="Margin" Value="5" />
             </Style>
+            <converters:BytesToImageConverter x:Key="convert" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -50,7 +52,7 @@
             <TextBox Text="{Binding Email}" />
 
             <TextBlock Text="Дата рождения" />
-            <hc:DatePicker SelectedDate="{Binding Birthday, StringFormat=dd/MM/yyyy}" />
+            <hc:DatePicker DisplayDateEnd="{Binding DataContext.Args.MinBirthdayDate, ElementName=control, Mode=OneWay}" SelectedDate="{Binding Birthday, StringFormat=dd/MM/yyyy}" />
 
         </StackPanel>
 
@@ -63,21 +65,19 @@
             <hc:PasswordBox
                 IsSafeEnabled="False"
                 ShowEyeButton="True"
-                UnsafePassword="{Binding ElementName=control, Path=DataContext.Args}" />
+                UnsafePassword="{Binding ElementName=control, Path=DataContext.Args.Password}" />
 
         </StackPanel>
 
         <StackPanel Grid.Column="2">
             <TextBlock HorizontalAlignment="Center" Text="Фото" />
 
-            <hc:Card
-                Width="160"
+            <Border
+                Width="170"
                 Height="210"
-                Effect="{DynamicResource EffectShadow2}">
-                <Border>
-                    <Image Source="{Binding Photo, Converter={converters:BytesToImageConverter}, UpdateSourceTrigger=PropertyChanged}" />
-                </Border>
-            </hc:Card>
+                HorizontalAlignment="Center">
+                <Image Source="{Binding Path=Photo, Mode=OneWay, Converter={StaticResource convert}, UpdateSourceTrigger=PropertyChanged}" />
+            </Border>
 
             <hc:ElementGroup
                 Margin="0,20,0,0"

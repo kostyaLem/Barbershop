@@ -1,16 +1,16 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using HandyControl.Tools.Extension;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
-using HandyControl.Tools.Extension;
 
 namespace Barbershop.UI.ViewModels.Base;
 
 /// <summary>
-/// Базовый класс для всех ViewModel'ей.
-/// Имеется флаг IsUploading для отображения индикатора загрузки, используя метод Execute
+/// Базовый класс для всех ViewModel.
+/// Имеется флаг IsUploading для отображения индикатора загрузки, используя метод Execute.
 /// </summary>
 public abstract class BaseItemsViewModel<T> : BaseViewModel
 {
@@ -22,9 +22,8 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
     public ICommand CreateItemCommand { get; protected set; }
     public ICommand EditItemCommand { get; protected set; }
     public ICommand<object> RemoveItemCommand { get; protected set; }
-    public ICommand<object> ActivateItemCommand { get; protected set; }
-    public ICommand<object> DisableItemCommand { get; protected set; }
 
+    // Выбранный элемент коллекции
     public T SelectedItem
     {
         get => GetValue<T>(nameof(SelectedItem));
@@ -45,20 +44,43 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
         ItemsView.Filter += CanFilterItem;
 
         LoadViewDataCommand = new AsyncCommand(LoadItems);
+        CreateItemCommand = new AsyncCommand(Create);
+        EditItemCommand = new AsyncCommand(Edit, () => SelectedItem != null);
+        RemoveItemCommand = new AsyncCommand(Remove, () => SelectedItem != null);
     }
 
     /// <summary>
-    /// Метод для получения списка, отображаемого на View.
+    /// Сформировать список для заполнения коллекции Items.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Список для заполнения.</returns>
     public abstract Task<IReadOnlyList<T>> GetItems();
 
     /// <summary>
     /// Метод для получения списка значений для поиска с View.
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+    /// <param name="item">Элемент для вычитки значений его свойств.</param>
+    /// <returns>Список значений свойств.</returns>
     public abstract IReadOnlyList<string> GetItemSearchProperties(T item);
+
+    /// <summary>
+    /// Обработка вызова создания элемента.
+    /// </summary>
+    public abstract Task CreateItem();
+    private async Task Create() => await Execute(async () => await CreateItem());
+
+    /// <summary>
+    /// Обработка вызова редактирования элемента.
+    /// </summary>
+    public abstract Task EditItem();
+    private async Task Edit() => await Execute(async () => await EditItem());
+
+    /// <summary>
+    /// Обработка вызова удаления элемента.
+    /// </summary>
+    /// <returns></returns>
+    public abstract Task RemoveItem();
+    private async Task Remove() => await Execute(async () => await RemoveItem());
+
 
     public async Task LoadItems()
     {
@@ -83,6 +105,7 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
 
         return true;
     }
+
 
     public async Task ReplaceItem(Predicate<T> predicate, T newItem)
     {
