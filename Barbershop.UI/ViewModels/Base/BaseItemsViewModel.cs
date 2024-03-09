@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using HandyControl.Tools.Extension;
 
 namespace Barbershop.UI.ViewModels.Base;
 
@@ -18,7 +19,6 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
     // Элементы коллекции, отображаемые во View
     public ICollectionView ItemsView { get; }
 
-    public ICommand LoadViewDataCommand { get; protected set; }
     public ICommand CreateItemCommand { get; protected set; }
     public ICommand EditItemCommand { get; protected set; }
     public ICommand<object> RemoveItemCommand { get; protected set; }
@@ -42,6 +42,24 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
     {
         _items = new ObservableCollection<T>();
         ItemsView = CollectionViewSource.GetDefaultView(_items);
+
+        LoadViewDataCommand = new AsyncCommand(LoadItems);
+    }
+
+    /// <summary>
+    /// Метод для получения списка, отображаемого на UI.
+    /// </summary>
+    /// <returns></returns>
+    public abstract Task<IReadOnlyList<T>> GetItems();
+
+    public async Task LoadItems()
+    {
+        await Execute(async () =>
+        {
+            _items.Clear();
+            var items = await GetItems();
+            _items.AddRange(items);
+        });
     }
 
     public async Task ReplaceItem(Predicate<T> predicate, T newItem)

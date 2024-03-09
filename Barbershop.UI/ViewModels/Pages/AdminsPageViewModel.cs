@@ -23,7 +23,6 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
-        LoadViewDataCommand = new AsyncCommand(ReloadItems);
         CreateItemCommand = new AsyncCommand(CreateAdmin);
         EditItemCommand = new AsyncCommand(EditAdmin, SelectedItem != null);
         RemoveItemCommand = new AsyncCommand(RemoveAdmin, SelectedItem != null);
@@ -31,15 +30,8 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
         ItemsView.Filter += CanFilterItem;
     }
 
-    public async Task ReloadItems()
-    {
-        await Execute(async () =>
-        {
-            _items.Clear();
-            var items = await _adminService.GetAll();
-            _items.AddRange(items);
-        });
-    }
+    public override Task<IReadOnlyList<AdminDto>> GetItems()
+        => _adminService.GetAll();
 
     private bool CanFilterItem(object obj)
     {
@@ -75,7 +67,7 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
                     opt => opt.Items[nameof(UpsertAdminCommand.Password)] = (string)vm.Args!);
 
                 await _adminService.Create(admin);
-                await ReloadItems();
+                await LoadItems();
             }
         });
     }
@@ -96,7 +88,7 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
         await Execute(async () =>
         {
             await _adminService.RemoveById(SelectedItem.Id);
-            await ReloadItems();
+            await LoadItems();
         });
     }
 }

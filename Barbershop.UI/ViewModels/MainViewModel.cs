@@ -13,7 +13,7 @@ namespace Barbershop.UI.ViewModels;
 /// <summary>
 /// Модель главного окна приложения.
 /// </summary>
-public class MainViewModel : BaseItemsViewModel<int>
+public class MainViewModel : BaseViewModel
 {
     public Page CurrentPage
     {

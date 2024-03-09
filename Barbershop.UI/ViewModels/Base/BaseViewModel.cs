@@ -1,6 +1,7 @@
 ﻿using Barbershop.UI.Services;
 using DevExpress.Mvvm;
 using HandyControl.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -13,8 +14,9 @@ public abstract class BaseViewModel : ViewModelBase
 {
     // Название View (окна)
     public virtual string Title { get; protected set; }
-
     public virtual ImageSource IconImage => new BitmapImage(new("/TechStore.UI;component/Resources/Images/Logo.png"));
+
+    public ICommand LoadViewDataCommand { get; protected set; }
 
     // Флаг для отображения индикатора загрузки при выполнении асинхронных действий
     public bool IsUploading
