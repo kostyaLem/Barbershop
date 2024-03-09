@@ -7,43 +7,42 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Barbershop.UI
+namespace Barbershop.UI;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public static AdminDto CurrentUser { get; set; }
+
+    public static ICommand ChangeThemeCommand { get; }
+    public static ICommand ChangeAccountCommand { get; }
+
+    static App()
     {
-        public static AdminDto CurrentUser { get; set; }
+        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
 
-        public static ICommand ChangeThemeCommand { get; }
-        public static ICommand ChangeAccountCommand { get; }
+        ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
+        ChangeAccountCommand = new DelegateCommand(ChangeAccount);
+    }
 
-        static App()
-        {
-            ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+    private static void ChangeTheme(ApplicationTheme selectedTheme)
+    {
+        if (selectedTheme == ThemeManager.Current.ApplicationTheme)
+            return;
 
-            ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
-            ChangeAccountCommand = new DelegateCommand(ChangeAccount);
-        }
+        ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Top, 0.3, 1, 0.5);
+        ThemeManager.Current.ApplicationTheme = selectedTheme;
+        ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Bottom, 0.3, 0.5, 1);
+    }
 
-        private static void ChangeTheme(ApplicationTheme selectedTheme)
-        {
-            if (selectedTheme == ThemeManager.Current.ApplicationTheme)
-                return;
+    private static void ChangeAccount()
+    {
+        Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+        Application.Current.Shutdown();
+    }
 
-            ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Top, 0.3, 1, 0.5);
-            ThemeManager.Current.ApplicationTheme = selectedTheme;
-            ThemeAnimationHelper.AnimateTheme(Application.Current.MainWindow, ThemeAnimationHelper.SlideDirection.Bottom, 0.3, 0.5, 1);
-        }
-
-        private static void ChangeAccount()
-        {
-            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-            Application.Current.Shutdown();
-        }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            Container.PrepareApp();
-            Container.ShowView<MainView>();
-        }
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        Container.PrepareApp();
+        Container.ShowView<MainView>();
     }
 }

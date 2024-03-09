@@ -2,17 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Barbershop.Services
+namespace Barbershop.Services;
+
+public static class Configuration
 {
-    public static class Configuration
+    public static ServiceCollection RegisterServices(this ServiceCollection serviceCollection)
     {
-        public static ServiceCollection RegisterServices(this ServiceCollection serviceCollection)
-        {
-            serviceCollection.AddTransient<IAdminService, AdminService>();
+        serviceCollection.AddTransient<IAdminService, AdminService>();
 
-            serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
+        serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            return serviceCollection;
-        }
+        return serviceCollection;
     }
 }

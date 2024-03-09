@@ -5,38 +5,37 @@ using Barbershop.UI.Views;
 using Barbershop.UI.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Barbershop.UI
+namespace Barbershop.UI;
+
+internal static class Configuration
 {
-    internal static class Configuration
+    public static ServiceCollection RegisterViews(this ServiceCollection serviceCollection)
     {
-        public static ServiceCollection RegisterViews(this ServiceCollection serviceCollection)
-        {
-            serviceCollection.AddTransient<AuthView>();
-            serviceCollection.AddTransient<AuthViewModel>();
+        serviceCollection.AddTransient<AuthView>();
+        serviceCollection.AddTransient<AuthViewModel>();
 
-            serviceCollection.AddTransient<MainView>();
-            serviceCollection.AddTransient<MainViewModel>();
+        serviceCollection.AddTransient<MainView>();
+        serviceCollection.AddTransient<MainViewModel>();
 
-            serviceCollection.AddPages();
+        serviceCollection.AddPages();
 
-            return serviceCollection;
-        }
+        return serviceCollection;
+    }
 
-        private static ServiceCollection AddPages(this ServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<MainPage>();
+    private static ServiceCollection AddPages(this ServiceCollection serviceCollection)
+    {
+        serviceCollection.AddSingleton<MainPage>();
 
-            serviceCollection.AddSingleton<AdminsPage>();
-            serviceCollection.AddSingleton<AdminsPageViewModel>();
+        serviceCollection.AddSingleton<AdminsPage>();
+        serviceCollection.AddSingleton<AdminsPageViewModel>();
 
-            return serviceCollection;
-        }
+        return serviceCollection;
+    }
 
-        public static ServiceCollection RegisterExternalServices(this ServiceCollection serviceCollection)
-        {
-            serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();
+    public static ServiceCollection RegisterExternalServices(this ServiceCollection serviceCollection)
+    {
+        serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();
 
-            return serviceCollection;
-        }
+        return serviceCollection;
     }
 }

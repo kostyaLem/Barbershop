@@ -1,19 +1,18 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Barbershop.Services.Helpers
+namespace Barbershop.Services.Helpers;
+
+internal static class HashService
 {
-    internal static class HashService
+    public static string Compute(string value)
     {
-        public static string Compute(string value)
-        {
-            ArgumentNullException.ThrowIfNull(value);
+        ArgumentNullException.ThrowIfNull(value);
 
-            var bytes = new UTF8Encoding().GetBytes(value);
+        var bytes = new UTF8Encoding().GetBytes(value);
 
-            byte[] hashBytes = SHA512.HashData(bytes);
+        byte[] hashBytes = SHA512.HashData(bytes);
 
-            return Convert.ToBase64String(hashBytes);
-        }
+        return Convert.ToBase64String(hashBytes);
     }
 }

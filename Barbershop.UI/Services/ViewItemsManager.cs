@@ -1,27 +1,26 @@
 ﻿using Barbershop.UI.ViewModels;
 using Barbershop.UI.Views.Pages;
 
-namespace Barbershop.UI.Services
+namespace Barbershop.UI.Services;
+
+public static class ViewItemsManager
 {
-    public static class ViewItemsManager
+    public static IReadOnlyList<ItemViewModel> GetItems(bool isAdmin = false)
     {
-        public static IReadOnlyList<ItemViewModel> GetItems(bool isAdmin = false)
+        if (true)
         {
-            if (true)
+            return new List<ItemViewModel>()
             {
-                return new List<ItemViewModel>()
-                {
-                    new("Главная", "HomeImage", typeof(MainPage)),
-                    new("Администраторы", "AdminImage", typeof(AdminsPage)),
-                    new("Барберы", "BarberImage"),
-                    new("Клиенты", "ClientImage"),
-                    new("Услуги", "ServiceImage"),
-                    new("Товары", "ProductImage"),
-                    //TODO: элементы ниже вынести для барбера
-                    new("Расписание", "ScheduleImage"),
-                    new("Зарплата", "SalaryImage")
-                };
-            }
+                new("Главная", "HomeImage", typeof(MainPage)),
+                new("Администраторы", "AdminImage", typeof(AdminsPage)),
+                new("Барберы", "BarberImage"),
+                new("Клиенты", "ClientImage"),
+                new("Услуги", "ServiceImage"),
+                new("Товары", "ProductImage"),
+                //TODO: элементы ниже вынести для барбера
+                new("Расписание", "ScheduleImage"),
+                new("Зарплата", "SalaryImage")
+            };
         }
     }
 }

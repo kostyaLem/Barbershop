@@ -1,17 +1,16 @@
 ﻿using Barbershop.UI.ViewModels.Pages;
 using System.Windows.Controls;
 
-namespace Barbershop.UI.Views.Pages.Edit
+namespace Barbershop.UI.Views.Pages.Edit;
+
+/// <summary>
+/// Логика взаимодействия для EditAdminPage.xaml
+/// </summary>
+public partial class EditAdminPage : UserControl
 {
-    /// <summary>
-    /// Логика взаимодействия для EditAdminPage.xaml
-    /// </summary>
-    public partial class EditAdminPage : UserControl
+    public EditAdminPage(EditAdminViewModel context)
     {
-        public EditAdminPage(EditAdminViewModel context)
-        {
-            InitializeComponent();
-            DataContext = context;
-        }
+        InitializeComponent();
+        DataContext = context;
     }
 }

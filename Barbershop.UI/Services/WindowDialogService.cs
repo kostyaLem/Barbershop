@@ -4,48 +4,47 @@ using Microsoft.Win32;
 using System.IO;
 using System.Windows.Controls;
 
-namespace Barbershop.UI.Services
+namespace Barbershop.UI.Services;
+
+/// <summary>
+/// Класс для открытия вспомогательного окна с выбором "Да/Нет"
+/// </summary>
+internal sealed class WindowDialogService : IWindowDialogService
 {
-    /// <summary>
-    /// Класс для открытия вспомогательного окна с выбором "Да/Нет"
-    /// </summary>
-    internal sealed class WindowDialogService : IWindowDialogService
+    public bool ShowDialog(Type controlType, BaseViewModel dataContext)
     {
-        public bool ShowDialog(Type controlType, BaseViewModel dataContext)
+        // Создать представление (View)
+        var control = (ContentControl)Activator.CreateInstance(controlType, dataContext)!;
+
+        // Заполнить заголовок и внутреннее содержимое окна с изменениями
+        var editView = new EditView(dataContext.Title, control);
+        var dialogResult = editView.ShowDialog();
+
+        if (dialogResult.HasValue)
         {
-            // Создать представление (View)
-            var control = (ContentControl)Activator.CreateInstance(controlType, dataContext)!;
-
-            // Заполнить заголовок и внутреннее содержимое окна с изменениями
-            var editView = new EditView(dataContext.Title, control);
-            var dialogResult = editView.ShowDialog();
-
-            if (dialogResult.HasValue)
-            {
-                return editView.DialogResult!.Value;
-            }
-
-            return false;
+            return editView.DialogResult!.Value;
         }
 
-        public bool SelectImage(out byte[] imageBytes)
+        return false;
+    }
+
+    public bool SelectImage(out byte[] imageBytes)
+    {
+        var fileDialog = new OpenFileDialog()
         {
-            var fileDialog = new OpenFileDialog()
-            {
-                Title = "Выбор изображения",
-                Filter = "Изображение|*.jpg;*.jpeg;*png"
-            };
+            Title = "Выбор изображения",
+            Filter = "Изображение|*.jpg;*.jpeg;*png"
+        };
 
-            var result = fileDialog.ShowDialog();
+        var result = fileDialog.ShowDialog();
 
-            if (result.HasValue)
-            {
-                imageBytes = File.ReadAllBytes(fileDialog.FileName);
-                return true;
-            }
-
-            imageBytes = default!;
-            return false;
+        if (result.HasValue)
+        {
+            imageBytes = File.ReadAllBytes(fileDialog.FileName);
+            return true;
         }
+
+        imageBytes = default!;
+        return false;
     }
 }

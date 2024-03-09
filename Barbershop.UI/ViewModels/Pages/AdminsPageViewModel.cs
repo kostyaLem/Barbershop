@@ -9,95 +9,94 @@ using DevExpress.Mvvm;
 using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 
-namespace Barbershop.UI.ViewModels.Pages
+namespace Barbershop.UI.ViewModels.Pages;
+
+public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
 {
-    public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
+    private readonly IAdminService _adminService;
+    private readonly IMapper _mapper;
+    private readonly IWindowDialogService _dialogService;
+
+    public AdminsPageViewModel(IAdminService adminService, IMapper mapper, IWindowDialogService dialogService)
     {
-        private readonly IAdminService _adminService;
-        private readonly IMapper _mapper;
-        private readonly IWindowDialogService _dialogService;
+        _adminService = adminService ?? throw new ArgumentNullException(nameof(adminService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
-        public AdminsPageViewModel(IAdminService adminService, IMapper mapper, IWindowDialogService dialogService)
+        LoadViewDataCommand = new AsyncCommand(ReloadItems);
+        CreateItemCommand = new AsyncCommand(CreateAdmin);
+        EditItemCommand = new AsyncCommand(EditAdmin, SelectedItem != null);
+        RemoveItemCommand = new AsyncCommand(RemoveAdmin, SelectedItem != null);
+
+        ItemsView.Filter += CanFilterItem;
+    }
+
+    public async Task ReloadItems()
+    {
+        await Execute(async () =>
         {
-            _adminService = adminService ?? throw new ArgumentNullException(nameof(adminService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
+            _items.Clear();
+            var items = await _adminService.GetAll();
+            _items.AddRange(items);
+        });
+    }
 
-            LoadViewDataCommand = new AsyncCommand(ReloadItems);
-            CreateItemCommand = new AsyncCommand(CreateAdmin);
-            EditItemCommand = new AsyncCommand(EditAdmin, SelectedItem != null);
-            RemoveItemCommand = new AsyncCommand(RemoveAdmin, SelectedItem != null);
-
-            ItemsView.Filter += CanFilterItem;
-        }
-
-        public async Task ReloadItems()
+    private bool CanFilterItem(object obj)
+    {
+        if (SearchText is { } && obj is AdminDto admin)
         {
-            await Execute(async () =>
+            var predicates = new List<string>
             {
-                _items.Clear();
-                var items = await _adminService.GetAll();
-                _items.AddRange(items);
-            });
-        }
-
-        private bool CanFilterItem(object obj)
-        {
-            if (SearchText is { } && obj is AdminDto admin)
-            {
-                var predicates = new List<string>
-                {
-                    admin.LastName,
-                    admin.FirstName,
-                    admin.Email,
-                    admin.PhoneNumber,
-                    admin.Username,
-                    $"{admin.LastName} {admin.FirstName} {admin.Surname}"
-                }
-                .Where(x => x != null)
-                .ToList();
-
-                return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+                admin.LastName,
+                admin.FirstName,
+                admin.Email,
+                admin.PhoneNumber,
+                admin.Username,
+                $"{admin.LastName} {admin.FirstName} {admin.Surname}"
             }
+            .Where(x => x != null)
+            .ToList();
 
-            return true;
+            return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
         }
 
-        private async Task CreateAdmin()
+        return true;
+    }
+
+    private async Task CreateAdmin()
+    {
+        await Execute(async () =>
         {
-            await Execute(async () =>
+            var vm = new EditAdminViewModel(_dialogService, x => x.Birthday = DateTime.Now.AddYears(-18));
+
+            if (_dialogService.ShowDialog(typeof(EditAdminPage), vm))
             {
-                var vm = new EditAdminViewModel(_dialogService, x => x.Birthday = DateTime.Now.AddYears(-18));
+                var admin = _mapper.Map<AdminDto, CreateAdminCommand>(vm.Item,
+                    opt => opt.Items[nameof(CreateAdminCommand.Password)] = (string)vm.Args!);
 
-                if (_dialogService.ShowDialog(typeof(EditAdminPage), vm))
-                {
-                    var admin = _mapper.Map<AdminDto, CreateAdminCommand>(vm.Item,
-                        opt => opt.Items[nameof(CreateAdminCommand.Password)] = (string)vm.Args!);
-
-                    await _adminService.Create(admin);
-                    await ReloadItems();
-                }
-            });
-        }
-
-        private async Task EditAdmin()
-        {
-
-        }
-
-        private async Task RemoveAdmin()
-        {
-            if (SelectedItem.Id == App.CurrentUser?.Id)
-            {
-                MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Username}");
-                return;
-            }
-
-            await Execute(async () =>
-            {
-                await _adminService.RemoveById(SelectedItem.Id);
+                await _adminService.Create(admin);
                 await ReloadItems();
-            });
+            }
+        });
+    }
+
+    private async Task EditAdmin()
+    {
+
+    }
+
+    private async Task RemoveAdmin()
+    {
+        if (SelectedItem.Id == App.CurrentUser?.Id)
+        {
+            MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Username}");
+            return;
         }
+
+        await Execute(async () =>
+        {
+            await _adminService.RemoveById(SelectedItem.Id);
+            await ReloadItems();
+        });
     }
 }

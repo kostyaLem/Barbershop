@@ -1,33 +1,32 @@
 ﻿using Barbershop.UI.Services;
 
-namespace Barbershop.UI.ViewModels.Base
+namespace Barbershop.UI.ViewModels.Base;
+
+/// <summary>
+/// Модель редактирования сущности.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class EditViewModel<T> : BaseViewModel where T : class, new()
 {
-    /// <summary>
-    /// Модель редактирования сущности.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EditViewModel<T> : BaseViewModel where T : class, new()
+    protected string _viewModelName = ViewPrefixService.Get<T>();
+
+    public dynamic? Args { get; set; }
+
+    public T Item { get; set; }
+
+    public EditViewModel(T itemViewModel, dynamic? args = null)
     {
-        protected string _viewModelName = ViewPrefixService.Get<T>();
+        Item = itemViewModel;
+        Title = $"Редактирование {_viewModelName}";
+        Args = args;
+    }
 
-        public dynamic? Args { get; set; }
+    public EditViewModel(Action<T> preUpdate = null, dynamic? args = null)
+    {
+        Item = new T();
+        Title = $"Создание {_viewModelName}";
+        Args = args;
 
-        public T Item { get; set; }
-
-        public EditViewModel(T itemViewModel, dynamic? args = null)
-        {
-            Item = itemViewModel;
-            Title = $"Редактирование {_viewModelName}";
-            Args = args;
-        }
-
-        public EditViewModel(Action<T> preUpdate = null, dynamic? args = null)
-        {
-            Item = new T();
-            Title = $"Создание {_viewModelName}";
-            Args = args;
-
-            preUpdate?.Invoke(Item);
-        }
+        preUpdate?.Invoke(Item);
     }
 }
