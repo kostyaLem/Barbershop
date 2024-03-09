@@ -18,18 +18,11 @@ public class ProductService : IProductService
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(CreateProductCommand command)
+    public async Task Create(UpsertProductCommand command)
     {
         var product = _mapper.Map<Product>(command);
 
         await _productRepository.Add(product);
-    }
-
-    public async Task<ProductDto> GetById(int id)
-    {
-        var product = await _productRepository.GetById(id);
-
-        return _mapper.Map<ProductDto>(product);
     }
 
     public async Task<IReadOnlyList<ProductDto>> GetAll()
@@ -37,6 +30,11 @@ public class ProductService : IProductService
         var products = await _productRepository.GetAll();
 
         return _mapper.Map<IReadOnlyList<ProductDto>>(products);
+    }
+
+    public async Task Update(UpsertProductCommand command)
+    {
+        await _productRepository.Update(_mapper.Map<Product>(command));
     }
 
     public async Task RemoveById(int id)

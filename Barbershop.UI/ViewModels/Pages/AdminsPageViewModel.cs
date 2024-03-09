@@ -71,8 +71,8 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
 
             if (_dialogService.ShowDialog(typeof(EditAdminPage), vm))
             {
-                var admin = _mapper.Map<AdminDto, CreateAdminCommand>(vm.Item,
-                    opt => opt.Items[nameof(CreateAdminCommand.Password)] = (string)vm.Args!);
+                var admin = _mapper.Map<AdminDto, UpsertAdminCommand>(vm.Item,
+                    opt => opt.Items[nameof(UpsertAdminCommand.Password)] = (string)vm.Args!);
 
                 await _adminService.Create(admin);
                 await ReloadItems();

@@ -5,11 +5,11 @@ namespace Barbershop.Services.Abstractions;
 
 public interface IProductService
 {
-    Task<ProductDto> GetById(int id);
+    Task Create(UpsertProductCommand command);
 
     Task<IReadOnlyList<ProductDto>> GetAll();
 
-    Task Create(CreateProductCommand command);
+    Task Update(UpsertProductCommand command);
 
     Task RemoveById(int id);
 }

@@ -20,20 +20,6 @@ public class AdminService : IAdminService
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(CreateAdminCommand command)
-    {
-        var admin = _mapper.Map<Admin>(command);
-
-        await _adminRepository.Add(admin);
-    }
-
-    public async Task<IReadOnlyList<AdminDto>> GetAll()
-    {
-        var admins = await _adminRepository.GetAll(x => x.User);
-
-        return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
-    }
-
     public async Task<AdminDto> Login(string username, string password)
     {
         ArgumentNullException.ThrowIfNull(username);
@@ -50,6 +36,25 @@ public class AdminService : IAdminService
             throw new CredentialsException();
 
         return _mapper.Map<AdminDto>(admin);
+    }
+
+    public async Task Create(UpsertAdminCommand command)
+    {
+        var admin = _mapper.Map<Admin>(command);
+
+        await _adminRepository.Add(admin);
+    }
+
+    public async Task<IReadOnlyList<AdminDto>> GetAll()
+    {
+        var admins = await _adminRepository.GetAll(x => x.User);
+
+        return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
+    }
+
+    public async Task Update(UpsertAdminCommand command)
+    {
+        await _adminRepository.Update(_mapper.Map<Admin>(command));
     }
 
     public async Task RemoveById(int id)

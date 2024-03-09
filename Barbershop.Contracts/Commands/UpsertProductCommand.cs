@@ -1,6 +1,7 @@
 ﻿namespace Barbershop.Contracts.Commands;
 
-public class CreateServiceCommand
+public class UpsertProductCommand
 {
     public string Name { get; set; }
+    public decimal Cost { get; set; }
 }

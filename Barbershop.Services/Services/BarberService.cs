@@ -20,20 +20,6 @@ public class BarberService : IBarberService
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(CreateBarberCommand command)
-    {
-        var barber = _mapper.Map<Barber>(command);
-
-        await _barberRepository.Add(barber);
-    }
-
-    public async Task<IReadOnlyList<BarberDto>> GetAll()
-    {
-        var barbers = await _barberRepository.GetAll(x => x.User);
-
-        return _mapper.Map<IReadOnlyList<BarberDto>>(barbers);
-    }
-
     public async Task<BarberDto> Login(string username, string password)
     {
         ArgumentNullException.ThrowIfNull(username);
@@ -50,6 +36,27 @@ public class BarberService : IBarberService
             throw new CredentialsException();
 
         return _mapper.Map<BarberDto>(barber);
+    }
+
+    public async Task Create(UpsertBarberCommand command)
+    {
+        var barber = _mapper.Map<Barber>(command);
+
+        await _barberRepository.Add(barber);
+    }
+
+    public async Task<IReadOnlyList<BarberDto>> GetAll()
+    {
+        var barbers = await _barberRepository.GetAll(x => x.User);
+
+        return _mapper.Map<IReadOnlyList<BarberDto>>(barbers);
+    }
+
+
+
+    public async Task Update(UpsertBarberCommand command)
+    {
+        await _barberRepository.Update(_mapper.Map<Barber>(command));
     }
 
     public async Task RemoveById(int id)

@@ -14,8 +14,8 @@ public class AdminProfile : Profile
         CreateMap<Admin, AdminDto>()
             .IncludeMembers(x => x.User);
 
-        CreateMap<AdminDto, CreateAdminCommand>()
+        CreateMap<AdminDto, UpsertAdminCommand>()
             .ForMember(dest => dest.Password,
-                opt => opt.MapFrom((src, dest, _, context) => context.Items[nameof(CreateAdminCommand.Password)]));
+                opt => opt.MapFrom((src, dest, _, context) => context.Items[nameof(UpsertAdminCommand.Password)]));
     }
 }

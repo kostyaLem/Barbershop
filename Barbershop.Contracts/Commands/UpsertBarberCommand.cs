@@ -1,9 +1,10 @@
 ﻿namespace Barbershop.Contracts.Commands;
 
-public class CreateBarberCommand
+public class UpsertBarberCommand
 {
-    public string Login { get; }
-    public string Password { get; }
+    public int Id { get; set; }
+    public string Login { get; set; }
+    public string Password { get; set; }
     public string FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Surname { get; set; }

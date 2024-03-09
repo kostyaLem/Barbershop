@@ -14,16 +14,22 @@ public interface IAdminService
     Task<AdminDto> Login(string username, string password);
 
     /// <summary>
+    /// Создать администратора.
+    /// </summary>
+    /// <param name="command">Описание администратора.</param>        
+    Task Create(UpsertAdminCommand command);
+
+    /// <summary>
     /// Получить всех администраторов.
     /// </summary>
     /// <returns>Список администраторов.</returns>
     Task<IReadOnlyList<AdminDto>> GetAll();
 
     /// <summary>
-    /// Создать администратора.
+    /// Изменить администратора.
     /// </summary>
-    /// <param name="command">Описание администратора.</param>        
-    Task Create(CreateAdminCommand command);
+    /// <returns>Список администраторов.</returns>
+    Task Update(UpsertAdminCommand command);
 
     /// <summary>
     /// Удалить администратора по Id.
