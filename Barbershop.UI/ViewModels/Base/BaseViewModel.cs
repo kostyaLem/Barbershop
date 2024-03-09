@@ -16,7 +16,7 @@ public abstract class BaseViewModel : ViewModelBase
     public virtual string Title { get; protected set; }
     public virtual ImageSource IconImage => new BitmapImage(new("/TechStore.UI;component/Resources/Images/Logo.png"));
 
-    public ICommand LoadViewDataCommand { get; protected set; }
+    public ICommand LoadViewDataCommand { get; set; }
 
     // Флаг для отображения индикатора загрузки при выполнении асинхронных действий
     public bool IsUploading

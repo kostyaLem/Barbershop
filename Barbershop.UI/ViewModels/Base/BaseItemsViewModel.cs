@@ -42,15 +42,23 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
     {
         _items = new ObservableCollection<T>();
         ItemsView = CollectionViewSource.GetDefaultView(_items);
+        ItemsView.Filter += CanFilterItem;
 
         LoadViewDataCommand = new AsyncCommand(LoadItems);
     }
 
     /// <summary>
-    /// Метод для получения списка, отображаемого на UI.
+    /// Метод для получения списка, отображаемого на View.
     /// </summary>
     /// <returns></returns>
     public abstract Task<IReadOnlyList<T>> GetItems();
+
+    /// <summary>
+    /// Метод для получения списка значений для поиска с View.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public abstract IReadOnlyList<string> GetItemSearchProperties(T item);
 
     public async Task LoadItems()
     {
@@ -60,6 +68,20 @@ public abstract class BaseItemsViewModel<T> : BaseViewModel
             var items = await GetItems();
             _items.AddRange(items);
         });
+    }
+
+    private bool CanFilterItem(object obj)
+    {
+        if (SearchText is { } && obj is T item)
+        {
+            var predicates = GetItemSearchProperties(item)
+                .Where(x => x != null)
+                .ToList();
+
+            return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return true;
     }
 
     public async Task ReplaceItem(Predicate<T> predicate, T newItem)

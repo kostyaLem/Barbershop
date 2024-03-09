@@ -7,7 +7,6 @@ using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.Views.Pages.Edit;
 using DevExpress.Mvvm;
 using HandyControl.Controls;
-using HandyControl.Tools.Extension;
 
 namespace Barbershop.UI.ViewModels.Pages;
 
@@ -24,36 +23,23 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
         CreateItemCommand = new AsyncCommand(CreateAdmin);
-        EditItemCommand = new AsyncCommand(EditAdmin, SelectedItem != null);
+        //EditItemCommand = new AsyncCommand(EditAdmin, SelectedItem != null);
         RemoveItemCommand = new AsyncCommand(RemoveAdmin, SelectedItem != null);
-
-        ItemsView.Filter += CanFilterItem;
     }
 
     public override Task<IReadOnlyList<AdminDto>> GetItems()
         => _adminService.GetAll();
 
-    private bool CanFilterItem(object obj)
-    {
-        if (SearchText is { } && obj is AdminDto admin)
+    public override IReadOnlyList<string> GetItemSearchProperties(AdminDto item)
+        => new List<string>
         {
-            var predicates = new List<string>
-            {
-                admin.LastName,
-                admin.FirstName,
-                admin.Email,
-                admin.PhoneNumber,
-                admin.Username,
-                $"{admin.LastName} {admin.FirstName} {admin.Surname}"
-            }
-            .Where(x => x != null)
-            .ToList();
-
-            return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-        }
-
-        return true;
-    }
+            item.LastName!,
+            item.FirstName,
+            item.Email!,
+            item.PhoneNumber!,
+            item.Username,
+            $"{item.LastName} {item.FirstName} {item.Surname}"
+        };
 
     private async Task CreateAdmin()
     {
@@ -70,11 +56,6 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
                 await LoadItems();
             }
         });
-    }
-
-    private async Task EditAdmin()
-    {
-
     }
 
     private async Task RemoveAdmin()
