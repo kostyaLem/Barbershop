@@ -46,7 +46,7 @@
                     hc:BorderElement.CornerRadius="13,0,0,13"
                     BorderThickness="3,0,0,1"
                     Content="Администратор"
-                    IsChecked="True" />
+                    IsChecked="{Binding IsAdmin}" />
                 <RadioButton
                     hc:BorderElement.CornerRadius="0,13,13,0"
                     BorderThickness="0,0,3,1"
@@ -75,8 +75,9 @@
                     Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName=PswrdBox}"
                     Content="Войти"
+                    FontFamily="Corbel"
                     FontSize="17"
-                    Style="{StaticResource ButtonInfo}" FontFamily="Corbel" />
+                    Style="{StaticResource ButtonInfo}" />
             </StackPanel>
         </Grid>
 

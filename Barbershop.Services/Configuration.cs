@@ -8,7 +8,9 @@ public static class Configuration
 {
     public static ServiceCollection RegisterServices(this ServiceCollection serviceCollection)
     {
+        serviceCollection.AddTransient<IAuthService, AuthService>();
         serviceCollection.AddTransient<IAdminService, AdminService>();
+        
 
         serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 

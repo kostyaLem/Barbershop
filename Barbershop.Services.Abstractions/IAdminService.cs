@@ -3,16 +3,11 @@ using Barbershop.Contracts.Models;
 
 namespace Barbershop.Services.Abstractions;
 
+/// <summary>
+/// Сервис управления администраторами.
+/// </summary>
 public interface IAdminService
 {
-    /// <summary>
-    /// Получить авторизированного администратора.
-    /// </summary>
-    /// <param name="username">Логин.</param>
-    /// <param name="password">Пароль.</param>
-    /// <returns>Администратор.</returns>
-    Task<AdminDto> Login(string username, string password);
-
     /// <summary>
     /// Создать администратора.
     /// </summary>

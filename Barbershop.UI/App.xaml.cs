@@ -11,7 +11,7 @@ namespace Barbershop.UI;
 
 public partial class App : Application
 {
-    public static AdminDto CurrentUser { get; set; }
+    public static AuthorizedUserDto CurrentUser { get; set; }
 
     public static ICommand ChangeThemeCommand { get; }
     public static ICommand ChangeAccountCommand { get; }
@@ -43,6 +43,6 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         Container.PrepareApp();
-        Container.ShowView<MainView>();
+        Container.ShowView<AuthView>();
     }
 }

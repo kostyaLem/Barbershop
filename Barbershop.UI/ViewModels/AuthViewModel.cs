@@ -15,7 +15,13 @@ namespace Barbershop.UI.ViewModels;
 /// </summary>
 public class AuthViewModel : BaseViewModel
 {
-    private readonly IAdminService _adminService;
+    private readonly IAuthService _authService;
+
+    public bool IsAdmin
+    {
+        get => GetValue<bool>(nameof(IsAdmin));
+        set => SetValue(value, nameof(IsAdmin));
+    }
 
     public string Login
     {
@@ -25,10 +31,11 @@ public class AuthViewModel : BaseViewModel
 
     public ICommand LoginCommand { get; }
 
-    public AuthViewModel(IAdminService adminService)
+    public AuthViewModel(IAuthService authService)
     {
-        _adminService = adminService ?? throw new ArgumentNullException(nameof(adminService));
+        _authService = authService ?? throw new ArgumentNullException(nameof(authService));
 
+        IsAdmin = true;
         LoginCommand = new AsyncCommand<object>(TryLogin, x => !string.IsNullOrWhiteSpace(Login));
     }
 
@@ -48,7 +55,7 @@ public class AuthViewModel : BaseViewModel
 
             try
             {
-                var admin = await _adminService.Login(Login, passwordBox.Password);
+                var admin = await _authService.Login(Login, passwordBox.Password, IsAdmin);
                 App.CurrentUser = admin;
                 Application.Current.MainWindow.Visibility = Visibility.Collapsed;
 
