@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
-using Barbershop.Services.Abstractions;
+using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.Views.Pages.Edit;
@@ -10,12 +10,12 @@ namespace Barbershop.UI.ViewModels.Pages;
 
 public class ProductsPageViewModel : BaseItemsViewModel<ProductDto>
 {
-    private readonly IProductService _productService;
+    private readonly ProductService _productService;
     private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
     public ProductsPageViewModel(
-        IProductService productService,
+        ProductService productService,
         IMapper mapper,
         IWindowDialogService dialogService)
     {

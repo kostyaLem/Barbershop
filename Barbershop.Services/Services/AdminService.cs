@@ -3,67 +3,51 @@ using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
-using Barbershop.Services.Abstractions;
-using Barbershop.Services.Abstractions.Exceptions;
 using Barbershop.Services.Helpers;
 
 namespace Barbershop.Services;
 
-public class AdminService : IAdminService
+public sealed class AdminService : EntityService<AdminDto, Admin, UpsertAdminCommand>
 {
-    private readonly IBaseRepository<Admin> _adminRepository;
-    private readonly IMapper _mapper;
-
     public AdminService(IBaseRepository<Admin> adminRepository, IMapper mapper)
+        : base(adminRepository, mapper)
     {
-        _adminRepository = adminRepository ?? throw new ArgumentNullException(nameof(adminRepository));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(UpsertAdminCommand command)
+    public override async Task Create(UpsertAdminCommand command)
     {
         command.Password = HashService.Compute(command.Password);
         var admin = _mapper.Map<Admin>(command);
 
-        await _adminRepository.Add(admin);
+        await _entityRepository.Add(admin);
     }
 
-    public async Task Update(UpsertAdminCommand command)
+    public override async Task Update(UpsertAdminCommand command)
     {
         var admin = _mapper.Map<Admin>(command);
 
         if (string.IsNullOrEmpty(admin.PasswordHash))
         {
-            admin.PasswordHash = (await _adminRepository.GetById(admin.Id)).PasswordHash;
+            admin.PasswordHash = (await _entityRepository.GetById(admin.Id)).PasswordHash;
         }
         else
         {
             admin.PasswordHash = HashService.Compute(command.Password);
         }
 
-        await _adminRepository.Update(admin);
+        await _entityRepository.Update(admin);
     }
 
-    public async Task<IReadOnlyList<AdminDto>> GetAll()
+    public override async Task<IReadOnlyList<AdminDto>> GetAll()
     {
-        var admins = await _adminRepository.GetAll(x => x.User);
+        var admins = await _entityRepository.GetAll(x => x.User);
 
         return _mapper.Map<IReadOnlyList<AdminDto>>(admins);
     }
 
-    public async Task RemoveById(int id)
+    public override async Task<AdminDto> GetById(int id)
     {
-        var adminsCount = await _adminRepository.Count();
-
-        if (adminsCount == 1)
-            throw new RemoveAdminException();
-
-        await _adminRepository.Remove(id);
-    }
-
-    public async Task<AdminDto> GetById(int id)
-    {
-        var admin = await _adminRepository.GetById(id, x => x.User);
+        var admin = await _entityRepository.GetById(id, x => x.User);
 
         return _mapper.Map<AdminDto>(admin);
     }

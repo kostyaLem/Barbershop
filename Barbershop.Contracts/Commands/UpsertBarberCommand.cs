@@ -1,8 +1,7 @@
 ﻿namespace Barbershop.Contracts.Commands;
 
-public class UpsertBarberCommand
+public class UpsertBarberCommand : IdentifiedCommand
 {
-    public int Id { get; set; }
     public string Login { get; set; }
     public string Password { get; set; }
     public string FirstName { get; set; }

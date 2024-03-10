@@ -3,43 +3,27 @@ using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
-using Barbershop.Services.Abstractions;
 
 namespace Barbershop.Services;
 
-public class ClientService : IClientService
+public class ClientService : EntityService<ClientDto, Client, UpsertClientCommand>
 {
-    private readonly IBaseRepository<Client> _clientRepository;
-
-    private readonly IMapper _mapper;
-
-    public ClientService(IBaseRepository<Client> barberRepo, IMapper mapper)
+    public ClientService(IBaseRepository<Client> clientRepo, IMapper mapper)
+        : base(clientRepo, mapper)
     {
-        _clientRepository = barberRepo ?? throw new ArgumentNullException(nameof(barberRepo));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(UpsertClientCommand command)
+    public override async Task<IReadOnlyList<ClientDto>> GetAll()
     {
-        var client = _mapper.Map<Client>(command);
-
-        await _clientRepository.Add(client);
-    }
-
-    public async Task<IReadOnlyList<ClientDto>> GetAll()
-    {
-        var clients = await _clientRepository.GetAll();
+        var clients = await _entityRepository.GetAll(x => x.User);
 
         return _mapper.Map<IReadOnlyList<ClientDto>>(clients);
     }
 
-    public async Task Update(UpsertClientCommand command)
+    public override async Task<ClientDto> GetById(int id)
     {
-        await _clientRepository.Update(_mapper.Map<Client>(command));
-    }
+        var client = await _entityRepository.GetById(id, x => x.User);
 
-    public async Task RemoveById(int id)
-    {
-        await _clientRepository.Remove(id);
+        return _mapper.Map<ClientDto>(client);
     }
 }

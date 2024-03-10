@@ -1,6 +1,6 @@
 ﻿namespace Barbershop.Contracts.Commands;
 
-public class UpsertClientCommand
+public class UpsertClientCommand : IdentifiedCommand
 {
     public string? LastName { get; set; }
     public string FirstName { get; set; }

@@ -3,51 +3,20 @@ using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
-using Barbershop.Services.Abstractions;
 
 namespace Barbershop.Services;
 
-public class ProductService : IProductService
+public sealed class ProductService : EntityService<ProductDto, Product, UpsertProductCommand>
 {
-    private readonly IBaseRepository<Product> _productRepository;
-    private readonly IMapper _mapper;
-
-    public ProductService(IBaseRepository<Product> barberRepository, IMapper mapper)
+    public ProductService(IBaseRepository<Product> repository, IMapper mapper)
+        : base(repository, mapper)
     {
-        _productRepository = barberRepository ?? throw new ArgumentNullException(nameof(barberRepository));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task Create(UpsertProductCommand command)
+    public override async Task<IReadOnlyList<ProductDto>> GetAll()
     {
-        var product = _mapper.Map<Product>(command);
-
-        await _productRepository.Add(product);
-    }
-
-    public async Task<IReadOnlyList<ProductDto>> GetAll()
-    {
-        var products = await _productRepository.GetAll(x => x.Orders);
+        var products = await _entityRepository.GetAll(x => x.Orders);
 
         return _mapper.Map<IReadOnlyList<ProductDto>>(products);
-    }
-
-    public async Task Update(UpsertProductCommand command)
-    {
-        var product = _mapper.Map<Product>(command);
-
-        await _productRepository.Update(product);
-    }
-
-    public async Task RemoveById(int id)
-    {
-        await _productRepository.Remove(id);
-    }
-
-    public async Task<ProductDto> GetById(int id)
-    {
-        var product = await _productRepository.GetById(id);
-
-        return _mapper.Map<ProductDto>(product);
     }
 }

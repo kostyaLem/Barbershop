@@ -9,8 +9,12 @@ public static class Configuration
     public static ServiceCollection RegisterServices(this ServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<IAuthService, AuthService>();
-        serviceCollection.AddSingleton<IAdminService, AdminService>();
-        serviceCollection.AddSingleton<IProductService, ProductService>();
+        serviceCollection.AddTransient(typeof(IEntityService<,,>), typeof(EntityService<,,>));
+        
+        serviceCollection.AddTransient<ProductService>();
+        serviceCollection.AddTransient<ClientService>();
+        serviceCollection.AddTransient<BarberService>();
+        serviceCollection.AddTransient<AdminService>();
 
         serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 

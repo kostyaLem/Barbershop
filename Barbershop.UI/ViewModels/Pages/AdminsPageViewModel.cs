@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
-using Barbershop.Services.Abstractions;
+using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.ViewModels.Pages.Edit;
@@ -12,11 +12,11 @@ namespace Barbershop.UI.ViewModels.Pages;
 
 public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
 {
-    private readonly IAdminService _adminService;
+    private readonly AdminService _adminService;
     private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
-    public AdminsPageViewModel(IAdminService adminService, IMapper mapper, IWindowDialogService dialogService)
+    public AdminsPageViewModel(AdminService adminService, IMapper mapper, IWindowDialogService dialogService)
     {
         _adminService = adminService ?? throw new ArgumentNullException(nameof(adminService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
