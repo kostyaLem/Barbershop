@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
-using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.ViewModels.Pages.Edit;

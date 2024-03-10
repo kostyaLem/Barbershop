@@ -14,6 +14,8 @@ internal class ViewPrefixService
         _prefixes = new Dictionary<Type, string>()
         {
             { typeof(AdminDto), "администратора"},
+            { typeof(BarberDto), "барбера"},
+            { typeof(ClientDto), "клиента"},
             { typeof(ProductDto), "товара"}
         };
     }

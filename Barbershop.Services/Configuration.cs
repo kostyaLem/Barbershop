@@ -10,7 +10,7 @@ public static class Configuration
     {
         serviceCollection.AddSingleton<IAuthService, AuthService>();
         serviceCollection.AddTransient(typeof(IEntityService<,,>), typeof(EntityService<,,>));
-        
+
         serviceCollection.AddTransient<ProductService>();
         serviceCollection.AddTransient<ClientService>();
         serviceCollection.AddTransient<BarberService>();

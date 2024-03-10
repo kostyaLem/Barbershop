@@ -10,8 +10,8 @@ namespace Barbershop.Services.Abstractions;
 /// <typeparam name="TEntityDto">Сущность для управления.</typeparam>
 /// <typeparam name="TCommand">Команды для управления сущностью.</typeparam>
 
-public interface IEntityService<TEntityDto, TEntity, TCommand> 
-    where TEntityDto: EntityDto
+public interface IEntityService<TEntityDto, TEntity, TCommand>
+    where TEntityDto : EntityDto
     where TEntity : Entity
     where TCommand : IdentifiedCommand
 {

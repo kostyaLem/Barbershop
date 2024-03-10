@@ -6,25 +6,25 @@ using System.Windows.Input;
 
 namespace Barbershop.UI.ViewModels.Pages.Edit;
 
-public class EditAdminViewModel : EditViewModel<AdminDto>
+public class EditClientViewModel : EditViewModel<ClientDto>
 {
     private readonly IWindowDialogService _dialogService;
 
     public ICommand SelectImageCommand { get; }
     public ICommand RemoveImageCommand { get; }
 
-    public EditAdminViewModel(AdminDto itemViewModel, IWindowDialogService dialogService)
+    public EditClientViewModel(ClientDto itemViewModel, IWindowDialogService dialogService)
         : this(dialogService)
     {
         Item = itemViewModel;
         Title = $"Редактирование {_viewModelName}";
     }
 
-    public EditAdminViewModel(IWindowDialogService dialogService, Action<AdminDto> preUpdate = null)
+    public EditClientViewModel(IWindowDialogService dialogService, Action<ClientDto> preUpdate = null)
     {
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
-        Item = new AdminDto();
+        Item = new ClientDto();
         Title = $"Создание {_viewModelName}";
 
         preUpdate?.Invoke(Item);
@@ -32,7 +32,7 @@ public class EditAdminViewModel : EditViewModel<AdminDto>
         SelectImageCommand = new DelegateCommand(SelectImage);
         RemoveImageCommand = new DelegateCommand(RemoveImage);
 
-        Args!.MinBirthdayDate = DateTime.Now.AddYears(-18);
+        Args!.MinBirthdayDate = DateTime.Now.AddYears(-6);
         Args!.Password = string.Empty;
     }
 

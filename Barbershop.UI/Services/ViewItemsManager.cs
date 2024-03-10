@@ -14,8 +14,8 @@ public static class ViewItemsManager
                 new("Главная", "HomeImage", typeof(MainPage)),
                 new("Администраторы", "AdminImage", typeof(AdminsPage)),
                 new("Товары", "ProductImage", typeof(ProductsPage)),
-                new("Барберы", "BarberImage"),
-                new("Клиенты", "ClientImage"),
+                new("Барберы", "BarberImage", typeof(BarbersPage)),
+                new("Клиенты", "ClientImage", typeof(ClientsPage)),
                 new("Услуги", "ServiceImage"),
                 //TODO: элементы ниже вынести для барбера
                 new("Расписание", "ScheduleImage"),
