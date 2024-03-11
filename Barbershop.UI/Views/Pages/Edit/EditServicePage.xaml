@@ -52,12 +52,12 @@
                         <Button
                             Command="{Binding RemoveJuniorServiceCommand}"
                             Content="Удалить"
-                            Style="{StaticResource ButtonDashedDanger.Small}"
+                            Style="{StaticResource ButtonDashedDanger}"
                             Visibility="{Binding Item.JuniorSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             Command="{Binding AddJuniorServiceCommand}"
                             Content="Добавить"
-                            Style="{StaticResource ButtonDashedSuccess.Small}"
+                            Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Item.JuniorSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityReConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Text="Начинающий" />
                     </StackPanel>
@@ -98,12 +98,12 @@
                             HorizontalAlignment="Center"
                             Command="{Binding RemoveMiddleServiceCommand}"
                             Content="Удалить"
-                            Style="{StaticResource ButtonDashedDanger.Small}"
+                            Style="{StaticResource ButtonDashedDanger}"
                             Visibility="{Binding Path=Item.MiddleSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             Command="{Binding AddMiddleServiceCommand}"
                             Content="Добавить"
-                            Style="{StaticResource ButtonDashedSuccess.Small}"
+                            Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Path=Item.MiddleSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityReConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock HorizontalAlignment="Center" Text="Средний" />
                     </StackPanel>
@@ -143,12 +143,12 @@
                         <Button
                             Command="{Binding RemoveSerniorServiceCommand}"
                             Content="Удалить"
-                            Style="{StaticResource ButtonDashedDanger.Small}"
+                            Style="{StaticResource ButtonDashedDanger}"
                             Visibility="{Binding Item.SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}" />
                         <Button
                             Command="{Binding AddSeniorServiceCommand}"
                             Content="Добавить"
-                            Style="{StaticResource ButtonDashedSuccess.Small}"
+                            Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Item.SeniorSkill, Converter={StaticResource Object2VisibilityReConverter}}" />
                         <TextBlock HorizontalAlignment="Center" Text="Старший" />
                     </StackPanel>

@@ -26,17 +26,20 @@ public sealed class ServicesPageViewModel : BaseItemsViewModel<ServiceDto>
         RemoveItemCommand = new AsyncCommand<object>(RemoveItem);
     }
 
-    public override Task CreateItem()
+    public override async Task CreateItem()
     {
-        throw new NotImplementedException();
+        var vm = new EditServiceViewModel();
+
+        if (_dialogService.ShowDialog(typeof(EditServicePage), vm))
+        {
+            var command = _mapper.Map<UpsertServiceCommand>(vm.Item);
+            await _offerService.Create(command);
+            await LoadItems();
+        }
     }
 
-    public override async Task<IReadOnlyList<ServiceDto>> GetItems()
-    {
-        var services = await _offerService.GetAll();
-
-        return services;
-    }
+    public override Task<IReadOnlyList<ServiceDto>> GetItems()
+        => _offerService.GetAll();
 
     public override IReadOnlyList<string> GetItemSearchProperties(ServiceDto service)
     {

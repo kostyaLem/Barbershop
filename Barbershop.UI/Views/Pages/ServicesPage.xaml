@@ -272,21 +272,8 @@
                     Grid.Column="2"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <Button
-                        hc:BorderElement.CornerRadius="8,0,0,8"
-                        Command="{Binding RemoveItemCommand}"
-                        CommandParameter="{Binding SelectedItems, ElementName=ItemsGrid}"
-                        Content="Удалить"
-                        IsEnabled="{Binding SelectedItems.Count, Converter={StaticResource NumericToBooleanConverter}, ElementName=ItemsGrid}"
-                        Style="{StaticResource ButtonDanger}" />
                     <ToggleButton
-                        hc:BorderElement.CornerRadius="0"
-                        Command="{Binding EditItemCommand}"
-                        CommandParameter="{Binding SelectedItems, ElementName=ItemsGrid}"
-                        Content="Редактировать"
-                        Style="{StaticResource ToggleButtonWarning}" />
-                    <ToggleButton
-                        hc:BorderElement.CornerRadius="0,8,8,0"
+                        hc:BorderElement.CornerRadius="8"
                         Command="{Binding CreateItemCommand}"
                         Content="Добавить"
                         Style="{StaticResource ToggleButtonSuccess}" />

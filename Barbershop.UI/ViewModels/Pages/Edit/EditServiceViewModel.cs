@@ -16,14 +16,14 @@ public class EditServiceViewModel : EditViewModel<ServiceDto>
     public ICommand AddSeniorServiceCommand { get; }
     public ICommand RemoveSerniorServiceCommand { get; }
 
-    public EditServiceViewModel(ServiceDto itemViewModel, Action<ServiceDto> preUpdate = null)
-        : this(preUpdate)
+    public EditServiceViewModel(ServiceDto itemViewModel)
+        : this()
     {
         Item = itemViewModel;
     }
 
-    public EditServiceViewModel(Action<ServiceDto> preUpdate = null)
-        : base(preUpdate)
+    public EditServiceViewModel()
+        : base(preUpdate: null)
     {
         AddJuniorServiceCommand = new DelegateCommand(() => Item.JuniorSkill = new ServiceSkillLevelDto());
         RemoveJuniorServiceCommand = new DelegateCommand(() => Item.JuniorSkill = null);

@@ -50,7 +50,7 @@
             <TextBlock Text="Email" />
             <TextBox Text="{Binding Email}" />
 
-            <TextBlock Text="Дата рождения" />
+            <TextBlock Margin="0,15.3,0,0" Text="Дата рождения" />
             <hc:DatePicker DisplayDateEnd="{Binding DataContext.Args.MinBirthdayDate, ElementName=control, Mode=OneWay}" SelectedDate="{Binding Birthday, StringFormat=dd/MM/yyyy}" />
 
         </StackPanel>
@@ -72,25 +72,22 @@
                     <Image Source="{Binding Path=Photo, Mode=OneWay, Converter={StaticResource convert}, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <hc:ElementGroup
+                <StackPanel
                     Margin="0,20,0,0"
                     HorizontalAlignment="Center"
-                    DockPanel.Dock="Right">
+                    DockPanel.Dock="Right"
+                    Orientation="Horizontal">
                     <Button
-                        Padding="5"
-                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
-                        BorderThickness="0"
+                        Margin="0,0,10,0"
                         Command="{Binding Path=DataContext.RemoveImageCommand, ElementName=control}"
                         Content="Удалить"
-                        Style="{StaticResource ButtonDashedWarning}" />
+                        Style="{StaticResource ButtonDashedDanger}" />
                     <Button
-                        Padding="5"
-                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
-                        BorderThickness="0"
                         Command="{Binding Path=DataContext.SelectImageCommand, ElementName=control}"
                         Content="Выбрать"
-                        Style="{StaticResource ButtonDashedPrimary}" />
-                </hc:ElementGroup>
+                        Style="{StaticResource ButtonDashedSuccess}" />
+                </StackPanel>
+
             </StackPanel>
 
 
@@ -98,7 +95,6 @@
             <TextBox Grid.Row="2" Text="{Binding Notes}" />
 
         </Grid>
-
 
     </Grid>
 
