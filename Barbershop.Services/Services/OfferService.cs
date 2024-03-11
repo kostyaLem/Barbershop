@@ -19,4 +19,11 @@ public sealed class OfferService : EntityService<ServiceDto, Service, UpsertServ
 
         return _mapper.Map<IReadOnlyList<ServiceDto>>(services);
     }
+
+    public override async Task<ServiceDto> GetById(int id)
+    {
+        var service = await _entityRepository.GetById(id, x => x.ServiceSkillLevels);
+
+        return _mapper.Map<ServiceDto>(service);
+    }
 }

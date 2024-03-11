@@ -34,7 +34,7 @@
             d:Visibility="Hidden"
             Background="#33000000"
             CornerRadius="10"
-            Visibility="Hidden">
+            Visibility="{Binding IsUploading, Converter={StaticResource Boolean2VisibilityConverter}}">
             <hc:LoadingCircle Style="{StaticResource LoadingCircleLight}" />
         </Border>
 
@@ -56,7 +56,7 @@
             <hc:ScrollViewer Grid.Row="1" Margin="0,5,0,0">
                 <hc:SimplePanel>
 
-                    <ItemsControl ItemsSource="{Binding ItemsView}">
+                    <ItemsControl x:Name="itemsControl" ItemsSource="{Binding ItemsView}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type models:ServiceDto}">
@@ -65,14 +65,43 @@
                                     MinHeight="48"
                                     Margin="0,0,0,5"
                                     Background="{DynamicResource MainContentBackgroundBrush}"
-                                    IsExpanded="True">
-                                    <Expander.Header>
-                                        <TextBlock
-                                            d:Text="Название услуги"
-                                            FontSize="16"
-                                            FontWeight="DemiBold"
-                                            Text="{Binding Name}" />
-                                    </Expander.Header>
+                                    IsExpanded="False">
+
+                                    <Expander.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                                <TextBlock
+                                                    d:Text="Название услуги"
+                                                    FontSize="16"
+                                                    FontWeight="DemiBold"
+                                                    Text="{Binding Path=DataContext.Name, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}" />
+
+                                                <Button
+                                                    Width="20"
+                                                    Margin="0,0,40,0"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Right"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="10"
+                                                    hc:IconElement.Width="10"
+                                                    Command="{Binding Path=DataContext.RemoveItemCommand, ElementName=itemsControl}"
+                                                    CommandParameter="{Binding Path=DataContext.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
+                                                    FontSize="24"
+                                                    Style="{StaticResource ButtonDanger.Small}" />
+                                                <Button
+                                                    Width="20"
+                                                    Margin="0,0,10,0"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Right"
+                                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                    hc:IconElement.Height="15"
+                                                    hc:IconElement.Width="15"
+                                                    Command="{Binding Path=DataContext.EditItemCommand, ElementName=itemsControl}"
+                                                    CommandParameter="{Binding Path=DataContext.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
+                                                    Style="{StaticResource ButtonWarning.Small}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Expander.HeaderTemplate>
 
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -234,7 +263,7 @@
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Кол-во записей: " />
-                            <TextBlock Text="{Binding Items.Count, ElementName=ItemsGrid}" />
+                            <TextBlock Text="{Binding Items.Count, ElementName=itemsControl}" />
                         </StackPanel>
                     </Label>
                 </StackPanel>

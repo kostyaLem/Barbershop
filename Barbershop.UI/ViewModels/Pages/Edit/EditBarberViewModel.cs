@@ -21,13 +21,9 @@ public class EditBarberViewModel : EditViewModel<BarberDto>
     }
 
     public EditBarberViewModel(IWindowDialogService dialogService, Action<BarberDto> preUpdate = null)
+        : base(preUpdate)
     {
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-
-        Item = new BarberDto();
-        Title = $"Создание {_viewModelName}";
-
-        preUpdate?.Invoke(Item);
 
         SelectImageCommand = new DelegateCommand(SelectImage);
         RemoveImageCommand = new DelegateCommand(RemoveImage);

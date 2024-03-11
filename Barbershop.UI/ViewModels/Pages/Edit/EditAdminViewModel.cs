@@ -17,17 +17,12 @@ public class EditAdminViewModel : EditViewModel<AdminDto>
         : this(dialogService)
     {
         Item = itemViewModel;
-        Title = $"Редактирование {_viewModelName}";
     }
 
     public EditAdminViewModel(IWindowDialogService dialogService, Action<AdminDto> preUpdate = null)
+        : base(preUpdate)
     {
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-
-        Item = new AdminDto();
-        Title = $"Создание {_viewModelName}";
-
-        preUpdate?.Invoke(Item);
 
         SelectImageCommand = new DelegateCommand(SelectImage);
         RemoveImageCommand = new DelegateCommand(RemoveImage);
