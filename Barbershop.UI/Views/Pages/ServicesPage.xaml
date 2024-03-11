@@ -8,10 +8,12 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:Barbershop.UI.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Barbershop.Contracts.Models;assembly=Barbershop.Contracts"
     xmlns:system="clr-namespace:System;assembly=netstandard"
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages"
     Title="ProductsPage"
     d:Background="White"
+    d:DataContext="{d:DesignInstance Type=vm:ServicesPageViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -51,27 +53,13 @@
                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
-            <hc:ScrollViewer Grid.Row="1">
-                <hc:SimplePanel Margin="0,0,5,0">
+            <hc:ScrollViewer Grid.Row="1" Margin="0,5,0,0">
+                <hc:SimplePanel>
 
-                    <ItemsControl>
-                        <ItemsControl.Items>
-                            <system:Int32>1</system:Int32>
-                            <system:Int32>2</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                            <system:Int32>3</system:Int32>
-                        </ItemsControl.Items>
+                    <ItemsControl ItemsSource="{Binding ItemsView}">
 
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate DataType="{x:Type models:ServiceDto}">
 
                                 <Expander
                                     MinHeight="48"
@@ -80,9 +68,10 @@
                                     IsExpanded="True">
                                     <Expander.Header>
                                         <TextBlock
+                                            d:Text="Название услуги"
                                             FontSize="16"
                                             FontWeight="DemiBold"
-                                            Text="Название услуги" />
+                                            Text="{Binding Name}" />
                                     </Expander.Header>
 
                                     <Grid>
@@ -101,7 +90,8 @@
                                                 Columns="3"
                                                 Rows="1">
 
-                                                <StackPanel>
+                                                <!--  Начинающий  -->
+                                                <StackPanel Visibility="{Binding JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -116,7 +106,10 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource TimerImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="45:00" />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="45"
+                                                                Text="{Binding JuniorSkill.MinutesDuration}" />
                                                         </StackPanel>
 
                                                         <StackPanel
@@ -127,13 +120,17 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="920 р." />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="920 р."
+                                                                Text="{Binding JuniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
                                                         </StackPanel>
 
                                                     </UniformGrid>
                                                 </StackPanel>
 
-                                                <StackPanel>
+                                                <!--  Средний  -->
+                                                <StackPanel Visibility="{Binding MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -148,7 +145,10 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource TimerImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="45:00" />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="45"
+                                                                Text="{Binding MiddleSkill.MinutesDuration}" />
                                                         </StackPanel>
 
                                                         <StackPanel
@@ -159,13 +159,17 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="920 р." />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="920 р."
+                                                                Text="{Binding MiddleSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
                                                         </StackPanel>
 
                                                     </UniformGrid>
                                                 </StackPanel>
 
-                                                <StackPanel>
+                                                <!--  Старший  -->
+                                                <StackPanel Visibility="{Binding SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -180,7 +184,10 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource TimerImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="45:00" />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="45"
+                                                                Text="{Binding SeniorSkill.MinutesDuration}" />
                                                         </StackPanel>
 
                                                         <StackPanel
@@ -191,7 +198,10 @@
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock VerticalAlignment="Center" Text="920 р." />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                d:Text="920 р."
+                                                                Text="{Binding SeniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
                                                         </StackPanel>
 
                                                     </UniformGrid>

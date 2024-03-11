@@ -90,7 +90,7 @@ namespace Barbershop.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BarbershopParameterRows");
+                    b.ToTable("BarbershopParameterRows", (string)null);
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Client", b =>
@@ -256,7 +256,7 @@ namespace Barbershop.DAL.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("OrderProduct");
+                    b.ToTable("OrderProduct", (string)null);
                 });
 
             modelBuilder.Entity("OrderServiceSkillLevel", b =>
@@ -271,7 +271,7 @@ namespace Barbershop.DAL.Migrations
 
                     b.HasIndex("ServiceSkillLevelsId");
 
-                    b.ToTable("OrderServiceSkillLevel");
+                    b.ToTable("OrderServiceSkillLevel", (string)null);
                 });
 
             modelBuilder.Entity("Barbershop.Domain.Models.Admin", b =>
