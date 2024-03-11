@@ -17,10 +17,12 @@
     <None Remove="Resources\Images\Icon.ico" />
     <None Remove="Resources\Images\largeIcon.png" />
     <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\money.png" />
     <None Remove="Resources\Images\product.png" />
     <None Remove="Resources\Images\salary.png" />
     <None Remove="Resources\Images\schedule.png" />
     <None Remove="Resources\Images\service.png" />
+    <None Remove="Resources\Images\timer.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +46,12 @@
     <Resource Include="Resources\Images\Icon.ico" />
     <Resource Include="Resources\Images\largeIcon.png" />
     <Resource Include="Resources\Images\menu.png" />
+    <Resource Include="Resources\Images\money.png" />
     <Resource Include="Resources\Images\product.png" />
     <Resource Include="Resources\Images\salary.png" />
     <Resource Include="Resources\Images\schedule.png" />
     <Resource Include="Resources\Images\service.png" />
+    <Resource Include="Resources\Images\timer.png" />
   </ItemGroup>
 
 </Project>

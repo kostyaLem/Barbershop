@@ -12,6 +12,8 @@
             <BitmapImage x:Key="ScheduleImage" UriSource="..\Images\schedule.png" />
             <BitmapImage x:Key="SalaryImage" UriSource="..\Images\salary.png" />
             <BitmapImage x:Key="HomeImage" UriSource="..\Images\home.png" />
+            <BitmapImage x:Key="MoneyImage" UriSource="..\Images\money.png" />
+            <BitmapImage x:Key="TimerImage" UriSource="..\Images\timer.png" />
 
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>

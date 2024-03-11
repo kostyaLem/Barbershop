@@ -2,8 +2,6 @@
 
 public class ServiceSkillLevelDto : EntityDto
 {
-    public string SkillLevel { get; set; }
     public decimal Cost { get; set; }
-    public int MinutesDuration { get; set; }
-    public virtual ServiceDto Service { get; set; }
+    public TimeOnly Duration { get; set; }
 }
