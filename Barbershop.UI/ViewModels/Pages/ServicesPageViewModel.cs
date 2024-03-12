@@ -54,26 +54,45 @@ public sealed class ServicesPageViewModel : BaseItemsViewModel<ServiceDto>
 
     public async Task EditItem(object obj)
     {
-        if (obj is int serviceId)
+        await Execute(async () =>
         {
-            var currentService = await _offerService.GetById(serviceId);
-            var vm = new EditServiceViewModel(currentService);
-
-            if (_dialogService.ShowDialog(typeof(EditServicePage), vm))
+            if (obj is int serviceId)
             {
-                var command = _mapper.Map<UpsertServiceCommand>(vm.Item);
-                await _offerService.Update(command);
-                await LoadItems();
+                var tempService = await _offerService.GetById(serviceId);
+
+                var currentService = await _offerService.GetById(serviceId);
+                var vm = new EditServiceViewModel(currentService);
+
+                if (_dialogService.ShowDialog(typeof(EditServicePage), vm))
+                {
+                    var command = _mapper.Map<UpsertServiceCommand>(vm.Item);
+
+                    if (tempService.JuniorSkill != null && command.JuniorSkill != null)
+                        command.JuniorSkill.Id = tempService.JuniorSkill.Id;
+
+                    if (tempService.MiddleSkill != null && command.MiddleSkill != null)
+                        command.MiddleSkill.Id = tempService.MiddleSkill.Id;
+
+                    if (tempService.SeniorSkill != null && command.SeniorSkill != null)
+                        command.SeniorSkill.Id = tempService.SeniorSkill.Id;
+
+                    await _offerService.Update(command);
+                    await LoadItems();
+                }
             }
-        }
+        });
     }
 
     public async Task RemoveItem(object obj)
     {
-        if (obj is int serviceId)
+        await Execute(async () =>
         {
-            await _offerService.RemoveById(serviceId);
-        }
+            if (obj is int serviceId)
+            {
+                await _offerService.RemoveById(serviceId);
+                await LoadItems();
+            }
+        });
     }
 
     // Скрытие базового метода, для использования своего

@@ -28,7 +28,7 @@
 
         <StackPanel>
             <TextBlock d:DataContext="{d:DesignInstance {x:Type models:ServiceDto}}" Text="Название" />
-            <TextBox Text="{Binding Name}" />
+            <TextBox Text="{Binding Item.Name}" />
 
             <UniformGrid
                 Height="150"

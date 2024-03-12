@@ -109,7 +109,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
             query = query.Include(include);
         }
 
-        var entity = await query.FirstOrDefaultAsync()
+        var entity = await query.FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new EntityNotFoundException<T>(id);
 
         return entity;

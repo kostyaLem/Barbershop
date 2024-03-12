@@ -87,18 +87,18 @@
                                                     Command="{Binding Path=DataContext.RemoveItemCommand, ElementName=itemsControl}"
                                                     CommandParameter="{Binding Path=DataContext.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
                                                     FontSize="24"
-                                                    Style="{StaticResource ButtonDanger.Small}" />
+                                                    Style="{StaticResource ButtonDashedDanger.Small}" />
                                                 <Button
                                                     Width="20"
                                                     Margin="0,0,10,0"
                                                     Padding="0"
                                                     HorizontalAlignment="Right"
                                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                    hc:IconElement.Height="15"
-                                                    hc:IconElement.Width="15"
+                                                    hc:IconElement.Height="13"
+                                                    hc:IconElement.Width="13"
                                                     Command="{Binding Path=DataContext.EditItemCommand, ElementName=itemsControl}"
                                                     CommandParameter="{Binding Path=DataContext.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
-                                                    Style="{StaticResource ButtonWarning.Small}" />
+                                                    Style="{StaticResource ButtonDashedInfo.Small}" />
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
@@ -114,13 +114,16 @@
                                             BorderBrush="{DynamicResource BorderBrush}"
                                             BorderThickness="1,0,1,1"
                                             CornerRadius="0,0,3,3">
-                                            <UniformGrid
-                                                Margin="0,3,0,0"
-                                                Columns="3"
-                                                Rows="1">
+
+                                            <Grid Margin="0,3,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
 
                                                 <!--  Начинающий  -->
-                                                <StackPanel Visibility="{Binding JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <StackPanel Grid.Column="0" Visibility="{Binding JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -159,7 +162,7 @@
                                                 </StackPanel>
 
                                                 <!--  Средний  -->
-                                                <StackPanel Visibility="{Binding MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <StackPanel Grid.Column="1" Visibility="{Binding MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -198,7 +201,7 @@
                                                 </StackPanel>
 
                                                 <!--  Старший  -->
-                                                <StackPanel Visibility="{Binding SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <StackPanel Grid.Column="2" Visibility="{Binding SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
                                                     <TextBlock
                                                         Margin="0,3,0,0"
                                                         HorizontalAlignment="Center"
@@ -236,7 +239,8 @@
                                                     </UniformGrid>
                                                 </StackPanel>
 
-                                            </UniformGrid>
+                                            </Grid>
+
                                         </Border>
 
                                     </Grid>
