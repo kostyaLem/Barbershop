@@ -1,6 +1,5 @@
 ﻿using Barbershop.Contracts.Models;
 using Barbershop.UI.Views;
-using Barbershop.UI.Views.Pages;
 using DevExpress.Mvvm;
 using HandyControl.Themes;
 using HandyControl.Tools;
