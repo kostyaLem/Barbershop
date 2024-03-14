@@ -1,0 +1,176 @@
+﻿<Page
+    x:Class="Barbershop.UI.Views.Pages.OrdersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Barbershop.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:Barbershop.UI.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=netstandard"
+    xmlns:system1="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages"
+    Title="ProductsPage"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance Type=vm:ProductsPageViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <dxmvvm:NumericToBooleanConverter x:Key="NumericToBooleanConverter" />
+    </Page.Resources>
+
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+
+    <Grid>
+        <Border
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding IsUploading, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <hc:LoadingCircle Style="{StaticResource LoadingCircleLight}" />
+        </Border>
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <hc:SearchBar
+                Grid.Row="0"
+                hc:InfoElement.Placeholder="Название / Стоимость"
+                hc:TitleElement.TitlePlacement="Left"
+                Style="{StaticResource SearchBarExtend}"
+                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <ItemsControl
+                Grid.Row="1"
+                Margin="0,5,0,0"
+                d:ItemsSource="{d:SampleData}">
+                <ItemsControl.ItemTemplate>
+                    <!--  Группировка по дням  -->
+                    <DataTemplate>
+
+                        <Expander Margin="0,0,0,10" IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock>
+                                    <Run Text="14.03.2024" />
+                                </TextBlock>
+                            </Expander.Header>
+
+                            <Border
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,3,3">
+
+                                <ItemsControl Margin="0,3,0,0" d:ItemsSource="{d:SampleData}">
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <Grid Margin="0,5">
+                                                <Grid.Resources>
+                                                    <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
+                                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                    </Style>
+                                                </Grid.Resources>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="80" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Text="25" />
+
+                                                <TextBlock Grid.Column="1">
+                                                    <UniformGrid
+                                                        VerticalAlignment="Center"
+                                                        Columns="1"
+                                                        Rows="2">
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="28" Source="{StaticResource KnifeImage}" />
+                                                            <TextBlock Text="Константин Юрьевич" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="28" Source="{StaticResource ArmchairImage}" />
+                                                            <TextBlock Text="Тедтоев Азамат" />
+                                                        </StackPanel>
+                                                    </UniformGrid>
+                                                </TextBlock>
+
+                                                <TextBlock Grid.Column="2">
+                                                    <Run Text="14:00" />
+                                                    <LineBreak />
+                                                    <Run Text="15:25" />
+                                                </TextBlock>
+                                                <TextBlock Grid.Column="3" Text="1 950 Р." />
+                                                <TextBlock Grid.Column="4" Text="Создано" />
+
+                                                <hc:ButtonGroup Grid.Column="5" VerticalAlignment="Center">
+                                                    <Button
+                                                        Height="30"
+                                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                        Style="{StaticResource ButtonDashedDanger.Small}" />
+                                                    <Button
+                                                        Height="30"
+                                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                        Style="{StaticResource ButtonDashedWarning.Small}" />
+                                                    <Button
+                                                        Height="30"
+                                                        hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
+                                                        Style="{StaticResource ButtonDashedSuccess.Small}" />
+                                                </hc:ButtonGroup>
+                                            </Grid>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
+
+                            </Border>
+                        </Expander>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+
+            </ItemsControl>
+
+            <Grid
+                Grid.Row="2"
+                Height="35"
+                Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <Label>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Кол-во записей: " />
+                            <TextBlock Text="{Binding Items.Count, ElementName=ItemsGrid}" />
+                        </StackPanel>
+                    </Label>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>

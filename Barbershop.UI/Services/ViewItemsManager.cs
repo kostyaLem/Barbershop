@@ -17,7 +17,7 @@ public static class ViewItemsManager
                 new("Барберы", "BarberImage", typeof(BarbersPage)),
                 new("Клиенты", "ClientImage", typeof(ClientsPage)),
                 new("Услуги", "ServiceImage", typeof(ServicesPage)),
-                //TODO: элементы ниже вынести для барбера
+                new("Заказы", "SalaryImage", typeof(OrdersPage)),
                 new("Расписание", "ScheduleImage"),
                 new("Зарплата", "SalaryImage")
             };

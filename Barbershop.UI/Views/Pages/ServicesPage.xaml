@@ -103,147 +103,139 @@
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
 
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
+                                    <Border
+                                        Grid.Row="1"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1,0,1,1"
+                                        CornerRadius="0,0,3,3">
 
-                                        <Border
-                                            Grid.Row="1"
-                                            BorderBrush="{DynamicResource BorderBrush}"
-                                            BorderThickness="1,0,1,1"
-                                            CornerRadius="0,0,3,3">
+                                        <Grid Margin="0,3,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
 
-                                            <Grid Margin="0,3,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
+                                            <!--  Начинающий  -->
+                                            <StackPanel Grid.Column="0" Visibility="{Binding JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <TextBlock
+                                                    Margin="0,3,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Text="Начинающий" />
+                                                <UniformGrid Columns="2">
 
-                                                <!--  Начинающий  -->
-                                                <StackPanel Grid.Column="0" Visibility="{Binding JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
-                                                    <TextBlock
-                                                        Margin="0,3,0,0"
-                                                        HorizontalAlignment="Center"
-                                                        Text="Начинающий" />
-                                                    <UniformGrid Columns="2">
+                                                    <StackPanel
+                                                        Margin="0,0,5,0"
+                                                        HorizontalAlignment="Right"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource TimerImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="45"
+                                                            Text="{Binding JuniorSkill.MinutesDuration}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="0,0,5,0"
-                                                            HorizontalAlignment="Right"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource TimerImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="45"
-                                                                Text="{Binding JuniorSkill.MinutesDuration}" />
-                                                        </StackPanel>
+                                                    <StackPanel
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource MoneyImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="920 р."
+                                                            Text="{Binding JuniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="5,0,0,0"
-                                                            HorizontalAlignment="Left"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="920 р."
-                                                                Text="{Binding JuniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
-                                                        </StackPanel>
+                                                </UniformGrid>
+                                            </StackPanel>
 
-                                                    </UniformGrid>
-                                                </StackPanel>
+                                            <!--  Средний  -->
+                                            <StackPanel Grid.Column="1" Visibility="{Binding MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <TextBlock
+                                                    Margin="0,3,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Text="Средний" />
+                                                <UniformGrid Columns="2">
 
-                                                <!--  Средний  -->
-                                                <StackPanel Grid.Column="1" Visibility="{Binding MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
-                                                    <TextBlock
-                                                        Margin="0,3,0,0"
-                                                        HorizontalAlignment="Center"
-                                                        Text="Средний" />
-                                                    <UniformGrid Columns="2">
+                                                    <StackPanel
+                                                        Margin="0,0,5,0"
+                                                        HorizontalAlignment="Right"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource TimerImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="45"
+                                                            Text="{Binding MiddleSkill.MinutesDuration}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="0,0,5,0"
-                                                            HorizontalAlignment="Right"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource TimerImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="45"
-                                                                Text="{Binding MiddleSkill.MinutesDuration}" />
-                                                        </StackPanel>
+                                                    <StackPanel
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource MoneyImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="920 р."
+                                                            Text="{Binding MiddleSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="5,0,0,0"
-                                                            HorizontalAlignment="Left"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="920 р."
-                                                                Text="{Binding MiddleSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
-                                                        </StackPanel>
+                                                </UniformGrid>
+                                            </StackPanel>
 
-                                                    </UniformGrid>
-                                                </StackPanel>
+                                            <!--  Старший  -->
+                                            <StackPanel Grid.Column="2" Visibility="{Binding SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
+                                                <TextBlock
+                                                    Margin="0,3,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    Text="Старший" />
+                                                <UniformGrid Columns="2">
 
-                                                <!--  Старший  -->
-                                                <StackPanel Grid.Column="2" Visibility="{Binding SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
-                                                    <TextBlock
-                                                        Margin="0,3,0,0"
-                                                        HorizontalAlignment="Center"
-                                                        Text="Старший" />
-                                                    <UniformGrid Columns="2">
+                                                    <StackPanel
+                                                        Margin="0,0,5,0"
+                                                        HorizontalAlignment="Right"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource TimerImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="45"
+                                                            Text="{Binding SeniorSkill.MinutesDuration}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="0,0,5,0"
-                                                            HorizontalAlignment="Right"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource TimerImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="45"
-                                                                Text="{Binding SeniorSkill.MinutesDuration}" />
-                                                        </StackPanel>
+                                                    <StackPanel
+                                                        Margin="5,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        Orientation="Horizontal">
+                                                        <Image
+                                                            Width="32"
+                                                            Height="32"
+                                                            Source="{StaticResource MoneyImage}" />
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            d:Text="920 р."
+                                                            Text="{Binding SeniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel
-                                                            Margin="5,0,0,0"
-                                                            HorizontalAlignment="Left"
-                                                            Orientation="Horizontal">
-                                                            <Image
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{StaticResource MoneyImage}" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                d:Text="920 р."
-                                                                Text="{Binding SeniorSkill.Cost, Converter={converters:DecimalToCurrencyConverter}}" />
-                                                        </StackPanel>
+                                                </UniformGrid>
+                                            </StackPanel>
 
-                                                    </UniformGrid>
-                                                </StackPanel>
+                                        </Grid>
 
-                                            </Grid>
-
-                                        </Border>
-
-                                    </Grid>
+                                    </Border>
                                 </Expander>
 
                             </DataTemplate>

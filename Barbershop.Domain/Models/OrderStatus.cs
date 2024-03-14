@@ -2,7 +2,7 @@
 
 public enum OrderStatus
 {
-    Planned,
+    Created,
     Done,
     Canceled
 }

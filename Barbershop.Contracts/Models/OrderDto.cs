@@ -2,12 +2,17 @@
 
 public class OrderDto : EntityDto
 {
-    public string OrderStatus { get; set; }
-    public DateTime CreatedOn { get; set; }
-    public DateTime? CompletedOn { get; set; }
-    public int BarbersGain { get; set; }
     public BarberDto Barber { get; set; }
     public ClientDto Client { get; set; }
-    public ICollection<ProductDto> Products { get; set; }
-    public ICollection<ServiceSkillLevelDto> ServiceSkillLevels { get; set; }
+
+    public List<ServiceSkillLevelDto> Services { get; set; }
+    public List<ProductDto> Products { get; set; }
+
+    public DateTime BeginDateTime { get; set; }
+
+    public DateTime EndDateTime 
+        => BeginDateTime.AddMinutes(Services.Sum(x => x.MinutesDuration));
+
+    public decimal TotalPrice =>
+        Services.Sum(x => x.Cost) + Products.Sum(x => x.Cost);
 }
