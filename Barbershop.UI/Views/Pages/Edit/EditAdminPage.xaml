@@ -59,7 +59,7 @@
         <StackPanel Grid.Column="1">
 
             <TextBlock Text="Логин" />
-            <TextBox Text="{Binding Username}" />
+            <TextBox Text="{Binding Login}" />
 
             <TextBlock Text="Пароль" />
             <hc:PasswordBox

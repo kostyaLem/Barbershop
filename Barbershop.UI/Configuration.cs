@@ -42,6 +42,7 @@ internal static class Configuration
         serviceCollection.AddSingleton<ServicesPageViewModel>();
 
         serviceCollection.AddSingleton<OrdersPage>();
+        serviceCollection.AddSingleton<OrdersPageViewModel>();
 
         return serviceCollection;
     }

@@ -33,7 +33,7 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
             item.FirstName,
             item.Email!,
             item.PhoneNumber!,
-            item.Username,
+            item.Login,
             $"{item.LastName} {item.FirstName} {item.Surname}"
         };
 
@@ -70,7 +70,7 @@ public class AdminsPageViewModel : BaseItemsViewModel<AdminDto>
     {
         if (SelectedItem.Id == App.CurrentUser?.Id)
         {
-            MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Username}");
+            MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Login}");
             return;
         }
 

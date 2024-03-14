@@ -73,7 +73,7 @@ public class BarbersPageViewModel : BaseItemsViewModel<BarberDto>
     {
         if (SelectedItem.Id == App.CurrentUser?.Id)
         {
-            MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Username}");
+            MessageBox.Warning($"Невозможно удалить текущего пользователя {App.CurrentUser.Login}");
             return;
         }
 

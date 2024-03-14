@@ -67,7 +67,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             MinWidth="150"
-                            Binding="{Binding Username}"
+                            Binding="{Binding Login}"
                             Header="Логин"
                             IsReadOnly="True" />
                         <DataGridTemplateColumn

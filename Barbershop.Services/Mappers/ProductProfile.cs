@@ -11,7 +11,8 @@ public class ProductProfile : Profile
     {
         // DL => BL
         CreateMap<Product, ProductDto>()
-            .ForMember(dest => dest.SalesCount, opt => opt.MapFrom(src => src.Orders.Count));
+            .ForMember(dest => dest.SalesCount,
+                opt => opt.MapFrom(src => src.Orders.Where(x => x.OrderStatus == OrderStatus.Done).Count()));
 
         // BL => DL
         CreateMap<ProductDto, UpsertProductCommand>();

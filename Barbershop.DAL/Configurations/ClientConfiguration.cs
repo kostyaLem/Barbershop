@@ -14,5 +14,8 @@ internal class ClientConfiguration : IEntityTypeConfiguration<Client>
             .HasOne(p => p.User)
             .WithOne()
             .HasForeignKey<Client>(p => p.Id);
+
+        builder
+            .Property(x => x.Notes).IsRequired(false);
     }
 }

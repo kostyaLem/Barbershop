@@ -17,5 +17,10 @@ public class BarberProfile : Profile
         CreateMap<BarberDto, UpsertBarberCommand>()
             .ForMember(dest => dest.Password,
                 opt => opt.MapFrom((src, dest, _, context) => context.Items[nameof(UpsertBarberCommand.Password)]));
+
+        CreateMap<UpsertBarberCommand, User>();
+        CreateMap<UpsertBarberCommand, Barber>()
+            .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src));
     }
 }
