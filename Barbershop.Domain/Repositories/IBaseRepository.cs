@@ -1,4 +1,5 @@
 ﻿using Barbershop.Domain.Models;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Barbershop.Domain.Repositories;
@@ -35,6 +36,13 @@ public interface IBaseRepository<T> where T : Entity, new()
     /// <param name="including">Список включений сущностей.</param>
     /// <returns>Список сущностей.</returns>
     Task<List<T>> GetAll(params Expression<Func<T, object>>[] including);
+
+    /// <summary>
+    /// Получить все сущности.
+    /// </summary>
+    /// <param name="including">Список включений сущностей.</param>
+    /// <returns>Список сущностей.</returns>
+    Task<List<T>> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInclude = null);
 
     /// <summary>
     /// Найти сущности по условию.

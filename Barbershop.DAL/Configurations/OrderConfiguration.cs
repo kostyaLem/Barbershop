@@ -24,6 +24,5 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(e => e.OrderStatus).HasConversion(new EnumToStringConverter<OrderStatus>());
-
     }
 }

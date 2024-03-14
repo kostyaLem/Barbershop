@@ -3,6 +3,7 @@ using Barbershop.DAL.Exceptions;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Barbershop.DAL.Repositories;
@@ -63,6 +64,17 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
         {
             query = query.Include(include);
         }
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<List<T>> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInclude)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().AsQueryable();
+
+        query = thenInclude.Invoke(query);
 
         return await query.ToListAsync();
     }
