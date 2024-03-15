@@ -27,16 +27,16 @@ public sealed class EnumToDescriptionConverter : MarkupExtension, IValueConverte
         }
     }
 
-    object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         Enum myEnum = (Enum)value;
         string description = GetEnumDescription(myEnum);
         return description;
     }
 
-    object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return string.Empty;
+        throw new NotImplementedException();
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)

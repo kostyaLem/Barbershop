@@ -101,25 +101,25 @@
                                                     <ColumnDefinition Width="100" />
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Text="{Binding Id}" />
+                                                <TextBlock Text="{Binding Id, Mode=OneWay}" />
 
                                                 <StackPanel Grid.Column="1">
 
                                                     <StackPanel Orientation="Horizontal">
                                                         <Image Width="28" Source="{StaticResource KnifeImage}" />
-                                                        <TextBlock Text="{Binding Barber}" />
+                                                        <TextBlock Text="{Binding Barber, Mode=OneWay}" />
                                                     </StackPanel>
 
                                                     <StackPanel Orientation="Horizontal">
                                                         <Image Width="28" Source="{StaticResource ArmchairImage}" />
-                                                        <TextBlock Text="{Binding Client}" />
+                                                        <TextBlock Text="{Binding Client, Mode=OneWay}" />
                                                     </StackPanel>
                                                 </StackPanel>
 
                                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                                                     <Image Width="28" Source="{StaticResource TimerImage}" />
                                                     <TextBlock>
-                                                        <Run Language="ru" Text="{Binding BeginDateTime, StringFormat=t}" />
+                                                        <Run Language="ru" Text="{Binding BeginDateTime, Mode=OneWay, StringFormat=t}" />
                                                         <LineBreak />
                                                         <Run Language="ru" Text="{Binding EndDateTime, Mode=OneWay, StringFormat=t}" />
                                                     </TextBlock>
@@ -130,7 +130,7 @@
                                                     <TextBlock Text="{Binding TotalPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
                                                 </StackPanel>
 
-                                                <TextBlock Grid.Column="4" Text="{Binding Status, Converter={converters:EnumToDescriptionConverter}}" />
+                                                <TextBlock Grid.Column="4" Text="{Binding Status, Mode=OneWay, Converter={converters:EnumToDescriptionConverter}}" />
 
                                                 <StackPanel
                                                     Grid.Column="5"
