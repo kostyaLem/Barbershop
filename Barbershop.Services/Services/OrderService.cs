@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Barbershop.Services;
 
-public sealed class OrdersService : EntityService<OrderDto, Order, UpsertOrderCommand>
+public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCommand>
 {
-    public OrdersService(IBaseRepository<Order> orderRepository, IMapper mapper)
+    public OrderService(IBaseRepository<Order> orderRepository, IMapper mapper)
         : base(orderRepository, mapper)
     {
     }

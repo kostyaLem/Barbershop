@@ -13,7 +13,8 @@ internal class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder
             .HasOne(p => p.User)
             .WithOne()
-            .HasForeignKey<Client>(p => p.Id);
+            .HasForeignKey<Client>(p => p.Id)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .Property(x => x.Notes).IsRequired(false);

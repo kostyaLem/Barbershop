@@ -74,7 +74,8 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 
         var query = context.Set<T>().AsQueryable();
 
-        query = thenInclude.Invoke(query);
+        if (thenInclude != null)
+            query = thenInclude.Invoke(query);
 
         return await query.ToListAsync();
     }

@@ -15,6 +15,7 @@ internal class BarberConfiguration : IEntityTypeConfiguration<Barber>
         builder
             .HasOne(p => p.User)
             .WithOne()
-            .HasForeignKey<Barber>(p => p.Id);
+            .HasForeignKey<Barber>(p => p.Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

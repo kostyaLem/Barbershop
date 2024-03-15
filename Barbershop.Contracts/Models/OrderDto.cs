@@ -2,6 +2,8 @@
 
 public class OrderDto : EntityDto
 {
+    public OrderStatusDto Status { get; set; }
+
     public BarberDto Barber { get; set; }
     public ClientDto Client { get; set; }
 

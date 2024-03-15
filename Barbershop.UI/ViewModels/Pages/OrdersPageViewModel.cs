@@ -3,47 +3,40 @@ using Barbershop.Contracts.Models;
 using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
+using DevExpress.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace Barbershop.UI.ViewModels.Pages;
 
-public sealed class OrdersPageViewModel : BaseItemsViewModel<OrderDto>
+public sealed class OrdersPageViewModel : BaseViewModel
 {
-    private readonly OrdersService _ordersService;
+    private readonly OrderService _ordersService;
     private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
-    public OrdersPageViewModel(OrdersService ordersService, IMapper mapper, IWindowDialogService dialogService)
+    public ObservableCollection<IGrouping<string, OrderDto>> Orders { get; private set; }
+
+    public OrdersPageViewModel(OrderService ordersService, IMapper mapper, IWindowDialogService dialogService)
     {
         _ordersService = ordersService ?? throw new ArgumentNullException(nameof(ordersService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
+
+        LoadViewDataCommand = new AsyncCommand(LoadView);
     }
 
-    public override Task CreateItem()
+    public async Task LoadView()
     {
-        throw new NotImplementedException();
-    }
-
-    public override Task EditItem()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task<IReadOnlyList<OrderDto>> GetItems()
-        => _ordersService.GetAll();
-
-    public override IReadOnlyList<string> GetItemSearchProperties(OrderDto order)
-    {
-        return new List<string>
+        await Execute(async () =>
         {
-            order.Barber.ToString(),
-            order.Client.ToString(),
-            order.BeginDateTime.ToString("d")
-        };
-    }
+            var orders = await _ordersService.GetAll();
 
-    public override Task RemoveItem()
-    {
-        throw new NotImplementedException();
+            var groupedOrders = orders
+                .GroupBy(x => x.BeginDateTime.ToString("D"))
+                .ToList();
+
+            Orders = new ObservableCollection<IGrouping<string, OrderDto>>(groupedOrders);
+            RaisePropertyChanged(nameof(Orders));
+        });
     }
 }

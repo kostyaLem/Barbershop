@@ -13,7 +13,7 @@
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages"
     Title="ProductsPage"
     d:Background="White"
-    d:DataContext="{d:DesignInstance Type=vm:ProductsPageViewModel}"
+    d:DataContext="{d:DesignInstance Type=vm:OrdersPageViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -55,15 +55,19 @@
             <ItemsControl
                 Grid.Row="1"
                 Margin="0,5,0,0"
-                d:ItemsSource="{d:SampleData}">
+                d:ItemsSource="{d:SampleData}"
+                ItemsSource="{Binding Orders, Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <!--  Группировка по дням  -->
                     <DataTemplate>
 
-                        <Expander Margin="0,0,0,10" IsExpanded="True">
+                        <Expander
+                            Margin="0,0,0,10"
+                            Background="{DynamicResource MainContentBackgroundBrush}"
+                            IsExpanded="True">
                             <Expander.Header>
                                 <TextBlock>
-                                    <Run Text="14.03.2024" />
+                                    <Run Text="{Binding Key, Mode=OneWay}" />
                                 </TextBlock>
                             </Expander.Header>
 
@@ -72,7 +76,10 @@
                                 BorderThickness="1,0,1,1"
                                 CornerRadius="0,0,3,3">
 
-                                <ItemsControl Margin="0,3,0,0" d:ItemsSource="{d:SampleData}">
+                                <ItemsControl
+                                    Margin="0,3,0,0"
+                                    d:ItemsSource="{d:SampleData}"
+                                    ItemsSource="{Binding}">
 
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -86,56 +93,64 @@
                                                 </Grid.Resources>
 
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="60" />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition />
                                                     <ColumnDefinition />
-                                                    <ColumnDefinition Width="80" />
+                                                    <ColumnDefinition Width="100" />
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Text="25" />
+                                                <TextBlock Text="{Binding Id}" />
 
-                                                <TextBlock Grid.Column="1">
-                                                    <UniformGrid
-                                                        VerticalAlignment="Center"
-                                                        Columns="1"
-                                                        Rows="2">
+                                                <StackPanel Grid.Column="1">
 
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="28" Source="{StaticResource KnifeImage}" />
-                                                            <TextBlock Text="Константин Юрьевич" />
-                                                        </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Width="28" Source="{StaticResource KnifeImage}" />
+                                                        <TextBlock Text="{Binding Barber}" />
+                                                    </StackPanel>
 
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="28" Source="{StaticResource ArmchairImage}" />
-                                                            <TextBlock Text="Тедтоев Азамат" />
-                                                        </StackPanel>
-                                                    </UniformGrid>
-                                                </TextBlock>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Width="28" Source="{StaticResource ArmchairImage}" />
+                                                        <TextBlock Text="{Binding Client}" />
+                                                    </StackPanel>
+                                                </StackPanel>
 
-                                                <TextBlock Grid.Column="2">
-                                                    <Run Text="14:00" />
-                                                    <LineBreak />
-                                                    <Run Text="15:25" />
-                                                </TextBlock>
-                                                <TextBlock Grid.Column="3" Text="1 950 Р." />
-                                                <TextBlock Grid.Column="4" Text="Создано" />
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                    <Image Width="28" Source="{StaticResource TimerImage}" />
+                                                    <TextBlock>
+                                                        <Run Language="ru" Text="{Binding BeginDateTime, StringFormat=t}" />
+                                                        <LineBreak />
+                                                        <Run Language="ru" Text="{Binding EndDateTime, Mode=OneWay, StringFormat=t}" />
+                                                    </TextBlock>
+                                                </StackPanel>
 
-                                                <hc:ButtonGroup Grid.Column="5" VerticalAlignment="Center">
+                                                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                                    <Image Width="28" Source="{StaticResource MoneyImage}" />
+                                                    <TextBlock Text="{Binding TotalPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="4" Text="{Binding Status, Converter={converters:EnumToDescriptionConverter}}" />
+
+                                                <StackPanel
+                                                    Grid.Column="5"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
                                                     <Button
                                                         Height="30"
                                                         hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
-                                                        Style="{StaticResource ButtonDashedDanger.Small}" />
+                                                        Style="{DynamicResource ButtonDashedDanger.Small}" />
                                                     <Button
                                                         Height="30"
+                                                        Margin="5,0"
                                                         hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                        Style="{StaticResource ButtonDashedWarning.Small}" />
+                                                        Style="{DynamicResource ButtonDashedWarning.Small}" />
                                                     <Button
                                                         Height="30"
+                                                        Margin="0,0,10,0"
                                                         hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
-                                                        Style="{StaticResource ButtonDashedSuccess.Small}" />
-                                                </hc:ButtonGroup>
+                                                        Style="{DynamicResource ButtonDashedSuccess.Small}" />
+                                                </StackPanel>
                                             </Grid>
 
                                         </DataTemplate>

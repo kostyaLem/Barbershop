@@ -16,7 +16,7 @@ public static class Configuration
         serviceCollection.AddTransient<BarberService>();
         serviceCollection.AddTransient<AdminService>();
         serviceCollection.AddTransient<OfferService>();
-        serviceCollection.AddTransient<OrdersService>();
+        serviceCollection.AddTransient<OrderService>();
 
         serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
 
