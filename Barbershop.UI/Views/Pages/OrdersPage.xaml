@@ -8,8 +8,6 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:Barbershop.UI.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:system="clr-namespace:System;assembly=netstandard"
-    xmlns:system1="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages"
     Title="ProductsPage"
     d:Background="White"
