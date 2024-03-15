@@ -14,6 +14,23 @@ public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCom
     {
     }
 
+    public async Task CancelOrder(int orderId)
+    {
+        var order = await _entityRepository.GetById(orderId);
+        order.OrderStatus = OrderStatus.Canceled;
+
+        await _entityRepository.Update(order);
+    }
+
+    public async Task CompleteOrder(int orderId)
+    {
+        var order = await _entityRepository.GetById(orderId);
+        order.OrderStatus = OrderStatus.Done;
+        order.CompletedOn = DateTime.UtcNow;
+
+        await _entityRepository.Update(order);
+    }
+
     public override async Task<IReadOnlyList<OrderDto>> GetAll()
     {
         var orders = await _entityRepository.GetAll(

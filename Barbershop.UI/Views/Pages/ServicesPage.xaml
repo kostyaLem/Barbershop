@@ -98,7 +98,7 @@
                                                     hc:IconElement.Width="13"
                                                     Command="{Binding Path=DataContext.EditItemCommand, ElementName=itemsControl}"
                                                     CommandParameter="{Binding Path=DataContext.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}}"
-                                                    Style="{StaticResource ButtonDashedInfo.Small}" />
+                                                    Style="{StaticResource ButtonDashedWarning.Small}" />
                                             </Grid>
                                         </DataTemplate>
                                     </Expander.HeaderTemplate>
