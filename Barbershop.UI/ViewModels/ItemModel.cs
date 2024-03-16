@@ -3,7 +3,7 @@
 /// <summary>
 /// Модель, описывающая элемент списка меню.
 /// </summary>
-public class ItemViewModel
+public class ItemModel
 {
     public string Header { get; set; }
 
@@ -11,7 +11,7 @@ public class ItemViewModel
 
     public Type PageType { get; set; }
 
-    public ItemViewModel(string header, string imageName, Type pageType = default)
+    public ItemModel(string header, string imageName, Type pageType = default)
     {
         Header = header;
         ImageName = imageName;

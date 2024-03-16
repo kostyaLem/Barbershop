@@ -5,11 +5,11 @@ namespace Barbershop.UI.Services;
 
 public static class ViewItemsManager
 {
-    public static IReadOnlyList<ItemViewModel> GetItems(bool isAdmin = false)
+    public static IReadOnlyList<ItemModel> GetItems(bool isAdmin = false)
     {
         if (true)
         {
-            return new List<ItemViewModel>()
+            return new List<ItemModel>()
             {
                 new("Главная", "HomeImage", typeof(MainPage)),
                 new("Администраторы", "AdminImage", typeof(AdminsPage)),
