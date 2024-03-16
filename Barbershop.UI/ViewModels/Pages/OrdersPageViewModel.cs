@@ -4,6 +4,7 @@ using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -19,9 +20,14 @@ public sealed class OrdersPageViewModel : BaseViewModel
     private IReadOnlyList<OrderDto> _orders;
 
     public ObservableCollection<IGrouping<string, OrderDto>> Orders { get; private set; }
-    public ObservableCollection<SelectableItemModel<BarberDto>> Barbers { get; private set; }
+    public ObservableCollection<SelectableItemModel<BarberDto>> Barbers
+    {
+        get => GetValue<ObservableCollection<SelectableItemModel<BarberDto>>>(nameof(Barbers));
+        set => SetValue(value, nameof(Barbers));
+    }
     public ObservableCollection<SelectableItemModel<ClientDto>> Clients { get; private set; }
 
+    public bool SelectAll { get; set; } = true;
     public bool SelectCreated { get; set; }
     public bool SelectCompleted { get; set; }
     public bool SelectCanceled { get; set; }
@@ -68,14 +74,22 @@ public sealed class OrdersPageViewModel : BaseViewModel
             var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)));
             Clients = new ObservableCollection<SelectableItemModel<ClientDto>>(clients);
 
-            RaisePropertiesChanged(nameof(Orders), nameof(Barbers), nameof(Clients));
+            RaisePropertiesChanged();
         });
     }
 
     private async Task ClearFilter()
     {
         Orders = new ObservableCollection<IGrouping<string, OrderDto>>(_orders.GroupBy(x => x.BeginDateTime.ToString("D")));
-        RaisePropertyChanged(nameof(Orders));
+        SelectAll = true;
+
+        var barbers = new List<SelectableItemModel<BarberDto>>(_orders.Select(x => new SelectableItemModel<BarberDto>(x.Barber)));
+        Barbers = new ObservableCollection<SelectableItemModel<BarberDto>>(barbers);
+
+        var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)));
+        Clients = new ObservableCollection<SelectableItemModel<ClientDto>>(clients);
+
+        RaisePropertiesChanged(nameof(SelectAll), nameof(Barbers), nameof(Clients));
     }
 
     private async Task FilterOrders()
@@ -95,8 +109,8 @@ public sealed class OrdersPageViewModel : BaseViewModel
             orders = orders.Where(x => x.Status == OrderStatusDto.Canceled);
         if (SelectCreated)
             orders = orders.Where(x => x.Status == OrderStatusDto.Created);
-        if (SelectCanceled)
-            orders = orders.Where(x => x.Status == OrderStatusDto.Canceled);
+        if (SelectCompleted)
+            orders = orders.Where(x => x.Status == OrderStatusDto.Done);
 
         Orders = new ObservableCollection<IGrouping<string, OrderDto>>(orders.GroupBy(x => x.BeginDateTime.ToString("D")));
         RaisePropertyChanged(nameof(Orders));

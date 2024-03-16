@@ -1,8 +1,14 @@
-﻿namespace Barbershop.UI.ViewModels;
+﻿using DevExpress.Mvvm;
 
-public class SelectableItemModel<T>
+namespace Barbershop.UI.ViewModels;
+
+public class SelectableItemModel<T> : BindableBase
 {
-    public bool IsSelected { get; set; }
+    public bool IsSelected
+    {
+        get => GetValue<bool>(nameof(IsSelected));
+        set => SetValue(value, nameof(IsSelected));
+    }
 
     public T Value { get; }
 

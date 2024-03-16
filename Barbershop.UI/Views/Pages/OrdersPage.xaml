@@ -68,7 +68,7 @@
                                 </Style>
                             </UniformGrid.Resources>
 
-                            <RadioButton Content="Любой" IsChecked="True" />
+                            <RadioButton Content="Любой" IsChecked="{Binding SelectAll}" />
                             <RadioButton Content="Выволнен" IsChecked="{Binding SelectCompleted}" />
                             <RadioButton Content="Создан" IsChecked="{Binding SelectCreated}" />
                             <RadioButton Content="Отменен" IsChecked="{Binding SelectCanceled}" />
@@ -158,10 +158,7 @@
                                     BorderThickness="1,0,1,1"
                                     CornerRadius="0,0,3,3">
 
-                                    <ItemsControl
-                                        Margin="0,3,0,0"
-                                        d:ItemsSource="{d:SampleData}"
-                                        ItemsSource="{Binding}">
+                                    <ItemsControl Margin="0,3,0,0" ItemsSource="{Binding}">
 
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
