@@ -176,7 +176,7 @@
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
                                                         <ColumnDefinition />
-                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="150" />
                                                         <ColumnDefinition Width="100" />
                                                     </Grid.ColumnDefinitions>
 
@@ -221,21 +221,24 @@
                                                             hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
                                                             Command="{Binding Path=DataContext.CancelOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                             CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedDanger.Small}" />
+                                                            Style="{DynamicResource ButtonDashedDanger.Small}"
+                                                            ToolTip="Отменить" />
                                                         <Button
                                                             Height="30"
                                                             Margin="5,0"
                                                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                                             Command="{Binding Path=DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                             CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedWarning.Small}" />
+                                                            Style="{DynamicResource ButtonDashedWarning.Small}"
+                                                            ToolTip="Редактировать" />
                                                         <Button
                                                             Height="30"
                                                             Margin="0,0,10,0"
                                                             hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
                                                             Command="{Binding Path=DataContext.CompleteOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                             CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedSuccess.Small}" />
+                                                            Style="{DynamicResource ButtonDashedSuccess.Small}"
+                                                            ToolTip="Выполнить" />
                                                     </StackPanel>
                                                 </Grid>
 

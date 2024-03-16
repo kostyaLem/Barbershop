@@ -1,6 +1,7 @@
 ﻿using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.Views.Pages;
+using Barbershop.UI.Views.Pages.Edit;
 using DevExpress.Mvvm;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -51,8 +52,8 @@ public class MainViewModel : BaseViewModel
             sideMenu.Items.Add(menuItem);
         }
 
-        (sideMenu.Items[0] as SideMenuItem)!.IsSelected = true;
-        CurrentPage = Container.GetPage(typeof(MainPage))!;
+        (sideMenu.Items[8] as SideMenuItem)!.IsSelected = true;
+        CurrentPage = Container.GetPage(typeof(CreateOrderPage))!;
     }
 
     public void SwitchItem(FunctionEventArgs<object> args)

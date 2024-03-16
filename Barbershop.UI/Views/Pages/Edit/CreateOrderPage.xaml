@@ -1,0 +1,127 @@
+﻿<Page
+    x:Class="Barbershop.UI.Views.Pages.Edit.CreateOrderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Barbershop.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:Barbershop.UI.Views.Pages.Edit"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Barbershop.Contracts.Models;assembly=Barbershop.Contracts"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages.Edit"
+    x:Name="control"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance vm:CreateOrderViewModel}"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <hc:StepBar Grid.Row="0" StepIndex="{Binding SelectedTabIndex, Mode=OneWay}">
+            <hc:StepBarItem />
+            <hc:StepBarItem />
+            <hc:StepBarItem />
+        </hc:StepBar>
+
+        <hc:TabControl
+            Grid.Row="2"
+            IsTabFillEnabled="True"
+            SelectedIndex="{Binding SelectedTabIndex}"
+            Style="{StaticResource TabControlInLine}">
+
+            <hc:TabItem
+                Padding="15"
+                Header="Выбор мастера"
+                IsSelected="True">
+                <UniformGrid Columns="2" Rows="1">
+                    <DockPanel Margin="5">
+                        <hc:SearchBar
+                            hc:InfoElement.Placeholder="ФИО мастера"
+                            hc:TitleElement.TitlePlacement="Left"
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource SearchBarExtend}"
+                            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <ListBox
+                            Margin="0,5,0,0"
+                            d:ItemsSource="{d:SampleData}"
+                            ItemsSource="{Binding BarbersView}" />
+                    </DockPanel>
+
+                    <StackPanel Margin="5">
+                        <StackPanel.Resources>
+                            <Style BasedOn="{StaticResource TextBoxExtend}" TargetType="hc:TextBox">
+                                <Setter Property="Margin" Value="0,0,0,5" />
+                                <Setter Property="IsReadOnly" Value="True" />
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <hc:TextBox
+                            hc:TitleElement.Title="Фамилия"
+                            IsReadOnly="True"
+                            Text="{Binding SelectedBarber.LastName}" />
+                        <hc:TextBox
+                            hc:TitleElement.Title="Имя"
+                            IsReadOnly="True"
+                            Text="{Binding SelectedBarber.FirstName}" />
+                        <hc:TextBox
+                            hc:TitleElement.Title="Отчество"
+                            IsReadOnly="True"
+                            Text="{Binding SelectedBarber.Surname}" />
+
+                        <StackPanel Margin="0,5,0,0" HorizontalAlignment="Center">
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="2">
+                                <Image
+                                    Width="150"
+                                    Height="200"
+                                    Source="{Binding SelectedBarber.Photo, Converter={converters:BytesToImageConverter}}" />
+                            </Border>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                d:Text="Старший мастер"
+                                FontSize="16"
+                                Text="{Binding SelectedBarber.SkillLevel, Converter={converters:EnumToDescriptionConverter}}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </UniformGrid>
+            </hc:TabItem>
+
+            <hc:TabItem Header="Выбор услуг" IsSelected="True">
+
+                <hc:Transfer x:Name="services" ItemsSource="{Binding ServicesView}">
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="TransferredItemsChanged">
+                            <hc:InvokeCommandAction Command="{Binding SelectedServicesChangedCommand}" CommandParameter="{Binding Path=TransferredItems, ElementName=services}" />
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+                </hc:Transfer>
+
+            </hc:TabItem>
+
+            <hc:TabItem Header="Выбор даты" />
+
+        </hc:TabControl>
+
+        <Button
+            Grid.Row="3"
+            HorizontalAlignment="Stretch"
+            Content="Создать заказ"
+            Style="{StaticResource ButtonSuccess}" />
+
+    </Grid>
+
+</Page>

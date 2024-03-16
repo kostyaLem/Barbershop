@@ -1,8 +1,10 @@
 ﻿using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels;
 using Barbershop.UI.ViewModels.Pages;
+using Barbershop.UI.ViewModels.Pages.Edit;
 using Barbershop.UI.Views;
 using Barbershop.UI.Views.Pages;
+using Barbershop.UI.Views.Pages.Edit;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Barbershop.UI;
@@ -43,6 +45,9 @@ internal static class Configuration
 
         serviceCollection.AddSingleton<OrdersPage>();
         serviceCollection.AddSingleton<OrdersPageViewModel>();
+
+        serviceCollection.AddSingleton<CreateOrderPage>();
+        serviceCollection.AddSingleton<CreateOrderViewModel>();
 
         return serviceCollection;
     }

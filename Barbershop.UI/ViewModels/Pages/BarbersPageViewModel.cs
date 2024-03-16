@@ -65,7 +65,7 @@ public class BarbersPageViewModel : BaseItemsViewModel<BarberDto>
             item.FirstName,
             item.Email!,
             item.PhoneNumber!,
-            item.SkillLevel!,
+            item.SkillLevel.ToString()!,
             $"{item.LastName} {item.FirstName} {item.Surname}"
         };
 
