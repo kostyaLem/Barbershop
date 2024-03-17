@@ -42,6 +42,8 @@ public sealed class CreateOrderViewModel : BaseViewModel
     }
 
     public ICollectionView BarbersView { get; set; }
+
+    public DateTime SelectedDate { get; set; } = DateTime.Now;
     public IReadOnlyList<TimeSlot> TimeSlots { get; set; }
 
     public BarberDto SelectedBarber

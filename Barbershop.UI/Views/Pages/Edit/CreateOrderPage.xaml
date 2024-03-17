@@ -218,7 +218,11 @@
                             VerticalAlignment="Center"
                             FontSize="16"
                             Text="День записи" />
-                        <hc:DatePicker Width="300" />
+
+                        <DatePicker
+                            Width="300"
+                            DisplayDateStart="{x:Static sys:DateTime.Now}"
+                            SelectedDate="{Binding SelectedDate}" />
                     </StackPanel>
 
                     <ItemsControl
