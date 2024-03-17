@@ -42,6 +42,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     }
 
     public ICollectionView BarbersView { get; set; }
+    public IReadOnlyList<TimeSlot> TimeSlots { get; set; }
 
     public BarberDto SelectedBarber
     {
@@ -138,4 +139,42 @@ public sealed class CreateOrderViewModel : BaseViewModel
         TotalCost -= selectedServiceSkillLevel.Cost;
         TotalMinutes -= selectedServiceSkillLevel.MinutesDuration;
     }
+
+    private void FilterTimeSlots()
+    {
+        List<OrderDto> ordersAtDay = new();
+
+        for (int i = 0; i < TimeSlots.Count && ordersAtDay.Any(); i++)
+        {
+            var order = ordersAtDay[0];
+
+            if (order.BeginDateTime.TimeOfDay == TimeSlots[i].Time)
+            {
+                var servicesDuration = order.Services.Sum(x => x.MinutesDuration);
+
+                var coefficient = (int)Math.Round(servicesDuration / 30.0, MidpointRounding.ToPositiveInfinity);
+
+                if (coefficient == 1)
+                {
+                    TimeSlots[i].IsBusy = true;
+                }
+                else
+                {
+                    for (int j = i; j < coefficient; j++)
+                    {
+                        TimeSlots[j].IsBusy = true;
+                    }
+
+                    i += coefficient;
+                }
+            }
+        }
+    }
+}
+
+public class TimeSlot : BindableBase
+{
+    public TimeSpan Time { get; set; }
+
+    public bool IsBusy { get; set; }
 }
