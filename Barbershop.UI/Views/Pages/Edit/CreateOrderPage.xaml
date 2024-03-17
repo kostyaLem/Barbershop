@@ -106,6 +106,61 @@
                 IsSelected="True">
 
                 <Grid>
+                    <Grid.Resources>
+                        <DataTemplate x:Key="ServiceDataTemplate" DataType="models:ServiceDto">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{Binding Name}" />
+
+                                <Grid Grid.Row="1">
+                                    <Grid.DataContext>
+                                        <MultiBinding Converter="{converters:ServiceDtoToServiceConverter}">
+                                            <Binding />
+                                            <Binding Path="DataContext.SelectedBarber" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Page}" />
+                                        </MultiBinding>
+                                    </Grid.DataContext>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <hc:SimpleStackPanel
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal">
+                                        <Image
+                                            Height="30"
+                                            Margin="10,0,0,0"
+                                            Source="{StaticResource TimerImage}" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding MinutesDuration, Converter={converters:IntToTimeStringConverter}}" />
+                                    </hc:SimpleStackPanel>
+
+                                    <hc:SimpleStackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal">
+                                        <Image
+                                            Height="30"
+                                            Margin="10,0,0,0"
+                                            Source="{StaticResource MoneyImage}" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Cost, Converter={converters:DecimalToCurrencyConverter}}" />
+                                    </hc:SimpleStackPanel>
+
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </Grid.Resources>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="60" />
@@ -114,6 +169,7 @@
 
                     <ListBox
                         Grid.Column="0"
+                        ItemTemplate="{StaticResource ServiceDataTemplate}"
                         ItemsSource="{Binding Services}"
                         SelectedItem="{Binding ServiceToSelect}"
                         SelectionMode="Single">
@@ -125,6 +181,7 @@
                     </ListBox>
                     <ListBox
                         Grid.Column="2"
+                        ItemTemplate="{StaticResource ServiceDataTemplate}"
                         ItemsSource="{Binding SelectedServices}"
                         SelectedItem="{Binding SelectedService}"
                         SelectionMode="Single">
@@ -163,7 +220,7 @@
                 <Label
                     VerticalAlignment="Center"
                     d:Content="45м."
-                    Content="{Binding TotalMinutes}"
+                    Content="{Binding TotalMinutes, Converter={converters:IntToTimeStringConverter}}"
                     FontSize="16"
                     Style="{StaticResource BaseStyle}" />
             </StackPanel>
@@ -176,7 +233,7 @@
                 <Label
                     VerticalAlignment="Center"
                     d:Content="1560 р."
-                    Content="{Binding TotalCost}"
+                    Content="{Binding TotalCost, Converter={converters:DecimalToCurrencyConverter}}"
                     FontSize="16"
                     Style="{StaticResource BaseStyle}" />
             </StackPanel>

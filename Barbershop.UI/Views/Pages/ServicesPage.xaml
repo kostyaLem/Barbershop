@@ -121,7 +121,7 @@
                                                 <TextBlock
                                                     Margin="0,3,0,0"
                                                     HorizontalAlignment="Center"
-                                                    Text="Начинающий" />
+                                                    Text="Начинающий мастер" />
                                                 <UniformGrid Columns="2">
 
                                                     <StackPanel
@@ -135,7 +135,7 @@
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             d:Text="45"
-                                                            Text="{Binding JuniorSkill.MinutesDuration}" />
+                                                            Text="{Binding JuniorSkill.MinutesDuration, Converter={converters:IntToTimeStringConverter}}" />
                                                     </StackPanel>
 
                                                     <StackPanel
@@ -160,7 +160,7 @@
                                                 <TextBlock
                                                     Margin="0,3,0,0"
                                                     HorizontalAlignment="Center"
-                                                    Text="Средний" />
+                                                    Text="Мастер" />
                                                 <UniformGrid Columns="2">
 
                                                     <StackPanel
@@ -174,7 +174,7 @@
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             d:Text="45"
-                                                            Text="{Binding MiddleSkill.MinutesDuration}" />
+                                                            Text="{Binding MiddleSkill.MinutesDuration, Converter={converters:IntToTimeStringConverter}}" />
                                                     </StackPanel>
 
                                                     <StackPanel
@@ -199,7 +199,7 @@
                                                 <TextBlock
                                                     Margin="0,3,0,0"
                                                     HorizontalAlignment="Center"
-                                                    Text="Старший" />
+                                                    Text="Старший мастер" />
                                                 <UniformGrid Columns="2">
 
                                                     <StackPanel
@@ -213,7 +213,7 @@
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             d:Text="45"
-                                                            Text="{Binding SeniorSkill.MinutesDuration}" />
+                                                            Text="{Binding SeniorSkill.MinutesDuration, Converter={converters:IntToTimeStringConverter}}" />
                                                     </StackPanel>
 
                                                     <StackPanel

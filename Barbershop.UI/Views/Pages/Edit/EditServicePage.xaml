@@ -59,7 +59,7 @@
                             Content="Добавить"
                             Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Item.JuniorSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityReConverter}, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="Начинающий" />
+                        <TextBlock Text="Младший мастер" />
                     </StackPanel>
 
                     <StackPanel Visibility="{Binding Item.JuniorSkill, Converter={StaticResource Object2VisibilityConverter}}">
@@ -105,7 +105,7 @@
                             Content="Добавить"
                             Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Path=Item.MiddleSkill, Mode=OneWay, Converter={StaticResource Object2VisibilityReConverter}, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock HorizontalAlignment="Center" Text="Средний" />
+                        <TextBlock HorizontalAlignment="Center" Text="Мастер" />
                     </StackPanel>
 
                     <StackPanel Visibility="{Binding Item.MiddleSkill, Converter={StaticResource Object2VisibilityConverter}}">
@@ -150,7 +150,7 @@
                             Content="Добавить"
                             Style="{StaticResource ButtonDashedSuccess}"
                             Visibility="{Binding Item.SeniorSkill, Converter={StaticResource Object2VisibilityReConverter}}" />
-                        <TextBlock HorizontalAlignment="Center" Text="Старший" />
+                        <TextBlock HorizontalAlignment="Center" Text="Старший мастер" />
                     </StackPanel>
 
                     <StackPanel Visibility="{Binding Item.SeniorSkill, Converter={StaticResource Object2VisibilityConverter}}">

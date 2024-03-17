@@ -4,12 +4,12 @@ namespace Barbershop.Contracts.Models;
 
 public enum BarberSkillLevel
 {
-    [Description("Начинающий")]
+    [Description("Младший мастер")]
     Junior,
 
-    [Description("Средний")]
+    [Description("Мастер")]
     Middle,
 
-    [Description("Старший")]
+    [Description("Старший мастер")]
     Senior
 }

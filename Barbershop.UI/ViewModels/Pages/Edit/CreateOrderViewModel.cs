@@ -1,8 +1,8 @@
 ﻿using Barbershop.Contracts.Models;
 using Barbershop.Services;
+using Barbershop.UI.Converters;
 using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
-using HandyControl.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -12,6 +12,8 @@ namespace Barbershop.UI.ViewModels.Pages.Edit;
 
 public sealed class CreateOrderViewModel : BaseViewModel
 {
+    private bool _isLoaded = false;
+
     private readonly BarberService _barberService;
     private readonly OfferService _offerService;
 
@@ -61,7 +63,6 @@ public sealed class CreateOrderViewModel : BaseViewModel
         set => SetValue(value, nameof(SelectedService));
     }
 
-    public ICommand LoadViewDataCommand { get; set; }
     public ICommand SelectServiceCommand { get; set; }
     public ICommand RemoveSelectedServiceCommand { get; set; }
 
@@ -80,15 +81,19 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private async Task LoadView()
     {
-        _barbers = await _barberService.GetAll();
-        var _services = await _offerService.GetAll();
+        if (!_isLoaded)
+        {
+            _barbers = await _barberService.GetAll();
+            var _services = await _offerService.GetAll();
 
-        BarbersView = CollectionViewSource.GetDefaultView(_barbers);
-        BarbersView.Filter += FilterBarber;
+            BarbersView = CollectionViewSource.GetDefaultView(_barbers);
+            BarbersView.Filter += FilterBarber;
 
-        Services = new ObservableCollection<ServiceDto>(_services);
+            Services = new ObservableCollection<ServiceDto>(_services);
 
-        RaisePropertiesChanged(nameof(BarbersView), nameof(Services));
+            RaisePropertiesChanged(nameof(BarbersView), nameof(Services));
+            _isLoaded = true;
+        }
     }
 
     private bool FilterBarber(object obj)
@@ -114,13 +119,23 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private void SelectService()
     {
+        var selectedServiceSkillLevel = ServiceDtoToServiceConverter.MapService(ServiceToSelect, SelectedBarber.SkillLevel);
+
         SelectedServices.Add(ServiceToSelect);
         Services.Remove(ServiceToSelect);
+
+        TotalCost += selectedServiceSkillLevel.Cost;
+        TotalMinutes += selectedServiceSkillLevel.MinutesDuration;
     }
 
     private void RemoveSelectedService()
     {
+        var selectedServiceSkillLevel = ServiceDtoToServiceConverter.MapService(SelectedService, SelectedBarber.SkillLevel);
+
         Services.Add(SelectedService);
         SelectedServices.Remove(SelectedService);
+
+        TotalCost -= selectedServiceSkillLevel.Cost;
+        TotalMinutes -= selectedServiceSkillLevel.MinutesDuration;
     }
 }
