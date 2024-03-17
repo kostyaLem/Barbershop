@@ -92,6 +92,13 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
             Services = new ObservableCollection<ServiceDto>(_services);
 
+            var timeSlots = new List<TimeSlot>();
+            var startTime = new TimeOnly(9, 0);
+            for (int i = 0; i < 24; i++)
+            {
+                timeSlots.Add(new(startTime.AddMinutes(i * 30)));
+            }
+
             RaisePropertiesChanged(nameof(BarbersView), nameof(Services));
             _isLoaded = true;
         }
@@ -148,7 +155,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
         {
             var order = ordersAtDay[0];
 
-            if (order.BeginDateTime.TimeOfDay == TimeSlots[i].Time)
+            if (TimeOnly.FromDateTime(order.BeginDateTime) == TimeSlots[i].Time)
             {
                 var servicesDuration = order.Services.Sum(x => x.MinutesDuration);
 
@@ -174,7 +181,15 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
 public class TimeSlot : BindableBase
 {
-    public TimeSpan Time { get; set; }
+    public TimeOnly Time { get; set; }
 
     public bool IsBusy { get; set; }
+
+    public TimeSlot(TimeOnly time)
+    {
+        Time = time;
+    }
+
+    public override string ToString()
+        => Time.ToString();
 }
