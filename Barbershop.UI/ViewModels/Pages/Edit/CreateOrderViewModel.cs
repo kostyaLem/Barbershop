@@ -98,8 +98,9 @@ public sealed class CreateOrderViewModel : BaseViewModel
             {
                 timeSlots.Add(new(startTime.AddMinutes(i * 30)));
             }
+            TimeSlots = new ObservableCollection<TimeSlot>(timeSlots);
 
-            RaisePropertiesChanged(nameof(BarbersView), nameof(Services));
+            RaisePropertiesChanged(nameof(BarbersView), nameof(Services), nameof(TimeSlots));
             _isLoaded = true;
         }
     }
@@ -174,6 +175,8 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
                     i += coefficient;
                 }
+
+                ordersAtDay.RemoveAt(0);
             }
         }
     }
