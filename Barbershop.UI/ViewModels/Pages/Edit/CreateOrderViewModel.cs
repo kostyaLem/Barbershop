@@ -49,7 +49,14 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public BarberDto SelectedBarber
     {
         get => GetValue<BarberDto>(nameof(SelectedBarber));
-        set => SetValue(value, nameof(SelectedBarber));
+        set => SetValue(
+            value,
+            () =>
+            {
+                if (value == null)
+                    ResetServices();
+            },
+            nameof(SelectedBarber));
     }
 
     public ObservableCollection<ServiceDto> Services { get; set; } = new();
@@ -92,7 +99,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
             BarbersView = CollectionViewSource.GetDefaultView(_barbers);
             BarbersView.Filter += FilterBarber;
 
-            Services = new ObservableCollection<ServiceDto>(_services);
+            Services = new ObservableCollection<ServiceDto>(_services.OrderBy(x => x.Id));
 
             var timeSlots = new List<TimeSlot>();
             var startTime = new TimeOnly(9, 0);
@@ -104,6 +111,17 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
             RaisePropertiesChanged(nameof(BarbersView), nameof(Services), nameof(TimeSlots));
             _isLoaded = true;
+        }
+    }
+
+    private void ResetServices()
+    {
+        if (SelectedServices.Count > 0)
+        {
+            var services = Services.Concat(SelectedServices).OrderBy(x => x.Id).ToList();
+            Services = new ObservableCollection<ServiceDto>(services);
+            SelectedServices.Clear();
+            RaisePropertiesChanged(nameof(Services), nameof(SelectedServices));
         }
     }
 

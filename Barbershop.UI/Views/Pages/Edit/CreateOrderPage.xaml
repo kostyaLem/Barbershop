@@ -204,7 +204,7 @@
 
             </hc:TabItem>
 
-            <hc:TabItem Header="Выбор даты">
+            <hc:TabItem Header="Выбор даты" IsEnabled="{Binding SelectedServices.Count, Mode=OneWay, Converter={converters:IntToBooleanConverter}}">
 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
