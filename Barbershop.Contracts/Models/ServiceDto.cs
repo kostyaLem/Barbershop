@@ -21,4 +21,7 @@ public class ServiceDto : EntityDto
         get => GetValue<ServiceSkillLevelDto>(nameof(SeniorSkill));
         set => SetValue(value, nameof(SeniorSkill));
     }
+
+    public override string ToString()
+        => Name;
 }

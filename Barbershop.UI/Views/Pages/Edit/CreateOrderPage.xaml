@@ -29,6 +29,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <hc:StepBar Grid.Row="0" StepIndex="{Binding SelectedTabIndex, Mode=OneWay}">
@@ -39,8 +40,9 @@
 
         <hc:TabControl
             Grid.Row="2"
+            Margin="0,10"
             IsTabFillEnabled="True"
-            SelectedIndex="{Binding SelectedTabIndex}"
+            SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}"
             Style="{StaticResource TabControlInLine}">
 
             <hc:TabItem
@@ -58,10 +60,11 @@
                         <ListBox
                             Margin="0,5,0,0"
                             d:ItemsSource="{d:SampleData}"
-                            ItemsSource="{Binding BarbersView}" />
+                            ItemsSource="{Binding BarbersView}"
+                            SelectedItem="{Binding SelectedBarber, Mode=TwoWay}" />
                     </DockPanel>
 
-                    <StackPanel Margin="5">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel.Resources>
                             <Style BasedOn="{StaticResource TextBoxExtend}" TargetType="hc:TextBox">
                                 <Setter Property="Margin" Value="0,0,0,5" />
@@ -69,46 +72,78 @@
                             </Style>
                         </StackPanel.Resources>
 
-                        <hc:TextBox
-                            hc:TitleElement.Title="Фамилия"
-                            IsReadOnly="True"
-                            Text="{Binding SelectedBarber.LastName}" />
-                        <hc:TextBox
-                            hc:TitleElement.Title="Имя"
-                            IsReadOnly="True"
-                            Text="{Binding SelectedBarber.FirstName}" />
-                        <hc:TextBox
-                            hc:TitleElement.Title="Отчество"
-                            IsReadOnly="True"
-                            Text="{Binding SelectedBarber.Surname}" />
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="2">
+                            <Image
+                                Width="150"
+                                Height="200"
+                                Source="{Binding SelectedBarber.Photo, Converter={converters:BytesToImageConverter}}" />
+                        </Border>
 
-                        <StackPanel Margin="0,5,0,0" HorizontalAlignment="Center">
-                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="2">
-                                <Image
-                                    Width="150"
-                                    Height="200"
-                                    Source="{Binding SelectedBarber.Photo, Converter={converters:BytesToImageConverter}}" />
-                            </Border>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                d:Text="Старший мастер"
-                                FontSize="16"
-                                Text="{Binding SelectedBarber.SkillLevel, Converter={converters:EnumToDescriptionConverter}}" />
-                        </StackPanel>
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            FontSize="20">
+                            <Run d:Text="Фамилия" Text="{Binding SelectedBarber.LastName}" />
+                            <Run d:Text="Имя" Text="{Binding SelectedBarber.FirstName}" />
+                            <Run d:Text="Отчество" Text="{Binding SelectedBarber.Surname}" />
+                        </TextBlock>
+
+                        <TextBlock
+                            Margin="0,10"
+                            HorizontalAlignment="Center"
+                            d:Text="Старший мастер"
+                            FontSize="14"
+                            Text="{Binding SelectedBarber.SkillLevel, Converter={converters:EnumToDescriptionConverter}}" />
+
                     </StackPanel>
 
                 </UniformGrid>
             </hc:TabItem>
 
-            <hc:TabItem Header="Выбор услуг" IsSelected="True">
+            <hc:TabItem
+                Header="Выбор услуг"
+                IsEnabled="{Binding SelectedBarber, Converter={StaticResource Object2BooleanConverter}}"
+                IsSelected="True">
 
-                <hc:Transfer x:Name="services" ItemsSource="{Binding ServicesView}">
-                    <hc:Interaction.Triggers>
-                        <hc:EventTrigger EventName="TransferredItemsChanged">
-                            <hc:InvokeCommandAction Command="{Binding SelectedServicesChangedCommand}" CommandParameter="{Binding Path=TransferredItems, ElementName=services}" />
-                        </hc:EventTrigger>
-                    </hc:Interaction.Triggers>
-                </hc:Transfer>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox
+                        Grid.Column="0"
+                        ItemsSource="{Binding Services}"
+                        SelectedItem="{Binding ServiceToSelect}"
+                        SelectionMode="Single">
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="MouseDoubleClick">
+                                <hc:EventToCommand Command="{Binding SelectServiceCommand}" />
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </ListBox>
+                    <ListBox
+                        Grid.Column="2"
+                        ItemsSource="{Binding SelectedServices}"
+                        SelectedItem="{Binding SelectedService}"
+                        SelectionMode="Single">
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="MouseDoubleClick">
+                                <hc:EventToCommand Command="{Binding RemoveSelectedServiceCommand}" />
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </ListBox>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <Button hc:IconElement.Geometry="{StaticResource LeftGeometry}" Command="{Binding RemoveSelectedServiceCommand}" />
+                        <Button
+                            Margin="0,10,0,0"
+                            hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                            Command="{Binding SelectServiceCommand}" />
+                    </StackPanel>
+
+                </Grid>
 
             </hc:TabItem>
 
@@ -116,11 +151,47 @@
 
         </hc:TabControl>
 
-        <Button
+        <UniformGrid
             Grid.Row="3"
-            HorizontalAlignment="Stretch"
-            Content="Создать заказ"
-            Style="{StaticResource ButtonSuccess}" />
+            Columns="3"
+            Rows="1">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Image Width="30" Source="{StaticResource TimerImage}" />
+                <Label
+                    VerticalAlignment="Center"
+                    d:Content="45м."
+                    Content="{Binding TotalMinutes}"
+                    FontSize="16"
+                    Style="{StaticResource BaseStyle}" />
+            </StackPanel>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Image Width="30" Source="{StaticResource MoneyImage}" />
+                <Label
+                    VerticalAlignment="Center"
+                    d:Content="1560 р."
+                    Content="{Binding TotalCost}"
+                    FontSize="16"
+                    Style="{StaticResource BaseStyle}" />
+            </StackPanel>
+
+            <Button
+                Width="180"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Content="Создать заказ"
+                FontSize="16"
+                FontWeight="DemiBold"
+                Style="{StaticResource ButtonSuccess}" />
+
+        </UniformGrid>
 
     </Grid>
 

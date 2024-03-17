@@ -2,14 +2,9 @@
 using Barbershop.Services;
 using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
 using HandyControl.Collections;
-using HandyControl.Controls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -21,7 +16,6 @@ public sealed class CreateOrderViewModel : BaseViewModel
     private readonly OfferService _offerService;
 
     private IReadOnlyList<BarberDto> _barbers;
-    private IReadOnlyList<ServiceDto> _services;
 
     public int SelectedTabIndex
     {
@@ -45,9 +39,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
         set => SetValue(value, nameof(TotalMinutes));
     }
 
-
     public ICollectionView BarbersView { get; set; }
-    public ICollectionView ServicesView { get; set; }
 
     public BarberDto SelectedBarber
     {
@@ -55,8 +47,23 @@ public sealed class CreateOrderViewModel : BaseViewModel
         set => SetValue(value, nameof(SelectedBarber));
     }
 
+    public ObservableCollection<ServiceDto> Services { get; set; } = new();
+    public ServiceDto ServiceToSelect
+    {
+        get => GetValue<ServiceDto>(nameof(ServiceToSelect));
+        set => SetValue(value, nameof(ServiceToSelect));
+    }
+
+    public ObservableCollection<ServiceDto> SelectedServices { get; set; } = new();
+    public ServiceDto SelectedService
+    {
+        get => GetValue<ServiceDto>(nameof(SelectedService));
+        set => SetValue(value, nameof(SelectedService));
+    }
+
     public ICommand LoadViewDataCommand { get; set; }
-    public ICommand SelectedServicesChangedCommand { get; set; }
+    public ICommand SelectServiceCommand { get; set; }
+    public ICommand RemoveSelectedServiceCommand { get; set; }
 
     public CreateOrderViewModel(BarberService barberService, OfferService offerService)
     {
@@ -64,38 +71,24 @@ public sealed class CreateOrderViewModel : BaseViewModel
         _offerService = offerService;
 
         BarbersView = CollectionViewSource.GetDefaultView(_barbers);
-        ServicesView = CollectionViewSource.GetDefaultView(_services);
 
         LoadViewDataCommand = new AsyncCommand(LoadView);
-        SelectedServicesChangedCommand = new DelegateCommand<ManualObservableCollection<ServiceDto>>(SelectedServicesChanged);
-    }
 
-    private void SelectedServicesChanged(ManualObservableCollection<ServiceDto> serviceDtos)
-    {
-        var selectedServices = serviceDtos.Select(service =>
-        {
-            return SelectedBarber.SkillLevel switch
-            {
-                BarberSkillLevel.Junior => service.JuniorSkill,
-                BarberSkillLevel.Middle => service.MiddleSkill,
-                BarberSkillLevel.Senior => service.SeniorSkill
-            };
-        });
-
-        TotalCost = selectedServices.Sum(x => x.Cost);
-        TotalMinutes = selectedServices.Sum(x => x.MinutesDuration);
+        SelectServiceCommand = new DelegateCommand(SelectService, () => ServiceToSelect != null);
+        RemoveSelectedServiceCommand = new DelegateCommand(RemoveSelectedService, () => SelectedService != null);
     }
 
     private async Task LoadView()
     {
         _barbers = await _barberService.GetAll();
-        _services = await _offerService.GetAll();
+        var _services = await _offerService.GetAll();
 
         BarbersView = CollectionViewSource.GetDefaultView(_barbers);
         BarbersView.Filter += FilterBarber;
-        ServicesView = CollectionViewSource.GetDefaultView(_services);
 
-        RaisePropertiesChanged(nameof(BarbersView), nameof(ServicesView));
+        Services = new ObservableCollection<ServiceDto>(_services);
+
+        RaisePropertiesChanged(nameof(BarbersView), nameof(Services));
     }
 
     private bool FilterBarber(object obj)
@@ -113,6 +106,21 @@ public sealed class CreateOrderViewModel : BaseViewModel
             string.Join(' ', barber.LastName, barber.FirstName, barber.Surname)
         };
 
-        return searchFields.Where(x => !string.IsNullOrWhiteSpace(x)).Contains(SearchText);
+        return searchFields
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Where(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+            .Any();
+    }
+
+    private void SelectService()
+    {
+        SelectedServices.Add(ServiceToSelect);
+        Services.Remove(ServiceToSelect);
+    }
+
+    private void RemoveSelectedService()
+    {
+        Services.Add(SelectedService);
+        SelectedServices.Remove(SelectedService);
     }
 }
