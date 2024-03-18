@@ -228,7 +228,7 @@
                         <DatePicker
                             Width="300"
                             DisplayDateStart="{x:Static sys:DateTime.Now}"
-                            SelectedDate="{Binding SelectedDate}" />
+                            SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
                     </StackPanel>
 
                     <ItemsControl
@@ -261,7 +261,15 @@
                                     FontSize="16"
                                     GroupName="Slots"
                                     IsEnabled="{Binding State, Mode=OneWay, Converter={converters:SlotStateToBooleanConverter}}"
-                                    Style="{Binding State, Converter={converters:SlotStateToStyleConverter}}" />
+                                    Style="{Binding State, Converter={converters:SlotStateToStyleConverter}}">
+
+                                    <hc:Interaction.Triggers>
+                                        <hc:EventTrigger EventName="Checked">
+                                            <hc:EventToCommand Command="{Binding DataContext.SelectTimeSlotCommand, ElementName=control}" PassEventArgsToCommand="True" />
+                                        </hc:EventTrigger>
+                                    </hc:Interaction.Triggers>
+
+                                </RadioButton>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -276,7 +284,7 @@
 
         <UniformGrid
             Grid.Row="3"
-            Columns="3"
+            Columns="4"
             Rows="1">
             <StackPanel
                 HorizontalAlignment="Center"
@@ -302,6 +310,24 @@
                     Content="{Binding TotalCost, Converter={converters:DecimalToCurrencyConverter}}"
                     FontSize="16"
                     Style="{StaticResource BaseStyle}" />
+            </StackPanel>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Image Width="30" Source="{StaticResource DateImage}" />
+                <Label
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Style="{StaticResource BaseStyle}">
+
+                    <StackPanel Width="100">
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedDate.Date, StringFormat=dd.MM.yyyy}" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedTimeSlot}" />
+                    </StackPanel>
+
+                </Label>
             </StackPanel>
 
             <Button

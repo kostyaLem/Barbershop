@@ -6,6 +6,8 @@ using DevExpress.Mvvm;
 using HandyControl.Tools.Extension;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -45,11 +47,21 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     public ICollectionView BarbersView { get; set; }
 
-    public DateTime SelectedDate
+    public DateTime? SelectedDate
     {
-        get => GetValue<DateTime>(nameof(SelectedDate));
-        set => SetValue(value, () => { if (SelectedBarber != null && SelectedTabIndex == 2) FilterTimeSlots(); }, nameof(SelectedDate));
+        get => GetValue<DateTime?>(nameof(SelectedDate));
+        set => SetValue(value, () =>
+        {
+            if (SelectedBarber != null && SelectedTabIndex == 2)
+                FilterTimeSlots();
+        }, nameof(SelectedDate));
     }
+    public TimeSlot? SelectedTimeSlot
+    {
+        get => GetValue<TimeSlot>(nameof(SelectedTimeSlot));
+        set => SetValue(value, nameof(SelectedTimeSlot));
+    }
+
     public IReadOnlyList<TimeSlot> TimeSlots { get; set; }
 
     public BarberDto SelectedBarber
@@ -82,6 +94,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public ICommand SelectServiceCommand { get; set; }
     public ICommand RemoveSelectedServiceCommand { get; set; }
     public ICommand BarberChangedCommand { get; set; }
+    public ICommand SelectTimeSlotCommand { get; set; }
 
     public CreateOrderViewModel(BarberService barberService, OrderService orderService, OfferService offerService)
     {
@@ -89,13 +102,14 @@ public sealed class CreateOrderViewModel : BaseViewModel
         _orderService = orderService;
         _offerService = offerService;
 
-        SelectedDate = DateTime.Now;
         BarbersView = CollectionViewSource.GetDefaultView(_barbers);
+        SelectedDate = DateTime.Now;
 
         LoadViewDataCommand = new AsyncCommand(LoadView);
 
         SelectServiceCommand = new DelegateCommand(SelectService, () => ServiceToSelect != null);
         RemoveSelectedServiceCommand = new DelegateCommand(RemoveSelectedService, () => SelectedService != null);
+        SelectTimeSlotCommand = new DelegateCommand<RoutedEventArgs>(SelectTimeSlot);
     }
 
     private async Task LoadView()
@@ -125,6 +139,9 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private void ResetServices()
     {
+        SelectedTimeSlot = null;
+        SelectedDate = null;
+
         if (SelectedServices.Count > 0)
         {
             var services = Services.Concat(SelectedServices).OrderBy(x => x.Id).ToList();
@@ -181,7 +198,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     {
         TimeSlots.ForEach(x => x.State = TimeSlotState.Open);
 
-        var ordersAtDay = await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate);
+        var ordersAtDay = await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate.Value);
 
         if (ordersAtDay.Any())
         {
@@ -245,6 +262,11 @@ public sealed class CreateOrderViewModel : BaseViewModel
                 }
             }
         }
+    }
+
+    private void SelectTimeSlot(RoutedEventArgs eventArgs)
+    {
+        SelectedTimeSlot = (eventArgs.Source as RadioButton).DataContext as TimeSlot;        
     }
 }
 
