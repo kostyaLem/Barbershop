@@ -206,6 +206,12 @@
 
             <hc:TabItem Header="Выбор даты" IsEnabled="{Binding SelectedServices.Count, Mode=OneWay, Converter={converters:IntToBooleanConverter}}">
 
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="IsVisibleChanged">
+                        <hc:InvokeCommandAction Command="{Binding BarberChangedCommand}" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <StackPanel
@@ -250,11 +256,12 @@
                                     Width="70"
                                     Margin="0,10"
                                     Padding="0"
+                                    d:Style="{StaticResource RadioButtonSameAsButtonPrimary}"
                                     Content="{Binding}"
                                     FontSize="16"
                                     GroupName="Slots"
-                                    IsEnabled="{Binding IsBusy, Mode=TwoWay, Converter={StaticResource Boolean2BooleanReConverter}}"
-                                    Style="{StaticResource RadioButtonIconBaseStyle}" />
+                                    IsEnabled="{Binding State, Mode=OneWay, Converter={converters:SlotStateToBooleanConverter}}"
+                                    Style="{Binding State, Converter={converters:SlotStateToStyleConverter}}" />
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

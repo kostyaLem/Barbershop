@@ -14,6 +14,16 @@ public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCom
     {
     }
 
+    public async Task<IReadOnlyList<OrderDto>> GetBarberOrders(int barberId, DateTime date)
+    {
+        var orders = await _entityRepository
+            .FindAll(
+                x => x.BarberId == barberId && x.CreatedOn.Date == date.Date,
+                x => x.ServiceSkillLevels);
+
+        return _mapper.Map<IReadOnlyList<OrderDto>>(orders);
+    }
+
     public async Task CancelOrder(int orderId)
     {
         var order = await _entityRepository.GetById(orderId);

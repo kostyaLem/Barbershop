@@ -3,6 +3,7 @@ using Barbershop.Services;
 using Barbershop.UI.Converters;
 using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
+using HandyControl.Tools.Extension;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -15,6 +16,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     private bool _isLoaded = false;
 
     private readonly BarberService _barberService;
+    private readonly OrderService _orderService;
     private readonly OfferService _offerService;
 
     private IReadOnlyList<BarberDto> _barbers;
@@ -22,7 +24,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public int SelectedTabIndex
     {
         get => GetValue<int>(nameof(SelectedTabIndex));
-        set => SetValue(value, nameof(SelectedTabIndex));
+        set => SetValue(value, () => { if (value == 2) FilterTimeSlots(); }, nameof(SelectedTabIndex));
     }
     public string SearchText
     {
@@ -43,7 +45,11 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     public ICollectionView BarbersView { get; set; }
 
-    public DateTime SelectedDate { get; set; } = DateTime.Now;
+    public DateTime SelectedDate
+    {
+        get => GetValue<DateTime>(nameof(SelectedDate));
+        set => SetValue(value, () => { if (SelectedBarber != null && SelectedTabIndex == 2) FilterTimeSlots(); }, nameof(SelectedDate));
+    }
     public IReadOnlyList<TimeSlot> TimeSlots { get; set; }
 
     public BarberDto SelectedBarber
@@ -75,12 +81,15 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     public ICommand SelectServiceCommand { get; set; }
     public ICommand RemoveSelectedServiceCommand { get; set; }
+    public ICommand BarberChangedCommand { get; set; }
 
-    public CreateOrderViewModel(BarberService barberService, OfferService offerService)
+    public CreateOrderViewModel(BarberService barberService, OrderService orderService, OfferService offerService)
     {
         _barberService = barberService;
+        _orderService = orderService;
         _offerService = offerService;
 
+        SelectedDate = DateTime.Now;
         BarbersView = CollectionViewSource.GetDefaultView(_barbers);
 
         LoadViewDataCommand = new AsyncCommand(LoadView);
@@ -168,35 +177,72 @@ public sealed class CreateOrderViewModel : BaseViewModel
         TotalMinutes -= selectedServiceSkillLevel.MinutesDuration;
     }
 
-    private void FilterTimeSlots()
+    private async Task FilterTimeSlots()
     {
-        List<OrderDto> ordersAtDay = new();
+        TimeSlots.ForEach(x => x.State = TimeSlotState.Open);
 
-        for (int i = 0; i < TimeSlots.Count && ordersAtDay.Any(); i++)
+        var ordersAtDay = await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate);
+
+        if (ordersAtDay.Any())
         {
-            var order = ordersAtDay[0];
-
-            if (TimeOnly.FromDateTime(order.BeginDateTime) == TimeSlots[i].Time)
+            for (int i = 0, currentOrder = 0; i < TimeSlots.Count && currentOrder < ordersAtDay.Count; i++)
             {
-                var servicesDuration = order.Services.Sum(x => x.MinutesDuration);
+                var order = ordersAtDay[currentOrder];
 
-                var coefficient = (int)Math.Round(servicesDuration / 30.0, MidpointRounding.ToPositiveInfinity);
-
-                if (coefficient == 1)
+                if (TimeOnly.FromDateTime(order.BeginDateTime) == TimeSlots[i].Time)
                 {
-                    TimeSlots[i].IsBusy = true;
+                    var servicesDuration = order.Services.Sum(x => x.MinutesDuration);
+
+                    var coefficient = (int)Math.Round(servicesDuration / 30.0, MidpointRounding.ToPositiveInfinity);
+
+                    if (coefficient == 1)
+                    {
+                        TimeSlots[i].State = TimeSlotState.Busy;
+                    }
+                    else
+                    {
+                        for (int j = i, count = 0; count < coefficient; j++, count++)
+                        {
+                            TimeSlots[j].State = TimeSlotState.Busy;
+                        }
+
+                        i += coefficient;
+                    }
+
+                    currentOrder++;
+                }
+            }
+        }
+
+        var selectedServicesCoefficient = (int)Math.Round(TotalMinutes / 30.0, MidpointRounding.ToPositiveInfinity);
+
+        for (int i = 0; i < TimeSlots.Count; i++)
+        {
+            if (TimeSlots[i].State == TimeSlotState.Open)
+            {
+                if (selectedServicesCoefficient == 1)
+                {
+                    TimeSlots[i].State = TimeSlotState.Open;
+                    continue;
                 }
                 else
                 {
-                    for (int j = i; j < coefficient; j++)
+                    var potentialSlots = TimeSlots.Skip(i).TakeWhile(x => x.State == TimeSlotState.Open).ToList();
+
+                    for (int j = 0; j < potentialSlots.Count; j++)
                     {
-                        TimeSlots[j].IsBusy = true;
+                        if (selectedServicesCoefficient <= potentialSlots.Count - j)
+                        {
+                            potentialSlots[j].State = TimeSlotState.Open;
+                        }
+                        else
+                        {
+                            potentialSlots[j].State = TimeSlotState.NotAllowed;
+                        }
                     }
 
-                    i += coefficient;
+                    i += potentialSlots.Count;
                 }
-
-                ordersAtDay.RemoveAt(0);
             }
         }
     }
@@ -206,7 +252,11 @@ public class TimeSlot : BindableBase
 {
     public TimeOnly Time { get; set; }
 
-    public bool IsBusy { get; set; }
+    public TimeSlotState State
+    {
+        get => GetValue<TimeSlotState>(nameof(State));
+        set => SetValue(value, nameof(State));
+    }
 
     public TimeSlot(TimeOnly time)
     {
@@ -215,4 +265,11 @@ public class TimeSlot : BindableBase
 
     public override string ToString()
         => Time.ToString();
+}
+
+public enum TimeSlotState
+{
+    Open,
+    NotAllowed,
+    Busy
 }
