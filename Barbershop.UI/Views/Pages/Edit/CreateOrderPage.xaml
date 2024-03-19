@@ -229,6 +229,73 @@
                             Width="300"
                             DisplayDateStart="{x:Static sys:DateTime.Now}"
                             SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+
+                        <Button
+                            Width="24"
+                            Height="24"
+                            Margin="5,0,0,0"
+                            Padding="0"
+                            hc:IconElement.Geometry="{StaticResource InfoGeometry}"
+                            IsEnabled="False"
+                            ToolTipService.BetweenShowDelay="0"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.InitialShowDelay="0"
+                            ToolTipService.ShowOnDisabled="True">
+                            <Button.ToolTip>
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <RadioButton
+                                            Width="70"
+                                            Margin="0,10"
+                                            Padding="0"
+                                            hc:BorderElement.CornerRadius="3"
+                                            Content="9:30"
+                                            FontSize="16"
+                                            Style="{StaticResource RadioButtonIconBaseStyle}" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="Свободное время для записи" />
+                                    </StackPanel>
+
+                                    <StackPanel Height="70" Orientation="Horizontal">
+                                        <RadioButton
+                                            Width="70"
+                                            Margin="0,10"
+                                            Padding="0"
+                                            hc:BorderElement.CornerRadius="3"
+                                            Content="9:30"
+                                            FontSize="16"
+                                            IsEnabled="False"
+                                            Style="{StaticResource RadioButtonSameAsButtonPrimary}" />
+                                        <TextBlock
+                                            Width="300"
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="Потенциальное свободное время при меньшем количестве услгу"
+                                            TextWrapping="WrapWithOverflow" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <RadioButton
+                                            Width="70"
+                                            Margin="0,10"
+                                            Padding="0"
+                                            hc:BorderElement.CornerRadius="3"
+                                            Content="9:30"
+                                            FontSize="16"
+                                            IsEnabled="False"
+                                            Style="{StaticResource RadioButtonIconBaseStyle}" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="Время занято" />
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </Button.ToolTip>
+                        </Button>
                     </StackPanel>
 
                     <ItemsControl
@@ -257,6 +324,7 @@
                                     Margin="0,10"
                                     Padding="0"
                                     d:Style="{StaticResource RadioButtonSameAsButtonPrimary}"
+                                    hc:BorderElement.CornerRadius="3"
                                     Content="{Binding}"
                                     FontSize="16"
                                     GroupName="Slots"
