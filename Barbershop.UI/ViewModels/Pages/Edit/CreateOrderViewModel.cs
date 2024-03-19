@@ -141,6 +141,8 @@ public sealed class CreateOrderViewModel : BaseViewModel
     {
         SelectedTimeSlot = null;
         SelectedDate = null;
+        TotalCost = 0;
+        TotalMinutes = 0;
 
         if (SelectedServices.Count > 0)
         {
