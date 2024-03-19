@@ -273,7 +273,7 @@
                                             Width="300"
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center"
-                                            Text="Потенциальное свободное время при меньшем количестве услгу"
+                                            Text="Потенциально свободное время при меньшем количестве услгу"
                                             TextWrapping="WrapWithOverflow" />
                                     </StackPanel>
 

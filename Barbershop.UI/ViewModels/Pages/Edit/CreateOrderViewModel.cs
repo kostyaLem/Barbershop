@@ -198,6 +198,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private async Task FilterTimeSlots()
     {
+        SelectedTimeSlot = null;
         TimeSlots.ForEach(x => x.State = TimeSlotState.Open);
 
         var ordersAtDay = await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate.Value);
