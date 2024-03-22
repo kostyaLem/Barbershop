@@ -62,13 +62,16 @@ public sealed class CreateOrderViewModel : BaseViewModel
         {
             if (SelectedBarber != null && SelectedTabIndex == 2)
                 FilterTimeSlots();
+
+            RaisePropertyChanged(nameof(CanCreateOrder));
         }, nameof(SelectedDate));
     }
     public TimeSlot? SelectedTimeSlot
     {
         get => GetValue<TimeSlot>(nameof(SelectedTimeSlot));
-        set => SetValue(value, nameof(SelectedTimeSlot));
+        set => SetValue(value, () => RaisePropertyChanged(nameof(CanCreateOrder)), nameof(SelectedTimeSlot));
     }
+    public bool CanCreateOrder => SelectedDate != null && SelectedTimeSlot != null;
 
     public IReadOnlyList<TimeSlot> TimeSlots { get; set; }
 

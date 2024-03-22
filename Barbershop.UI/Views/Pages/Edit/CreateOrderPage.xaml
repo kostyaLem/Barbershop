@@ -81,10 +81,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <hc:StepBar Grid.Row="0" StepIndex="{Binding SelectedTabIndex, Mode=OneWay}">
@@ -96,7 +93,7 @@
         </hc:StepBar>
 
         <hc:TabControl
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="0,10"
             IsTabFillEnabled="True"
             SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}"
@@ -412,7 +409,7 @@
 
             </hc:TabItem>
 
-            <hc:TabItem Header="Подтверждение заказа">
+            <hc:TabItem Header="Подтверждение заказа" IsEnabled="{Binding CanCreateOrder, Mode=OneWay}">
 
                 <UniformGrid
                     Margin="10"
@@ -435,10 +432,56 @@
                             Text="{Binding SelectedBarber.SkillLevel, Converter={converters:EnumToDescriptionConverter}}" />
 
                         <hc:TextBox
+                            Margin="0,0,0,10"
                             hc:TitleElement.TitlePlacement="Top"
                             FontSize="16"
                             IsReadOnly="True"
                             Text="{Binding SelectedClient, Mode=OneWay}" />
+
+                        <StackPanel
+                            Margin="0,10"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Image Width="30" Source="{StaticResource TimerImage}" />
+                            <Label
+                                VerticalAlignment="Center"
+                                d:Content="45м."
+                                Content="{Binding TotalMinutes, Converter={converters:IntToTimeStringConverter}}"
+                                FontSize="16"
+                                Style="{StaticResource BaseStyle}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="0,10"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Image Width="30" Source="{StaticResource MoneyImage}" />
+                            <Label
+                                VerticalAlignment="Center"
+                                d:Content="1560 р."
+                                Content="{Binding TotalCost, Converter={converters:DecimalToCurrencyConverter}}"
+                                FontSize="16"
+                                Style="{StaticResource BaseStyle}" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="0,10"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Image Width="30" Source="{StaticResource DateImage}" />
+                            <Label
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Style="{StaticResource BaseStyle}">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding SelectedDate.Date, StringFormat=dd.MM.yyyy}" />
+                                    <TextBlock Text="  " />
+                                    <TextBlock Text="{Binding SelectedTimeSlot}" />
+                                </StackPanel>
+
+                            </Label>
+                        </StackPanel>
 
                     </StackPanel>
 
@@ -476,56 +519,6 @@
             </hc:TabItem>
 
         </hc:TabControl>
-
-        <UniformGrid
-            Grid.Row="3"
-            Columns="3"
-            Rows="1">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Image Width="30" Source="{StaticResource TimerImage}" />
-                <Label
-                    VerticalAlignment="Center"
-                    d:Content="45м."
-                    Content="{Binding TotalMinutes, Converter={converters:IntToTimeStringConverter}}"
-                    FontSize="16"
-                    Style="{StaticResource BaseStyle}" />
-            </StackPanel>
-
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Image Width="30" Source="{StaticResource MoneyImage}" />
-                <Label
-                    VerticalAlignment="Center"
-                    d:Content="1560 р."
-                    Content="{Binding TotalCost, Converter={converters:DecimalToCurrencyConverter}}"
-                    FontSize="16"
-                    Style="{StaticResource BaseStyle}" />
-            </StackPanel>
-
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Image Width="30" Source="{StaticResource DateImage}" />
-                <Label
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    Style="{StaticResource BaseStyle}">
-
-                    <StackPanel Width="100">
-                        <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedDate.Date, StringFormat=dd.MM.yyyy}" />
-                        <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedTimeSlot}" />
-                    </StackPanel>
-
-                </Label>
-            </StackPanel>
-
-        </UniformGrid>
 
     </Grid>
 
