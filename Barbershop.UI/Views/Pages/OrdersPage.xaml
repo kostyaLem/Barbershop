@@ -277,6 +277,14 @@
                         </StackPanel>
                     </Label>
                 </StackPanel>
+
+                <Button
+                    Grid.Column="2"
+                    Width="150"
+                    Command="{Binding CreateOrderCommand}"
+                    Content="Создать заказ"
+                    Style="{StaticResource ButtonSuccess}" />
+
             </Grid>
         </Grid>
 

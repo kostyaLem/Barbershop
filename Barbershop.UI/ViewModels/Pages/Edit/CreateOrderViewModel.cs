@@ -28,7 +28,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public int SelectedTabIndex
     {
         get => GetValue<int>(nameof(SelectedTabIndex));
-        set => SetValue(value, () => { if (value == 2) FilterTimeSlots(); }, nameof(SelectedTabIndex));
+        set => SetValue(value, nameof(SelectedTabIndex));
     }
     public string SearchBarberText
     {

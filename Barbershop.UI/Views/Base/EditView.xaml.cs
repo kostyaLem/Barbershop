@@ -1,7 +1,7 @@
 ﻿using Barbershop.UI.ViewModels.Pages.Edit;
 using Barbershop.UI.Views.Pages.Edit;
-using HandyControl.Controls;
 using System.Windows.Controls;
+using Window = HandyControl.Controls.Window;
 
 namespace Barbershop.UI.Views.Base;
 
@@ -20,6 +20,9 @@ public partial class EditView : Window
         Title = title;
         ContextItem = page;
         DataContext = this;
+
+        Left = (System.Windows.SystemParameters.WorkArea.Width / 2) - (ContextItem.Width / 2);
+        Top = (System.Windows.SystemParameters.WorkArea.Height / 2) - (ContextItem.Height / 2);
     }
 
     public EditView(CreateOrderPage page)
@@ -28,6 +31,8 @@ public partial class EditView : Window
         Title = "Создание заказа";
         ContextItem = page;
         DataContext = this;
+
+        buttonsGroup.Visibility = System.Windows.Visibility.Collapsed;
 
         (page.DataContext as CreateOrderViewModel).CreateOrder += EditView_CreateOrder;
     }

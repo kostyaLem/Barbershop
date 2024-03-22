@@ -52,8 +52,8 @@ public class MainViewModel : BaseViewModel
             sideMenu.Items.Add(menuItem);
         }
 
-        (sideMenu.Items[8] as SideMenuItem)!.IsSelected = true;
-        CurrentPage = Container.GetPage(typeof(CreateOrderPage))!;
+        (sideMenu.Items[0] as SideMenuItem)!.IsSelected = true;
+        CurrentPage = Container.GetPage(typeof(MainPage))!;
     }
 
     public void SwitchItem(FunctionEventArgs<object> args)

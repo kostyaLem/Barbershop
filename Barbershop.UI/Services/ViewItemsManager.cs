@@ -1,6 +1,5 @@
 ﻿using Barbershop.UI.ViewModels;
 using Barbershop.UI.Views.Pages;
-using Barbershop.UI.Views.Pages.Edit;
 
 namespace Barbershop.UI.Services;
 
@@ -20,7 +19,6 @@ public static class ViewItemsManager
                 new("Услуги", "ServiceImage", typeof(ServicesPage)),
                 new("Заказы", "SalaryImage", typeof(OrdersPage)),
                 new("Расписание", "ScheduleImage"),
-                new("Создание заказа", "SalaryImage", typeof(CreateOrderPage))
             };
         }
     }

@@ -3,8 +3,10 @@ using Barbershop.Contracts.Models;
 using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
+using Barbershop.UI.ViewModels.Pages.Edit;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -35,6 +37,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
     public ICommand CompleteOrderCommand { get; }
     public ICommand EditOrderCommand { get; }
     public ICommand CancelOrderCommand { get; }
+    public ICommand CreateOrderCommand { get; }
 
     public ICommand ClearFilterCommand { get; }
     public ICommand FilterOrdersCommand { get; }
@@ -53,6 +56,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
         CompleteOrderCommand = new AsyncCommand<object>(CompleteOrder);
         EditOrderCommand = new AsyncCommand<object>(EditOrder);
         CancelOrderCommand = new AsyncCommand<object>(CancelOrder);
+        CreateOrderCommand = new AsyncCommand(CreateOrder);
 
         ClearFilterCommand = new AsyncCommand(ClearFilter);
         FilterOrdersCommand = new AsyncCommand(FilterOrders);
@@ -143,6 +147,18 @@ public sealed class OrdersPageViewModel : BaseViewModel
         await Execute(async () =>
         {
             await _ordersService.CancelOrder(orderId);
+        });
+    }
+
+    private async Task CreateOrder()
+    {
+        await Execute(async () =>
+        {
+            var vm = Container.ServiceProvider.GetRequiredService<CreateOrderViewModel>();
+            if (_dialogService.ShowDialog(vm))
+            {
+
+            }
         });
     }
 }

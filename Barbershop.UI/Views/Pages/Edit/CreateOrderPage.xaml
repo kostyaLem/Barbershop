@@ -11,6 +11,8 @@
     xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages.Edit"
     x:Name="control"
+    MinWidth="800"
+    MinHeight="450"
     d:Background="White"
     d:DataContext="{d:DesignInstance vm:CreateOrderViewModel}"
     d:DesignHeight="550"
@@ -35,8 +37,8 @@
                 <Grid Grid.Row="1">
                     <Grid.DataContext>
                         <MultiBinding Converter="{converters:ServiceDtoToServiceConverter}">
-                            <Binding />
-                            <Binding Path="DataContext.SelectedBarber" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Page}" />
+                            <Binding Path="." />
+                            <Binding Path="DataContext.SelectedBarber" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
                         </MultiBinding>
                     </Grid.DataContext>
 
@@ -111,7 +113,7 @@
                             hc:TitleElement.TitlePlacement="Left"
                             DockPanel.Dock="Top"
                             Style="{StaticResource SearchBarExtend}"
-                            Text="{Binding SearchBarberText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding SearchClientText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ListBox
                             Margin="0,5,0,0"
                             d:ItemsSource="{d:SampleData}"
@@ -289,7 +291,7 @@
                         <DatePicker
                             Width="300"
                             DisplayDateStart="{x:Static sys:DateTime.Now}"
-                            SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+                            SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Button
                             Width="24"
@@ -436,7 +438,7 @@
                             hc:TitleElement.TitlePlacement="Top"
                             FontSize="16"
                             IsReadOnly="True"
-                            Text="{Binding SelectedClient, Mode=OneWay}" />
+                            Text="{Binding SelectedBarber, Mode=OneWay}" />
 
                         <StackPanel
                             Margin="0,10"
