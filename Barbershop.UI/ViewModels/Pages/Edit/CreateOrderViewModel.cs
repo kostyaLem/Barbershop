@@ -111,6 +111,9 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public ICommand RemoveSelectedServiceCommand { get; set; }
     public ICommand BarberChangedCommand { get; set; }
     public ICommand SelectTimeSlotCommand { get; set; }
+    public ICommand CreateOrderCommand { get; set; }
+
+    public event Action CreateOrder;
 
     public CreateOrderViewModel(BarberService barberService, ClientService clientService, OrderService orderService, OfferService offerService)
     {
@@ -127,6 +130,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
         SelectServiceCommand = new DelegateCommand(SelectService, () => ServiceToSelect != null);
         RemoveSelectedServiceCommand = new DelegateCommand(RemoveSelectedService, () => SelectedService != null);
         SelectTimeSlotCommand = new DelegateCommand<RoutedEventArgs>(SelectTimeSlot);
+        CreateOrderCommand = new DelegateCommand(() => CreateOrder?.Invoke());
     }
 
     private async Task LoadView()

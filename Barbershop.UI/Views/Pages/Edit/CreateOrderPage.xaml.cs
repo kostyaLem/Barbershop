@@ -6,7 +6,7 @@ namespace Barbershop.UI.Views.Pages.Edit;
 /// <summary>
 /// Логика взаимодействия для CreateOrderPage.xaml
 /// </summary>
-public partial class CreateOrderPage : Page
+public partial class CreateOrderPage : UserControl
 {
     public CreateOrderPage(CreateOrderViewModel context)
     {

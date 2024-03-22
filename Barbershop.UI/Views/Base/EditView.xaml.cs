@@ -1,4 +1,6 @@
-﻿using HandyControl.Controls;
+﻿using Barbershop.UI.ViewModels.Pages.Edit;
+using Barbershop.UI.Views.Pages.Edit;
+using HandyControl.Controls;
 using System.Windows.Controls;
 
 namespace Barbershop.UI.Views.Base;
@@ -20,6 +22,21 @@ public partial class EditView : Window
         DataContext = this;
     }
 
+    public EditView(CreateOrderPage page)
+    {
+        InitializeComponent();
+        Title = "Создание заказа";
+        ContextItem = page;
+        DataContext = this;
+
+        (page.DataContext as CreateOrderViewModel).CreateOrder += EditView_CreateOrder;
+    }
+
+    private void EditView_CreateOrder()
+    {
+        btnOk_Click(null, null);
+    }
+
     private void btnClose_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         DialogResult = false;
@@ -38,6 +55,11 @@ public partial class EditView : Window
         if (!_isAccept)
         {
             DialogResult = false;
+        }
+
+        if (ContextItem.DataContext is CreateOrderViewModel viewModel)
+        {
+            viewModel.CreateOrder -= EditView_CreateOrder;
         }
     }
 }

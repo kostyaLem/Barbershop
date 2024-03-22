@@ -1,4 +1,5 @@
 ﻿using Barbershop.UI.ViewModels.Base;
+using Barbershop.UI.ViewModels.Pages.Edit;
 using Barbershop.UI.Views.Base;
 using Microsoft.Win32;
 using System.IO;
@@ -18,6 +19,23 @@ internal sealed class WindowDialogService : IWindowDialogService
 
         // Заполнить заголовок и внутреннее содержимое окна с изменениями
         var editView = new EditView(dataContext.Title, control);
+        var dialogResult = editView.ShowDialog();
+
+        if (dialogResult.HasValue)
+        {
+            return editView.DialogResult!.Value;
+        }
+
+        return false;
+    }
+
+    public bool ShowDialog(CreateOrderViewModel dataContext)
+    {
+        // Создать представление (View)
+        var control = new Views.Pages.Edit.CreateOrderPage(dataContext);
+
+        // Заполнить заголовок и внутреннее содержимое окна с изменениями
+        var editView = new EditView(control);
         var dialogResult = editView.ShowDialog();
 
         if (dialogResult.HasValue)
