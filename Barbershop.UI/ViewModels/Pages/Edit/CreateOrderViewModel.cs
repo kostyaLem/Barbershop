@@ -18,20 +18,27 @@ public sealed class CreateOrderViewModel : BaseViewModel
     private bool _isLoaded = false;
 
     private readonly BarberService _barberService;
+    private readonly ClientService _clientService;
     private readonly OrderService _orderService;
     private readonly OfferService _offerService;
 
     private IReadOnlyList<BarberDto> _barbers;
+    private IReadOnlyList<ClientDto> _clients;
 
     public int SelectedTabIndex
     {
         get => GetValue<int>(nameof(SelectedTabIndex));
         set => SetValue(value, () => { if (value == 2) FilterTimeSlots(); }, nameof(SelectedTabIndex));
     }
-    public string SearchText
+    public string SearchBarberText
     {
-        get => GetValue<string>(nameof(SearchText));
-        set => SetValue(value, () => BarbersView.Refresh(), nameof(SearchText));
+        get => GetValue<string>(nameof(SearchBarberText));
+        set => SetValue(value, () => BarbersView.Refresh(), nameof(SearchBarberText));
+    }
+    public string SearchClientText
+    {
+        get => GetValue<string>(nameof(SearchClientText));
+        set => SetValue(value, () => ClientsView.Refresh(), nameof(SearchClientText));
     }
 
     public decimal TotalCost
@@ -46,6 +53,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     }
 
     public ICollectionView BarbersView { get; set; }
+    public ICollectionView ClientsView { get; set; }
 
     public DateTime? SelectedDate
     {
@@ -76,6 +84,11 @@ public sealed class CreateOrderViewModel : BaseViewModel
             },
             nameof(SelectedBarber));
     }
+    public ClientDto SelectedClient
+    {
+        get => GetValue<ClientDto>(nameof(SelectedClient));
+        set => SetValue(value, nameof(SelectedClient));
+    }
 
     public ObservableCollection<ServiceDto> Services { get; set; } = new();
     public ServiceDto ServiceToSelect
@@ -96,9 +109,10 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public ICommand BarberChangedCommand { get; set; }
     public ICommand SelectTimeSlotCommand { get; set; }
 
-    public CreateOrderViewModel(BarberService barberService, OrderService orderService, OfferService offerService)
+    public CreateOrderViewModel(BarberService barberService, ClientService clientService, OrderService orderService, OfferService offerService)
     {
         _barberService = barberService;
+        _clientService = clientService;
         _orderService = orderService;
         _offerService = offerService;
 
@@ -116,12 +130,15 @@ public sealed class CreateOrderViewModel : BaseViewModel
     {
         if (!_isLoaded)
         {
-            _barbers = await _barberService.GetAll();
-            var _services = await _offerService.GetAll();
+            _clients = await _clientService.GetAll();
+            ClientsView = CollectionViewSource.GetDefaultView(_clients);
+            ClientsView.Filter += FilterClient;
 
+            _barbers = await _barberService.GetAll();
             BarbersView = CollectionViewSource.GetDefaultView(_barbers);
             BarbersView.Filter += FilterBarber;
 
+            var _services = await _offerService.GetAll();
             Services = new ObservableCollection<ServiceDto>(_services.OrderBy(x => x.Id));
 
             var timeSlots = new List<TimeSlot>();
@@ -132,7 +149,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
             }
             TimeSlots = new ObservableCollection<TimeSlot>(timeSlots);
 
-            RaisePropertiesChanged(nameof(BarbersView), nameof(Services), nameof(TimeSlots));
+            RaisePropertiesChanged(nameof(ClientsView), nameof(BarbersView), nameof(Services), nameof(TimeSlots));
             _isLoaded = true;
         }
     }
@@ -153,11 +170,32 @@ public sealed class CreateOrderViewModel : BaseViewModel
         }
     }
 
+    private bool FilterClient(object obj)
+    {
+        var client = obj as ClientDto;
+
+        if (string.IsNullOrWhiteSpace(SearchClientText))
+            return true;
+
+        var searchFields = new[]
+        {
+            client.LastName,
+            client.FirstName,
+            client.Surname,
+            client.PhoneNumber,
+            string.Join(' ', client.LastName, client.FirstName, client.Surname)
+        };
+
+        return searchFields
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Where(x => x.Contains(SearchClientText, StringComparison.OrdinalIgnoreCase))
+            .Any();
+    }
     private bool FilterBarber(object obj)
     {
         var barber = obj as BarberDto;
 
-        if (string.IsNullOrWhiteSpace(SearchText))
+        if (string.IsNullOrWhiteSpace(SearchBarberText))
             return true;
 
         var searchFields = new[]
@@ -170,7 +208,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
         return searchFields
             .Where(x => !string.IsNullOrWhiteSpace(x))
-            .Where(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+            .Where(x => x.Contains(SearchBarberText, StringComparison.OrdinalIgnoreCase))
             .Any();
     }
 
@@ -269,7 +307,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private void SelectTimeSlot(RoutedEventArgs eventArgs)
     {
-        SelectedTimeSlot = (eventArgs.Source as RadioButton).DataContext as TimeSlot;        
+        SelectedTimeSlot = (eventArgs.Source as RadioButton).DataContext as TimeSlot;
     }
 }
 
