@@ -157,7 +157,15 @@ public sealed class OrdersPageViewModel : BaseViewModel
             var vm = Container.ServiceProvider.GetRequiredService<CreateOrderViewModel>();
             if (_dialogService.ShowDialog(vm))
             {
+                await _ordersService.Create(new()
+                {
+                    CreatedOn = vm.SelectedDate.Value,
+                    BarberId = vm.SelectedBarber.Id,
+                    ClientId = vm.SelectedClient.Id,
+                    ServiceIds = vm.SelectedServices.Select(x => x.Id).ToList()
+                });
 
+                await LoadView();
             }
         });
     }

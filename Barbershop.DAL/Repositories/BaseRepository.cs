@@ -14,7 +14,7 @@ namespace Barbershop.DAL.Repositories;
 /// <typeparam name="T">Сущность базы данных.</typeparam>
 internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 {
-    private readonly BarbershopContextFactory _contextFactory;
+    protected readonly BarbershopContextFactory _contextFactory;
 
     public BaseRepository(BarbershopContextFactory contextFactory)
     {

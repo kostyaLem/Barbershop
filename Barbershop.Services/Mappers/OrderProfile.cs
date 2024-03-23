@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
+using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 

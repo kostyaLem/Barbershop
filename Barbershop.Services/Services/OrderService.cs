@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
+using Barbershop.DAL.Repositories;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,30 @@ namespace Barbershop.Services;
 
 public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCommand>
 {
-    public OrderService(IBaseRepository<Order> orderRepository, IMapper mapper)
-        : base(orderRepository, mapper)
+    private readonly IOrderRepository _orderRepository;
+    private readonly IBaseRepository<ServiceSkillLevel> _serviceRepository;
+
+    public OrderService(IOrderRepository orderRepository, IBaseRepository<Order> baseOrderRepository, IBaseRepository<ServiceSkillLevel> serviceRepository, IMapper mapper)
+        : base(baseOrderRepository, mapper)
     {
+        _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+        _serviceRepository = serviceRepository ?? throw new ArgumentNullException(nameof(serviceRepository));
+    }
+
+    public override async Task Create(UpsertOrderCommand command)
+    {
+        var services = await _serviceRepository.FindAll(x => command.ServiceIds.Contains(x.Id));
+
+        var order = new Order()
+        {
+            OrderStatus = OrderStatus.Created,
+            CreatedOn = command.CreatedOn,
+            BarberId = command.BarberId,
+            ClientId = command.ClientId,
+            ServiceSkillLevels = services.ToList()
+        };
+
+        await _orderRepository.CreateOrder(order);
     }
 
     public async Task<IReadOnlyList<OrderDto>> GetBarberOrders(int barberId, DateTime date)

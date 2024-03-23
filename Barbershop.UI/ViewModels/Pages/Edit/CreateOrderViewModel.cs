@@ -28,7 +28,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public int SelectedTabIndex
     {
         get => GetValue<int>(nameof(SelectedTabIndex));
-        set => SetValue(value, nameof(SelectedTabIndex));
+        set => SetValue(value, () => { if (value == 3) FilterTimeSlots(); }, nameof(SelectedTabIndex));
     }
     public string SearchBarberText
     {
@@ -60,9 +60,6 @@ public sealed class CreateOrderViewModel : BaseViewModel
         get => GetValue<DateTime?>(nameof(SelectedDate));
         set => SetValue(value, () =>
         {
-            if (SelectedBarber != null && SelectedTabIndex == 2)
-                FilterTimeSlots();
-
             RaisePropertyChanged(nameof(CanCreateOrder));
         }, nameof(SelectedDate));
     }
@@ -113,7 +110,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
     public ICommand SelectTimeSlotCommand { get; set; }
     public ICommand CreateOrderCommand { get; set; }
 
-    public event Action CreateOrder;
+    public event Action OnOrderCreateCall;
 
     public CreateOrderViewModel(BarberService barberService, ClientService clientService, OrderService orderService, OfferService offerService)
     {
@@ -130,7 +127,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
         SelectServiceCommand = new DelegateCommand(SelectService, () => ServiceToSelect != null);
         RemoveSelectedServiceCommand = new DelegateCommand(RemoveSelectedService, () => SelectedService != null);
         SelectTimeSlotCommand = new DelegateCommand<RoutedEventArgs>(SelectTimeSlot);
-        CreateOrderCommand = new DelegateCommand(() => CreateOrder?.Invoke());
+        CreateOrderCommand = new DelegateCommand(CreateOrder);
     }
 
     private async Task LoadView()
@@ -246,7 +243,9 @@ public sealed class CreateOrderViewModel : BaseViewModel
         SelectedTimeSlot = null;
         TimeSlots.ForEach(x => x.State = TimeSlotState.Open);
 
-        var ordersAtDay = await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate.Value);
+        var ordersAtDay = (await _orderService.GetBarberOrders(SelectedBarber.Id, SelectedDate.Value))
+            .OrderBy(x => x.BeginDateTime)
+            .ToList();
 
         if (ordersAtDay.Any())
         {
@@ -315,6 +314,12 @@ public sealed class CreateOrderViewModel : BaseViewModel
     private void SelectTimeSlot(RoutedEventArgs eventArgs)
     {
         SelectedTimeSlot = (eventArgs.Source as RadioButton).DataContext as TimeSlot;
+    }
+
+    private void CreateOrder()
+    {
+        SelectedDate = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, SelectedDate.Value.Day, SelectedTimeSlot.Time.Hour, SelectedTimeSlot.Time.Minute, 0);
+        OnOrderCreateCall?.Invoke();
     }
 }
 

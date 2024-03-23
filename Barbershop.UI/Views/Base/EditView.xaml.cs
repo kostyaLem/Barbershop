@@ -15,26 +15,30 @@ public partial class EditView : Window
     public ContentControl ContextItem { get; }
 
     public EditView(string title, ContentControl page)
+        : this(page)
     {
         InitializeComponent();
         Title = title;
-        ContextItem = page;
         DataContext = this;
-
-        Left = (System.Windows.SystemParameters.WorkArea.Width / 2) - (ContextItem.Width / 2);
-        Top = (System.Windows.SystemParameters.WorkArea.Height / 2) - (ContextItem.Height / 2);
     }
 
     public EditView(CreateOrderPage page)
+        : this((ContentControl)page)
     {
         InitializeComponent();
         Title = "Создание заказа";
-        ContextItem = page;
         DataContext = this;
 
         buttonsGroup.Visibility = System.Windows.Visibility.Collapsed;
 
-        (page.DataContext as CreateOrderViewModel).CreateOrder += EditView_CreateOrder;
+        (page.DataContext as CreateOrderViewModel).OnOrderCreateCall += EditView_CreateOrder;
+    }
+
+    private EditView(ContentControl page)
+    {
+        ContextItem = page;
+        Left = (System.Windows.SystemParameters.WorkArea.Width / 2) - (ContextItem.Width / 2);
+        Top = (System.Windows.SystemParameters.WorkArea.Height / 2) - (ContextItem.Height / 2);
     }
 
     private void EditView_CreateOrder()
@@ -64,7 +68,7 @@ public partial class EditView : Window
 
         if (ContextItem.DataContext is CreateOrderViewModel viewModel)
         {
-            viewModel.CreateOrder -= EditView_CreateOrder;
+            viewModel.OnOrderCreateCall -= EditView_CreateOrder;
         }
     }
 }

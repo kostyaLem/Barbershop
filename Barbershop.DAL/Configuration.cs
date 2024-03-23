@@ -12,6 +12,7 @@ public static class Configuration
         serviceCollection.AddTransient<BarbershopContextFactory>();
 
         serviceCollection.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        serviceCollection.AddTransient<IOrderRepository, OrderRepository>();
 
         return serviceCollection;
     }

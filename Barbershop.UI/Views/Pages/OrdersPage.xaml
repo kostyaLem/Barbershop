@@ -138,127 +138,127 @@
                         Text="Заказы" />
                 </GroupBox.Header>
 
-                <ItemsControl d:ItemsSource="{d:SampleData}" ItemsSource="{Binding Orders, Mode=OneWay}">
-                    <ItemsControl.ItemTemplate>
-                        <!--  Группировка по дням  -->
-                        <DataTemplate>
+                <hc:ScrollViewer>
+                    <ItemsControl d:ItemsSource="{d:SampleData}" ItemsSource="{Binding Orders, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <!--  Группировка по дням  -->
+                            <DataTemplate>
 
-                            <Expander
-                                Margin="0,0,0,10"
-                                Background="{DynamicResource MainContentBackgroundBrush}"
-                                IsExpanded="True">
-                                <Expander.Header>
-                                    <TextBlock Margin="0,15">
-                                        <Run Text="{Binding Key, Mode=OneWay}" />
-                                    </TextBlock>
-                                </Expander.Header>
+                                <Expander
+                                    Margin="0,0,0,10"
+                                    Background="{DynamicResource MainContentBackgroundBrush}"
+                                    IsExpanded="True">
+                                    <Expander.Header>
+                                        <TextBlock Margin="0,15">
+                                            <Run Text="{Binding Key, Mode=OneWay}" />
+                                        </TextBlock>
+                                    </Expander.Header>
 
-                                <Border
-                                    BorderBrush="{DynamicResource BorderBrush}"
-                                    BorderThickness="1,0,1,1"
-                                    CornerRadius="0,0,3,3">
+                                    <Border
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1,0,1,1"
+                                        CornerRadius="0,0,3,3">
 
-                                    <ItemsControl Margin="0,3,0,0" ItemsSource="{Binding}">
+                                        <ItemsControl Margin="0,3,0,0" ItemsSource="{Binding}">
 
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
 
-                                                <Grid Margin="0,5">
-                                                    <Grid.Resources>
-                                                        <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
-                                                            <Setter Property="HorizontalAlignment" Value="Center" />
-                                                            <Setter Property="VerticalAlignment" Value="Center" />
-                                                        </Style>
-                                                    </Grid.Resources>
+                                                    <Grid Margin="0,5">
+                                                        <Grid.Resources>
+                                                            <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
+                                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                            </Style>
+                                                        </Grid.Resources>
 
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="60" />
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition Width="150" />
-                                                        <ColumnDefinition Width="100" />
-                                                    </Grid.ColumnDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="60" />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="150" />
+                                                            <ColumnDefinition Width="100" />
+                                                        </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Text="{Binding Id, Mode=OneWay}" />
+                                                        <TextBlock Text="{Binding Id, Mode=OneWay}" />
 
-                                                    <StackPanel Grid.Column="1">
+                                                        <StackPanel Grid.Column="1">
 
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="28" Source="{StaticResource KnifeImage}" />
-                                                            <TextBlock Text="{Binding Barber, Mode=OneWay}" />
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Image Width="28" Source="{StaticResource KnifeImage}" />
+                                                                <TextBlock Text="{Binding Barber, Mode=OneWay}" />
+                                                            </StackPanel>
+
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Image Width="28" Source="{StaticResource ArmchairImage}" />
+                                                                <TextBlock Text="{Binding Client, Mode=OneWay}" />
+                                                            </StackPanel>
                                                         </StackPanel>
 
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="28" Source="{StaticResource ArmchairImage}" />
-                                                            <TextBlock Text="{Binding Client, Mode=OneWay}" />
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                            <Image Width="28" Source="{StaticResource TimerImage}" />
+                                                            <TextBlock>
+                                                                <Run Language="ru" Text="{Binding BeginDateTime, Mode=OneWay, StringFormat=t}" />
+                                                                <LineBreak />
+                                                                <Run Language="ru" Text="{Binding EndDateTime, Mode=OneWay, StringFormat=t}" />
+                                                            </TextBlock>
                                                         </StackPanel>
-                                                    </StackPanel>
 
-                                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                                        <Image Width="28" Source="{StaticResource TimerImage}" />
-                                                        <TextBlock>
-                                                            <Run Language="ru" Text="{Binding BeginDateTime, Mode=OneWay, StringFormat=t}" />
-                                                            <LineBreak />
-                                                            <Run Language="ru" Text="{Binding EndDateTime, Mode=OneWay, StringFormat=t}" />
-                                                        </TextBlock>
-                                                    </StackPanel>
+                                                        <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                                            <Image Width="28" Source="{StaticResource MoneyImage}" />
+                                                            <TextBlock Text="{Binding TotalPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
+                                                        </StackPanel>
 
-                                                    <StackPanel Grid.Column="3" Orientation="Horizontal">
-                                                        <Image Width="28" Source="{StaticResource MoneyImage}" />
-                                                        <TextBlock Text="{Binding TotalPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
-                                                    </StackPanel>
+                                                        <TextBlock Grid.Column="4" Text="{Binding Status, Mode=OneWay, Converter={converters:EnumToDescriptionConverter}}" />
 
-                                                    <TextBlock Grid.Column="4" Text="{Binding Status, Mode=OneWay, Converter={converters:EnumToDescriptionConverter}}" />
+                                                        <StackPanel
+                                                            Grid.Column="5"
+                                                            VerticalAlignment="Center"
+                                                            IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
+                                                            Orientation="Horizontal">
+                                                            <Button
+                                                                Height="30"
+                                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                                Command="{Binding Path=DataContext.CancelOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
+                                                                CommandParameter="{Binding Id}"
+                                                                Style="{DynamicResource ButtonDashedDanger.Small}"
+                                                                ToolTip="Отменить" />
+                                                            <Button
+                                                                Height="30"
+                                                                Margin="5,0"
+                                                                hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                                                Command="{Binding Path=DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
+                                                                CommandParameter="{Binding Id}"
+                                                                Style="{DynamicResource ButtonDashedWarning.Small}"
+                                                                ToolTip="Редактировать" />
+                                                            <Button
+                                                                Height="30"
+                                                                Margin="0,0,10,0"
+                                                                hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
+                                                                Command="{Binding Path=DataContext.CompleteOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
+                                                                CommandParameter="{Binding Id}"
+                                                                Style="{DynamicResource ButtonDashedSuccess.Small}"
+                                                                ToolTip="Выполнить" />
+                                                        </StackPanel>
+                                                    </Grid>
 
-                                                    <StackPanel
-                                                        Grid.Column="5"
-                                                        VerticalAlignment="Center"
-                                                        IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
-                                                        Orientation="Horizontal">
-                                                        <Button
-                                                            Height="30"
-                                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
-                                                            Command="{Binding Path=DataContext.CancelOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
-                                                            CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedDanger.Small}"
-                                                            ToolTip="Отменить" />
-                                                        <Button
-                                                            Height="30"
-                                                            Margin="5,0"
-                                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                                            Command="{Binding Path=DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
-                                                            CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedWarning.Small}"
-                                                            ToolTip="Редактировать" />
-                                                        <Button
-                                                            Height="30"
-                                                            Margin="0,0,10,0"
-                                                            hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
-                                                            Command="{Binding Path=DataContext.CompleteOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
-                                                            CommandParameter="{Binding Id}"
-                                                            Style="{DynamicResource ButtonDashedSuccess.Small}"
-                                                            ToolTip="Выполнить" />
-                                                    </StackPanel>
-                                                </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
 
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
 
-                                    </ItemsControl>
+                                    </Border>
+                                </Expander>
 
-                                </Border>
-                            </Expander>
-
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
 
 
-                </ItemsControl>
+                    </ItemsControl>
+                </hc:ScrollViewer>
 
             </GroupBox>
-
-
 
             <Grid
                 Grid.Row="2"

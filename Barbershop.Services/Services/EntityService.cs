@@ -17,7 +17,7 @@ public class EntityService<TEntityDto, TEntity, TCommand> : IEntityService<TEnti
 
     public EntityService(IBaseRepository<TEntity> repository, IMapper mapper)
     {
-        _entityRepository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _entityRepository = repository;
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 

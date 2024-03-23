@@ -11,12 +11,12 @@
     xmlns:sys="clr-namespace:System;assembly=netstandard"
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages.Edit"
     x:Name="control"
+    Width="800"
+    Height="550"
     MinWidth="800"
     MinHeight="450"
     d:Background="White"
     d:DataContext="{d:DesignInstance vm:CreateOrderViewModel}"
-    d:DesignHeight="550"
-    d:DesignWidth="800"
     mc:Ignorable="d">
 
     <UserControl.Resources>
