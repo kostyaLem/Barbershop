@@ -273,7 +273,7 @@
                     <Label>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Кол-во записей: " />
-                            <TextBlock Text="{Binding Items.Count, ElementName=ItemsGrid}" />
+                            <TextBlock Text="{Binding OrdersCount, Mode=OneWay}" />
                         </StackPanel>
                     </Label>
                 </StackPanel>

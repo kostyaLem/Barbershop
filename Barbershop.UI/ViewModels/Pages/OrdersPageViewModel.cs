@@ -22,6 +22,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
     private IReadOnlyList<OrderDto> _orders;
 
     public ObservableCollection<IGrouping<string, OrderDto>> Orders { get; private set; }
+    public int OrdersCount { get; set; }
     public ObservableCollection<SelectableItemModel<BarberDto>> Barbers
     {
         get => GetValue<ObservableCollection<SelectableItemModel<BarberDto>>>(nameof(Barbers));
@@ -70,12 +71,15 @@ public sealed class OrdersPageViewModel : BaseViewModel
             var groupedOrders = _orders
                 .GroupBy(x => x.BeginDateTime.ToString("D"))
                 .ToList();
+            OrdersCount = _orders.Count;
             Orders = new ObservableCollection<IGrouping<string, OrderDto>>(groupedOrders);
 
-            var barbers = new List<SelectableItemModel<BarberDto>>(_orders.Select(x => new SelectableItemModel<BarberDto>(x.Barber)));
+            var barbers = new List<SelectableItemModel<BarberDto>>(_orders.Select(x => new SelectableItemModel<BarberDto>(x.Barber)))
+                .DistinctBy(x => x.Value.Id);
             Barbers = new ObservableCollection<SelectableItemModel<BarberDto>>(barbers);
 
-            var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)));
+            var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)))
+                .DistinctBy(x => x.Value.Id);
             Clients = new ObservableCollection<SelectableItemModel<ClientDto>>(clients);
 
             RaisePropertiesChanged();
@@ -84,16 +88,19 @@ public sealed class OrdersPageViewModel : BaseViewModel
 
     private async Task ClearFilter()
     {
+        OrdersCount = _orders.Count;
         Orders = new ObservableCollection<IGrouping<string, OrderDto>>(_orders.GroupBy(x => x.BeginDateTime.ToString("D")));
         SelectAll = true;
 
-        var barbers = new List<SelectableItemModel<BarberDto>>(_orders.Select(x => new SelectableItemModel<BarberDto>(x.Barber)));
+        var barbers = new List<SelectableItemModel<BarberDto>>(_orders.Select(x => new SelectableItemModel<BarberDto>(x.Barber)))
+            .DistinctBy(x => x.Value.Id);
         Barbers = new ObservableCollection<SelectableItemModel<BarberDto>>(barbers);
 
-        var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)));
+        var clients = new List<SelectableItemModel<ClientDto>>(_orders.Select(x => new SelectableItemModel<ClientDto>(x.Client)))
+            .DistinctBy(x => x.Value.Id);
         Clients = new ObservableCollection<SelectableItemModel<ClientDto>>(clients);
 
-        RaisePropertiesChanged(nameof(SelectAll), nameof(Barbers), nameof(Clients));
+        RaisePropertiesChanged();
     }
 
     private async Task FilterOrders()
@@ -116,8 +123,9 @@ public sealed class OrdersPageViewModel : BaseViewModel
         if (SelectCompleted)
             orders = orders.Where(x => x.Status == OrderStatusDto.Done);
 
+        OrdersCount = orders.Count();
         Orders = new ObservableCollection<IGrouping<string, OrderDto>>(orders.GroupBy(x => x.BeginDateTime.ToString("D")));
-        RaisePropertyChanged(nameof(Orders));
+        RaisePropertiesChanged();
     }
 
     private async Task CompleteOrder(object obj)
