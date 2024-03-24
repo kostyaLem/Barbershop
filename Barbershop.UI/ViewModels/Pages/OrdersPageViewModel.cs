@@ -16,7 +16,7 @@ namespace Barbershop.UI.ViewModels.Pages;
 public sealed class OrdersPageViewModel : BaseViewModel
 {
     private readonly OrderService _ordersService;
-
+    private readonly ProductService _productService;
     private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
@@ -46,10 +46,12 @@ public sealed class OrdersPageViewModel : BaseViewModel
 
     public OrdersPageViewModel(
         OrderService ordersService,
+        ProductService productService,
         IMapper mapper,
         IWindowDialogService dialogService)
     {
         _ordersService = ordersService ?? throw new ArgumentNullException(nameof(ordersService));
+        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
@@ -147,7 +149,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
         {
             var order = await _ordersService.GetById(orderId);
 
-            var vm = new EditOrderViewModel(order);
+            var vm = new EditOrderViewModel(order, _productService);
 
             if (_dialogService.ShowDialog(typeof(EditOrderPage), vm))
             {
