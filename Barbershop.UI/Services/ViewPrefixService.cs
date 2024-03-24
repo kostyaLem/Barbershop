@@ -16,7 +16,8 @@ internal class ViewPrefixService
             { typeof(AdminDto), "администратора"},
             { typeof(BarberDto), "барбера"},
             { typeof(ClientDto), "клиента"},
-            { typeof(ProductDto), "товара"}
+            { typeof(ProductDto), "товара"},
+            { typeof(OrderDto), "заказа" }
         };
     }
 

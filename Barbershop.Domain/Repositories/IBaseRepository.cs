@@ -70,6 +70,13 @@ public interface IBaseRepository<T> where T : Entity, new()
     Task<T> GetById(int id, params Expression<Func<T, object>>[] including);
 
     /// <summary>
+    /// Получить сущность по Id
+    /// </summary>
+    /// <param name="thenInclude">Список включений сущностей.</param>
+    /// <returns>Список сущностей.</returns>
+    Task<T> GetById(int id, Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInclude = null);
+
+    /// <summary>
     /// Посчитать количество сущностей типа <typeparamref name="T"/>.
     /// </summary>
     /// <returns>Количество сущностей.</returns>

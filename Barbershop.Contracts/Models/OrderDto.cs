@@ -17,4 +17,7 @@ public class OrderDto : EntityDto
 
     public decimal TotalPrice =>
         Services.Sum(x => x.Cost) + Products.Sum(x => x.Cost);
+
+    public int TotalMinutes =>
+        Services.Sum(x => x.MinutesDuration);
 }

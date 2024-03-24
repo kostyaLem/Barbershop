@@ -63,6 +63,20 @@ public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCom
         await _entityRepository.Update(order);
     }
 
+    public override async Task<OrderDto> GetById(int orderId)
+    {
+        var order = await _entityRepository.GetById(orderId,
+            x => x.Include(x => x.Barber)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.Client)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.ServiceSkillLevels)
+                    .ThenInclude(x => x.Service)
+                .Include(x => x.Products));
+
+        return _mapper.Map<OrderDto>(order);
+    }
+
     public override async Task<IReadOnlyList<OrderDto>> GetAll()
     {
         var orders = await _entityRepository.GetAll(

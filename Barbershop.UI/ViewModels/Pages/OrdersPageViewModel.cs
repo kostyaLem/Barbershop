@@ -4,6 +4,7 @@ using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.ViewModels.Pages.Edit;
+using Barbershop.UI.Views.Pages.Edit;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using Microsoft.Extensions.DependencyInjection;
@@ -144,7 +145,14 @@ public sealed class OrdersPageViewModel : BaseViewModel
 
         await Execute(async () =>
         {
+            var order = await _ordersService.GetById(orderId);
 
+            var vm = new EditOrderViewModel(order);
+
+            if (_dialogService.ShowDialog(typeof(EditOrderPage), vm))
+            {
+
+            }
         });
     }
 

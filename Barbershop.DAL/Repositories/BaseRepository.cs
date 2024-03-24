@@ -137,4 +137,19 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
 
         return await context.Set<T>().CountAsync();
     }
+
+    public async Task<T> GetById(int id, Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInclude = null)
+    {
+        using var context = _contextFactory.CreateContext();
+
+        var query = context.Set<T>().AsQueryable();
+
+        if (thenInclude != null)
+            query = thenInclude.Invoke(query);
+
+        var entity = await query.FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new EntityNotFoundException<T>(id);
+
+        return entity;
+    }
 }
