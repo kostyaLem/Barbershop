@@ -90,4 +90,9 @@ public sealed class OrderService : EntityService<OrderDto, Order, UpsertOrderCom
 
         return _mapper.Map<IReadOnlyList<OrderDto>>(orders);
     }
+
+    public async Task UpdateProducts(int id, IReadOnlyList<int> productsIds)
+    {
+        await _orderRepository.UpdateProducts(id, productsIds);
+    }
 }

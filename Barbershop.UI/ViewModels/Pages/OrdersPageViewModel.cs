@@ -154,8 +154,9 @@ public sealed class OrdersPageViewModel : BaseViewModel
 
             if (_dialogService.ShowDialog(typeof(EditOrderPage), vm))
             {
+                await _ordersService.UpdateProducts(order.Id, vm.SelectedProducts.Select(x => x.Id).ToList());
 
-
+                await LoadView();
                 await FilterOrders();
             }
         });

@@ -186,7 +186,7 @@
                     Style="{StaticResource BaseStyle}"
                     ToolTipService.InitialShowDelay="0">
                     <Label.ToolTip>
-                        <StackPanel>
+                        <StackPanel Width="180">
                             <hc:TextBox
                                 hc:TitleElement.Title="Услуги:"
                                 hc:TitleElement.TitlePlacement="Left"
