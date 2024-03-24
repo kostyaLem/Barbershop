@@ -138,6 +138,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
         await Execute(async () =>
         {
             await _ordersService.CompleteOrder(orderId);
+            await LoadView();
             await FilterOrders();
         });
     }
@@ -169,6 +170,8 @@ public sealed class OrdersPageViewModel : BaseViewModel
         await Execute(async () =>
         {
             await _ordersService.CancelOrder(orderId);
+            await LoadView();
+            await FilterOrders();
         });
     }
 
@@ -188,6 +191,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
                 });
 
                 await LoadView();
+                await FilterOrders();
             }
         });
     }
