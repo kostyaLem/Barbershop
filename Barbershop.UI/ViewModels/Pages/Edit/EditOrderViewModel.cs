@@ -29,6 +29,7 @@ public class EditOrderViewModel : EditViewModel<OrderDto>
     public ICommand AddProductCommand { get; }
     public ICommand RemoveProductCommand { get; }
 
+    public decimal TotalProductsCost => SelectedProducts.Sum(x => x.Cost);
     public decimal TotalCost => Item.Services.Sum(x => x.Cost) + SelectedProducts.Sum(x => x.Cost);
 
     public EditOrderViewModel(OrderDto order, ProductService productService)

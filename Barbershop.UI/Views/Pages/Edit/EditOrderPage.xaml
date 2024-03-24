@@ -183,7 +183,26 @@
                     d:Content="1560 р."
                     Content="{Binding TotalCost, Converter={converters:DecimalToCurrencyConverter}}"
                     FontSize="16"
-                    Style="{StaticResource BaseStyle}" />
+                    Style="{StaticResource BaseStyle}"
+                    ToolTipService.InitialShowDelay="0">
+                    <Label.ToolTip>
+                        <StackPanel>
+                            <hc:TextBox
+                                hc:TitleElement.Title="Услуги:"
+                                hc:TitleElement.TitlePlacement="Left"
+                                BorderThickness="0"
+                                FontSize="16"
+                                Text="{Binding Item.TotalServicesPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
+                            <hc:TextBox
+                                hc:TitleElement.Title="Товары:"
+                                hc:TitleElement.TitlePlacement="Left"
+                                BorderThickness="0"
+                                FontSize="16"
+                                Text="{Binding TotalProductsCost, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" />
+                        </StackPanel>
+                    </Label.ToolTip>
+
+                </Label>
             </StackPanel>
 
             <StackPanel

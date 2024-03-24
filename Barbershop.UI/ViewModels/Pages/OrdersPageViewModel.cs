@@ -138,6 +138,7 @@ public sealed class OrdersPageViewModel : BaseViewModel
         await Execute(async () =>
         {
             await _ordersService.CompleteOrder(orderId);
+            await FilterOrders();
         });
     }
 
@@ -154,6 +155,8 @@ public sealed class OrdersPageViewModel : BaseViewModel
             if (_dialogService.ShowDialog(typeof(EditOrderPage), vm))
             {
 
+
+                await FilterOrders();
             }
         });
     }
