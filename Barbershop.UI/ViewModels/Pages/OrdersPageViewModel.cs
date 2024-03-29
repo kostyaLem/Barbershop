@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Barbershop.Contracts.Models;
+﻿using Barbershop.Contracts.Models;
 using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
@@ -17,7 +16,6 @@ public sealed class OrdersPageViewModel : BaseViewModel
 {
     private readonly OrderService _ordersService;
     private readonly ProductService _productService;
-    private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
     private IReadOnlyList<OrderDto> _orders;
@@ -30,6 +28,33 @@ public sealed class OrdersPageViewModel : BaseViewModel
         set => SetValue(value, nameof(Barbers));
     }
     public ObservableCollection<SelectableItemModel<ClientDto>> Clients { get; private set; }
+
+    public bool WithoutDateSelected
+    {
+        get => GetValue<bool>(nameof(WithoutDateSelected));
+        set => SetValue(value, () =>
+        {
+            if (value)
+            {
+                FromDateSelected = ToDateSelected = null;
+            }
+        }, nameof(WithoutDateSelected));
+    }
+    public bool TodayFilterSelected
+    {
+        get => GetValue<bool>(nameof(TodayFilterSelected));
+        set => SetValue(value, () => { if (value) FromDateSelected = ToDateSelected = null; }, nameof(TodayFilterSelected));
+    }
+    public DateTime? FromDateSelected
+    {
+        get => GetValue<DateTime?>(nameof(FromDateSelected));
+        set => SetValue(value, ResetDateFilter, nameof(FromDateSelected));
+    }
+    public DateTime? ToDateSelected
+    {
+        get => GetValue<DateTime?>(nameof(ToDateSelected));
+        set => SetValue(value, ResetDateFilter, nameof(ToDateSelected));
+    }
 
     public bool SelectAll { get; set; } = true;
     public bool SelectCreated { get; set; }
@@ -47,12 +72,10 @@ public sealed class OrdersPageViewModel : BaseViewModel
     public OrdersPageViewModel(
         OrderService ordersService,
         ProductService productService,
-        IMapper mapper,
         IWindowDialogService dialogService)
     {
         _ordersService = ordersService ?? throw new ArgumentNullException(nameof(ordersService));
         _productService = productService ?? throw new ArgumentNullException(nameof(productService));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
 
         LoadViewDataCommand = new AsyncCommand(LoadView);
@@ -64,6 +87,8 @@ public sealed class OrdersPageViewModel : BaseViewModel
 
         ClearFilterCommand = new AsyncCommand(ClearFilter);
         FilterOrdersCommand = new AsyncCommand(FilterOrders);
+
+        WithoutDateSelected = true;
     }
 
     public async Task LoadView()
@@ -103,6 +128,9 @@ public sealed class OrdersPageViewModel : BaseViewModel
             .DistinctBy(x => x.Value.Id);
         Clients = new ObservableCollection<SelectableItemModel<ClientDto>>(clients);
 
+        FromDateSelected = ToDateSelected = null;
+        WithoutDateSelected = true;
+
         RaisePropertiesChanged();
     }
 
@@ -125,6 +153,21 @@ public sealed class OrdersPageViewModel : BaseViewModel
             orders = orders.Where(x => x.Status == OrderStatusDto.Created);
         if (SelectCompleted)
             orders = orders.Where(x => x.Status == OrderStatusDto.Done);
+
+        if (TodayFilterSelected)
+        {
+            orders = orders.Where(x => x.BeginDateTime.Date == DateTime.Now.Date);
+        }
+        else
+        {
+            if (!WithoutDateSelected)
+            {
+                if (FromDateSelected != null)
+                    orders = orders.Where(x => x.BeginDateTime.Date >= FromDateSelected.Value.Date);
+                else if (ToDateSelected != null)
+                    orders = orders.Where(x => x.BeginDateTime.Date <= ToDateSelected.Value.Date);
+            }
+        }
 
         OrdersCount = orders.Count();
         Orders = new ObservableCollection<IGrouping<string, OrderDto>>(orders.GroupBy(x => x.BeginDateTime.ToString("D")));
@@ -194,5 +237,15 @@ public sealed class OrdersPageViewModel : BaseViewModel
                 await FilterOrders();
             }
         });
+    }
+
+    private void ResetDateFilter()
+    {
+        if (FromDateSelected is null && ToDateSelected is null)
+            WithoutDateSelected = true;
+        else
+            TodayFilterSelected = WithoutDateSelected = false;
+
+        RaisePropertyChanged(nameof(TodayFilterSelected));
     }
 }

@@ -59,73 +59,118 @@
                         <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
 
-                    <GroupBox Grid.Column="0" Header="Статус заказа">
-                        <UniformGrid>
-                            <UniformGrid.Resources>
-                                <Style BasedOn="{StaticResource RadioButtonBaseStyle}" TargetType="RadioButton">
-                                    <Setter Property="HorizontalAlignment" Value="Left" />
-                                    <Setter Property="Margin" Value="0,5" />
-                                </Style>
-                            </UniformGrid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                            <RadioButton Content="Любой" IsChecked="{Binding SelectAll}" />
-                            <RadioButton Content="Выволнен" IsChecked="{Binding SelectCompleted}" />
-                            <RadioButton Content="Создан" IsChecked="{Binding SelectCreated}" />
-                            <RadioButton Content="Отменен" IsChecked="{Binding SelectCanceled}" />
-                        </UniformGrid>
-                    </GroupBox>
+                    <UniformGrid Grid.Column="0" Margin="0,0,3,0">
+                        <UniformGrid.Resources>
+                            <Style BasedOn="{StaticResource RadioButtonBaseStyle}" TargetType="RadioButton">
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Margin" Value="0,5" />
+                            </Style>
+                        </UniformGrid.Resources>
 
-                    <GroupBox Grid.Column="1" Header="Барбер">
+                        <RadioButton Content="Любой" IsChecked="{Binding SelectAll}" />
+                        <RadioButton Content="Выволнен" IsChecked="{Binding SelectCompleted}" />
+                        <RadioButton Content="Создан" IsChecked="{Binding SelectCreated}" />
+                        <RadioButton Content="Отменен" IsChecked="{Binding SelectCanceled}" />
 
-                        <hc:CheckComboBox ItemsSource="{Binding Barbers}" ShowSelectAllButton="True">
-                            <hc:CheckComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <hc:CheckComboBoxItem
-                                        Content="{Binding Value}"
-                                        IsHitTestVisible="False"
-                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
-                                        Style="{StaticResource ListBoxItemBaseTransparent}" />
-                                </DataTemplate>
-                            </hc:CheckComboBox.ItemTemplate>
-                        </hc:CheckComboBox>
+                    </UniformGrid>
 
-                    </GroupBox>
+                    <hc:CheckComboBox
+                        Grid.Column="1"
+                        Margin="5"
+                        hc:InfoElement.Placeholder="Барбер"
+                        ItemsSource="{Binding Barbers}"
+                        ShowSelectAllButton="True"
+                        Style="{StaticResource CheckComboBoxExtend}">
+                        <hc:CheckComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <hc:CheckComboBoxItem
+                                    Content="{Binding Value}"
+                                    IsHitTestVisible="False"
+                                    IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                    Style="{StaticResource ListBoxItemBaseTransparent}" />
+                            </DataTemplate>
+                        </hc:CheckComboBox.ItemTemplate>
+                    </hc:CheckComboBox>
 
-                    <GroupBox Grid.Column="2" Header="Клиент">
+                    <hc:CheckComboBox
+                        Grid.Column="2"
+                        Margin="5"
+                        hc:InfoElement.Placeholder="Клиент"
+                        ItemsSource="{Binding Clients}"
+                        ShowSelectAllButton="True"
+                        Style="{StaticResource CheckComboBoxExtend}">
+                        <hc:CheckComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <hc:CheckComboBoxItem
+                                    Content="{Binding Value}"
+                                    IsHitTestVisible="False"
+                                    IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                    Style="{StaticResource ListBoxItemBaseTransparent}" />
+                            </DataTemplate>
+                        </hc:CheckComboBox.ItemTemplate>
+                    </hc:CheckComboBox>
 
-                        <hc:CheckComboBox ItemsSource="{Binding Clients}" ShowSelectAllButton="True">
-                            <hc:CheckComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <hc:CheckComboBoxItem
-                                        Content="{Binding Value}"
-                                        IsHitTestVisible="False"
-                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
-                                        Style="{StaticResource ListBoxItemBaseTransparent}" />
-                                </DataTemplate>
-                            </hc:CheckComboBox.ItemTemplate>
-                        </hc:CheckComboBox>
-
-                    </GroupBox>
-
-                    <StackPanel Grid.Column="3">
+                    <Grid Grid.RowSpan="2" Grid.Column="3">
                         <Button
                             Width="23"
-                            Height="26"
-                            Margin="0,1,0,0"
+                            Height="30"
+                            Margin="0,6,0,0"
                             Padding="0"
+                            VerticalAlignment="Top"
                             hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
                             Command="{Binding ClearFilterCommand}"
                             Style="{StaticResource ButtonDashedDanger}" />
                         <Button
                             Width="23"
-                            Height="60"
-                            Margin="0,8,0,0"
+                            Height="50"
+                            Margin="0,0,0,3"
                             Padding="0"
+                            VerticalAlignment="Bottom"
                             hc:IconElement.Geometry="{StaticResource SearchGeometry}"
-                            hc:IconElement.Width="10"
+                            hc:IconElement.Width="15"
                             Command="{Binding FilterOrdersCommand}"
+                            DockPanel.Dock="Bottom"
                             Style="{StaticResource ButtonSuccess}" />
-                    </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <UniformGrid VerticalAlignment="Center" Rows="1">
+                            <RadioButton
+                                HorizontalAlignment="Left"
+                                Content="Без даты"
+                                IsChecked="{Binding WithoutDateSelected}" />
+                            <RadioButton
+                                HorizontalAlignment="Left"
+                                Content="Сегодня"
+                                IsChecked="{Binding TodayFilterSelected}"
+                                Style="{StaticResource RadioButtonBaseStyle}" />
+                        </UniformGrid>
+
+                        <hc:DatePicker
+                            Grid.Column="1"
+                            Margin="5,3,5,3"
+                            hc:InfoElement.Placeholder="От"
+                            hc:InfoElement.ShowClearButton="True"
+                            SelectedDate="{Binding FromDateSelected}" />
+                        <hc:DatePicker
+                            Grid.Column="2"
+                            Margin="5,3,5,3"
+                            hc:InfoElement.Placeholder="До"
+                            hc:InfoElement.ShowClearButton="True"
+                            SelectedDate="{Binding ToDateSelected}" />
+
+                    </Grid>
                 </Grid>
             </GroupBox>
 
