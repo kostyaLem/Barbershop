@@ -10,7 +10,7 @@
                 <ResourceDictionary Source="/Barbershop.UI;Component/Resources/Dictionaries/ImageDictionary.xaml" />
                 <ResourceDictionary Source="/Barbershop.UI;Component/Resources/Dictionaries/ButtonStylesDictionary.xaml" />
                 <hc:IntellisenseResources Source="/HandyControl;Component/DesignTime/DesignTimeResources.xaml" />
-                <hc:ThemeResources AccentColor="Gray" />
+                <hc:ThemeResources AccentColor="YellowGreen"/>
                 <hc:Theme />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

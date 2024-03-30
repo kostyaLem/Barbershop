@@ -164,7 +164,7 @@
                             IsReadOnly="True" />
                         <DataGridTextColumn
                             Width="150"
-                            Binding="{Binding PureCost}"
+                            Binding="{Binding PureCost, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}"
                             Header="Доход"
                             IsReadOnly="True" />
                     </DataGrid.Columns>
