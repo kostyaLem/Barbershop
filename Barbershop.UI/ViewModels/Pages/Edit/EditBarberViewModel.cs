@@ -1,4 +1,5 @@
 ﻿using Barbershop.Contracts.Models;
+using Barbershop.Domain.Models;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using DevExpress.Mvvm;
@@ -12,6 +13,9 @@ public class EditBarberViewModel : EditViewModel<BarberDto>
 
     public ICommand SelectImageCommand { get; }
     public ICommand RemoveImageCommand { get; }
+
+    public IReadOnlyList<BarberSkillLevel> BarberSkillLevels
+        => Enum.GetValues<BarberSkillLevel>().Cast<BarberSkillLevel>().ToList();
 
     public EditBarberViewModel(BarberDto itemViewModel, IWindowDialogService dialogService)
         : this(dialogService)
