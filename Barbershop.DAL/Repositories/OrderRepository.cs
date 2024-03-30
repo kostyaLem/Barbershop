@@ -14,6 +14,15 @@ internal class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
         using var context = _contextFactory.CreateContext();
 
+        var barber = await context.Barbers.FindAsync(order.BarberId);
+
+        order.BarbersGain = barber.SkillLevel switch
+        {
+            SkillLevel.Junior => 15,
+            SkillLevel.Middle => 25,
+            SkillLevel.Senior => 35
+        };
+
         foreach (var service in order.ServiceSkillLevels)
         {
             context.Attach(service).State = EntityState.Unchanged;

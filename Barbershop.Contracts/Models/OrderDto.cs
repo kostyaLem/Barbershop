@@ -4,6 +4,8 @@ public class OrderDto : EntityDto
 {
     public OrderStatusDto Status { get; set; }
 
+    public int Gain { get; set; }
+
     public BarberDto Barber { get; set; }
     public ClientDto Client { get; set; }
 
@@ -14,6 +16,8 @@ public class OrderDto : EntityDto
 
     public DateTime EndDateTime
         => BeginDateTime.AddMinutes(Services.Sum(x => x.MinutesDuration));
+
+    public decimal PureCost => TotalServicesPrice * Gain / 100;
 
     public decimal TotalServicesPrice => Services.Sum(x => x.Cost);
 
