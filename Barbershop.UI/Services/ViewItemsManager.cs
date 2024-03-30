@@ -5,9 +5,9 @@ namespace Barbershop.UI.Services;
 
 public static class ViewItemsManager
 {
-    public static IReadOnlyList<ItemModel> GetItems(bool isAdmin = false)
+    public static IReadOnlyList<ItemModel> GetItems()
     {
-        if (true)
+        if (App.CurrentUser.IsAdmin)
         {
             return new List<ItemModel>()
             {
@@ -17,9 +17,15 @@ public static class ViewItemsManager
                 new("Барберы", "BarberImage", typeof(BarbersPage)),
                 new("Клиенты", "ClientImage", typeof(ClientsPage)),
                 new("Услуги", "ServiceImage", typeof(ServicesPage)),
-                new("Заказы", "SalaryImage", typeof(OrdersPage)),
-                new("Расписание", "ScheduleImage"),
+                new("Заказы", "SalaryImage", typeof(OrdersPage))
             };
         }
+
+        return new List<ItemModel>()
+        {
+            new("Главная", "HomeImage", typeof(MainPage)),
+            new("Заказы", "SalaryImage", typeof(OrdersPage)),
+            new("Зарплата", "MoneyImage", typeof(SalaryPage))
+        };
     }
 }

@@ -19,8 +19,8 @@ public sealed class SalaryPageViewModel : BaseViewModel
         set => SetValue(value, () => RaisePropertiesChanged(nameof(TotalCost), nameof(TotalMinutes)), nameof(Orders));
     }
 
-    public decimal TotalCost => Orders.Sum(x => x.PureCost);
-    public decimal TotalMinutes => Orders.Sum(x => x.TotalMinutes);
+    public decimal TotalCost => Orders?.Sum(x => x.PureCost) ?? 0;
+    public int TotalMinutes => Orders?.Sum(x => x.TotalMinutes) ?? 0;
 
     public bool WithoutDateSelected
     {
@@ -80,6 +80,7 @@ public sealed class SalaryPageViewModel : BaseViewModel
                 .ToList();
 
             Orders = new ObservableCollection<OrderDto>(_orders);
+            RaisePropertiesChanged(nameof(TotalCost), nameof(TotalMinutes));
         });
     }
 
@@ -127,6 +128,7 @@ public sealed class SalaryPageViewModel : BaseViewModel
         }
 
         Orders = new ObservableCollection<OrderDto>(orders);
+        RaisePropertiesChanged(nameof(TotalCost), nameof(TotalMinutes));
     }
 
     private void ClearFilter()
@@ -136,5 +138,6 @@ public sealed class SalaryPageViewModel : BaseViewModel
         TodayFilterSelected = Last30Days = CurrentMonth = false;
 
         Orders = new ObservableCollection<OrderDto>(_orders);
+        RaisePropertiesChanged(nameof(TotalCost), nameof(TotalMinutes));
     }
 }

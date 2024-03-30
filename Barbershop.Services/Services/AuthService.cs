@@ -31,13 +31,10 @@ public class AuthService : IAuthService
 
         var passwordHash = HashService.Compute(password);
 
-        var user = await GetUser(username, password, isAdmin);
+        var user = await GetUser(username, passwordHash, isAdmin);
 
         if (user == null)
             throw new UserNotFoundException();
-
-        if (user.PasswordHash != passwordHash)
-            throw new CredentialsException();
 
         return user;
     }

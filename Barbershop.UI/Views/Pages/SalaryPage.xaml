@@ -126,8 +126,7 @@
                     d:ItemsSource="{d:SampleData}"
                     hc:DataGridAttach.ShowRowNumber="False"
                     AutoGenerateColumns="False"
-                    ItemsSource="{Binding Orders, Mode=OneWay}"
-                    SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+                    ItemsSource="{Binding Orders, Mode=OneWay}">
                     <DataGrid.Resources>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -138,19 +137,36 @@
                         <DataGridTextColumn
                             Width="50"
                             Binding="{Binding Id}"
-                            Header="#" />
-                        <DataGridTextColumn Binding="{Binding BeginDate}" Header="Дата" />
+                            Header="#"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding BeginDateTime, StringFormat=yyyy.MM.dd HH:mm}"
+                            Header="Дата"
+                            IsReadOnly="True" />
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding Client}"
-                            Header="Клиент" />
-                        <DataGridTextColumn Binding="{Binding TotalMinutes}" Header="Продолжительность" />
-                        <DataGridTextColumn Binding="{Binding TotalServicesPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}" Header="Общая стоимость" />
+                            Header="Клиент"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding TotalMinutes, Converter={converters:IntToTimeStringConverter}}"
+                            Header="Продолжительность"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding TotalServicesPrice, Mode=OneWay, Converter={converters:DecimalToCurrencyConverter}}"
+                            Header="Общая стоимость"
+                            IsReadOnly="True" />
                         <DataGridTextColumn
                             Width="100"
-                            Binding="{Binding Gain}"
-                            Header="Ставка" />
-                        <DataGridTextColumn Binding="{Binding PureCost}" Header="Доход" />
+                            Binding="{Binding BarbersGain}"
+                            Header="Ставка"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding PureCost}"
+                            Header="Доход"
+                            IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
 

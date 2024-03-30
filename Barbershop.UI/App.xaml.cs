@@ -45,6 +45,6 @@ public partial class App : Application
     {
         Container.PrepareApp();
 
-        Container.ShowView<MainView>();
+        Container.ShowView<AuthView>();
     }
 }

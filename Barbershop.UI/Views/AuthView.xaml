@@ -70,7 +70,6 @@
                     Margin="0,30,0,0"
                     Padding="0"
                     HorizontalAlignment="Stretch"
-                    Background="{StaticResource DarkPrimaryBrush}"
                     BorderThickness="0"
                     Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName=PswrdBox}"
