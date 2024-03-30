@@ -34,6 +34,9 @@ internal static class Configuration
         serviceCollection.AddSingleton<SalaryPage>();
         serviceCollection.AddSingleton<SalaryPageViewModel>();
 
+        serviceCollection.AddSingleton<CurrentBarberPage>();
+        serviceCollection.AddSingleton<CurrentBarberViewModel>();
+
         serviceCollection.AddSingleton<BarbersPage>();
         serviceCollection.AddSingleton<BarbersPageViewModel>();
 

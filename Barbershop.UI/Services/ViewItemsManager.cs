@@ -24,6 +24,7 @@ public static class ViewItemsManager
         return new List<ItemModel>()
         {
             new("Главная", "HomeImage", typeof(MainPage)),
+            new("Моя страница", "BarberImage", typeof(CurrentBarberPage)),
             new("Заказы", "SalaryImage", typeof(OrdersPage)),
             new("Зарплата", "MoneyImage", typeof(SalaryPage))
         };

@@ -4,6 +4,7 @@ using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
 using Barbershop.Services.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Barbershop.Services;
 
@@ -47,7 +48,12 @@ public class BarberService : EntityService<BarberDto, Barber, UpsertBarberComman
 
     public override async Task<BarberDto> GetById(int id)
     {
-        var barber = await _entityRepository.GetById(id, x => x.User);
+        var barber = await _entityRepository.GetById(id,
+            x => x.Include(x => x.User)
+                .Include(x => x.Orders)
+                    .ThenInclude(x => x.Products)
+                .Include(x => x.Orders)
+                    .ThenInclude(x => x.ServiceSkillLevels));
 
         return _mapper.Map<BarberDto>(barber);
     }

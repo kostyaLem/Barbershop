@@ -3,6 +3,7 @@ using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
 using Barbershop.Domain.Models;
 using Barbershop.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Barbershop.Services;
 
@@ -15,7 +16,7 @@ public class ClientService : EntityService<ClientDto, Client, UpsertClientComman
 
     public override async Task<IReadOnlyList<ClientDto>> GetAll()
     {
-        var clients = await _entityRepository.GetAll(x => x.User);
+        var clients = await _entityRepository.GetAll(x => x.Include(x => x.User).Include(x => x.Orders));
 
         return _mapper.Map<IReadOnlyList<ClientDto>>(clients);
     }

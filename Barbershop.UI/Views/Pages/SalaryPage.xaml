@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Barbershop.UI.ViewModels.Pages"
     Title="SalaryPage"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=vm:SalaryPageViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"

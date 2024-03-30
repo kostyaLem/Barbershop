@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Barbershop.Contracts.Commands;
 using Barbershop.Contracts.Models;
-using Barbershop.Domain.Models;
-using Barbershop.Services.Abstractions;
+using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
 using Barbershop.UI.ViewModels.Pages.Edit;
@@ -12,18 +11,15 @@ namespace Barbershop.UI.ViewModels.Pages;
 
 public class ClientsPageViewModel : BaseItemsViewModel<ClientDto>
 {
-    private readonly IEntityService<ClientDto, Client, UpsertClientCommand> _clientService;
+    private readonly ClientService _clientService;
     private readonly IMapper _mapper;
     private readonly IWindowDialogService _dialogService;
 
-    public ClientsPageViewModel(
-        IEntityService<ClientDto, Client, UpsertClientCommand> clientService,
-        IMapper mapper,
-        IWindowDialogService dialogService)
+    public ClientsPageViewModel(ClientService clientService, IMapper mapper, IWindowDialogService dialogService)
     {
-        _clientService = clientService;
-        _mapper = mapper;
-        _dialogService = dialogService;
+        _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
     }
 
     public override async Task CreateItem()
