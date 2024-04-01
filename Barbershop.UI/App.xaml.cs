@@ -19,7 +19,7 @@ public partial class App : Application
     static App()
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+        ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
 
         ChangeThemeCommand = new DelegateCommand<ApplicationTheme>(ChangeTheme);
         ChangeAccountCommand = new DelegateCommand(ChangeAccount);

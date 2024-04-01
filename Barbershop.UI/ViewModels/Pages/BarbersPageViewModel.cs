@@ -47,10 +47,10 @@ public class BarbersPageViewModel : BaseItemsViewModel<BarberDto>
 
         if (_dialogService.ShowDialog(typeof(EditBarberPage), vm))
         {
-            var admin = _mapper.Map<BarberDto, UpsertBarberCommand>(vm.Item,
+            var barber = _mapper.Map<BarberDto, UpsertBarberCommand>(vm.Item,
                 opt => opt.Items[nameof(UpsertAdminCommand.Password)] = (string)vm.Args.Password!);
 
-            await _barberService.Update(admin);
+            await _barberService.Update(barber);
             await LoadItems();
         }
     }

@@ -23,8 +23,16 @@
     <hc:Interaction.Triggers>
         <hc:EventTrigger EventName="Loaded">
             <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+
         </hc:EventTrigger>
+
+        <hc:EventTrigger EventName="Selected">
+            <hc:EventToCommand Command="{Binding SelectBarberCommand}" PassEventArgsToCommand="True" />
+        </hc:EventTrigger>
+
     </hc:Interaction.Triggers>
+
+
 
     <Grid>
         <Border
@@ -79,41 +87,25 @@
 
                     </UniformGrid>
 
+
+
                     <hc:CheckComboBox
+                        x:Name="barbersCmb"
                         Grid.Column="1"
                         Margin="5"
                         hc:InfoElement.Placeholder="Барбер"
                         ItemsSource="{Binding Barbers}"
                         ShowSelectAllButton="True"
-                        Style="{StaticResource CheckComboBoxExtend}">
-                        <hc:CheckComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <hc:CheckComboBoxItem
-                                    Content="{Binding Value}"
-                                    IsHitTestVisible="False"
-                                    IsSelected="{Binding IsSelected, Mode=TwoWay}"
-                                    Style="{StaticResource ListBoxItemBaseTransparent}" />
-                            </DataTemplate>
-                        </hc:CheckComboBox.ItemTemplate>
-                    </hc:CheckComboBox>
+                        Style="{StaticResource CheckComboBoxExtend}" />
 
                     <hc:CheckComboBox
+                        x:Name="clientsCmb"
                         Grid.Column="2"
                         Margin="5"
                         hc:InfoElement.Placeholder="Клиент"
                         ItemsSource="{Binding Clients}"
                         ShowSelectAllButton="True"
-                        Style="{StaticResource CheckComboBoxExtend}">
-                        <hc:CheckComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <hc:CheckComboBoxItem
-                                    Content="{Binding Value}"
-                                    IsHitTestVisible="False"
-                                    IsSelected="{Binding IsSelected, Mode=TwoWay}"
-                                    Style="{StaticResource ListBoxItemBaseTransparent}" />
-                            </DataTemplate>
-                        </hc:CheckComboBox.ItemTemplate>
-                    </hc:CheckComboBox>
+                        Style="{StaticResource CheckComboBoxExtend}" />
 
                     <Grid Grid.RowSpan="2" Grid.Column="3">
                         <Button
@@ -124,7 +116,18 @@
                             VerticalAlignment="Top"
                             hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
                             Command="{Binding ClearFilterCommand}"
-                            Style="{StaticResource ButtonDashedDanger}" />
+                            Style="{StaticResource ButtonDashedDanger}">
+
+                            <Button.CommandParameter>
+
+                                <MultiBinding Converter="{converters:SearchOrderParamsConverter}">
+                                    <Binding ElementName="barbersCmb" />
+                                    <Binding ElementName="clientsCmb" />
+                                </MultiBinding>
+
+                            </Button.CommandParameter>
+
+                        </Button>
                         <Button
                             Width="23"
                             Height="50"
@@ -135,7 +138,16 @@
                             hc:IconElement.Width="15"
                             Command="{Binding FilterOrdersCommand}"
                             DockPanel.Dock="Bottom"
-                            Style="{StaticResource ButtonSuccess}" />
+                            Style="{StaticResource ButtonSuccess}">
+                            <Button.CommandParameter>
+
+                                <MultiBinding Converter="{converters:SearchOrderParamsConverter}">
+                                    <Binding ElementName="barbersCmb" Path="SelectedItems" />
+                                    <Binding ElementName="clientsCmb" Path="SelectedItems" />
+                                </MultiBinding>
+
+                            </Button.CommandParameter>
+                        </Button>
                     </Grid>
 
                     <Grid Grid.Row="1" Grid.ColumnSpan="3">

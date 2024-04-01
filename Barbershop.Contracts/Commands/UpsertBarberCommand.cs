@@ -1,4 +1,6 @@
-﻿namespace Barbershop.Contracts.Commands;
+﻿using Barbershop.Contracts.Models;
+
+namespace Barbershop.Contracts.Commands;
 
 public class UpsertBarberCommand : IdentifiedCommand
 {
@@ -10,4 +12,6 @@ public class UpsertBarberCommand : IdentifiedCommand
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
     public byte[]? Photo { get; set; }
+    public BarberSkillLevel SkillLevel { get; set; }
+    public DateTime Birthday { get; set; }
 }

@@ -11,4 +11,10 @@ public class BarberDto : UserDto
 
     public override string ToString()
         => string.Join(' ', LastName, FirstName, Surname);
+
+    public bool IsSelected
+    {
+        get => GetValue<bool>(nameof(IsSelected));
+        set => SetValue(value, nameof(IsSelected));
+    }
 }

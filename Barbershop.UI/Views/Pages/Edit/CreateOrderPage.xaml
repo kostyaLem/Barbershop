@@ -129,12 +129,12 @@
                             </Style>
                         </StackPanel.Resources>
 
-                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="2">
-                            <Image
-                                Width="150"
-                                Height="200"
-                                Source="{Binding SelectedClient.Photo, Converter={converters:BytesToImageConverter}}" />
-                        </Border>
+
+                        <Image
+                            Width="150"
+                            Height="200"
+                            Source="{Binding SelectedClient.Photo, Converter={converters:BytesToImageConverter}}"
+                            Stretch="Uniform" />
 
                         <TextBlock
                             Margin="0,10,0,0"
