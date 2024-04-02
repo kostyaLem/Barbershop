@@ -272,13 +272,14 @@
                                                         <StackPanel
                                                             Grid.Column="5"
                                                             VerticalAlignment="Center"
-                                                            IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
+                                                            IsEnabled="{Binding Converter={converters:EnableEditOrderConverter}}"
                                                             Orientation="Horizontal">
                                                             <Button
                                                                 Height="30"
                                                                 hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
                                                                 Command="{Binding Path=DataContext.CancelOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                                 CommandParameter="{Binding Id}"
+                                                                IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
                                                                 Style="{DynamicResource ButtonDashedDanger.Small}"
                                                                 ToolTip="Отменить" />
                                                             <Button
@@ -287,6 +288,7 @@
                                                                 hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                                                 Command="{Binding Path=DataContext.EditOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                                 CommandParameter="{Binding Id}"
+                                                                IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
                                                                 Style="{DynamicResource ButtonDashedWarning.Small}"
                                                                 ToolTip="Редактировать" />
                                                             <Button
@@ -295,6 +297,7 @@
                                                                 hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
                                                                 Command="{Binding Path=DataContext.CompleteOrderCommand, RelativeSource={RelativeSource AncestorType=Page, Mode=FindAncestor}}"
                                                                 CommandParameter="{Binding Id}"
+                                                                IsEnabled="{Binding Status, Mode=OneWay, Converter={converters:OrderStatusToEnableConverter}}"
                                                                 Style="{DynamicResource ButtonDashedSuccess.Small}"
                                                                 ToolTip="Выполнить" />
                                                         </StackPanel>

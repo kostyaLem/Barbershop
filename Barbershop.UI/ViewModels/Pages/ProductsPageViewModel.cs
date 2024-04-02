@@ -4,6 +4,7 @@ using Barbershop.Contracts.Models;
 using Barbershop.Services;
 using Barbershop.UI.Services;
 using Barbershop.UI.ViewModels.Base;
+using Barbershop.UI.ViewModels.Pages.Edit;
 using Barbershop.UI.Views.Pages.Edit;
 
 namespace Barbershop.UI.ViewModels.Pages;
@@ -26,7 +27,7 @@ public class ProductsPageViewModel : BaseItemsViewModel<ProductDto>
 
     public override async Task CreateItem()
     {
-        var vm = new EditViewModel<ProductDto>();
+        var vm = new EditProductViewModel();
 
         if (_dialogService.ShowDialog(typeof(EditProductPage), vm))
         {
@@ -39,7 +40,7 @@ public class ProductsPageViewModel : BaseItemsViewModel<ProductDto>
     public override async Task EditItem()
     {
         var currentProduct = await _productService.GetById(SelectedItem.Id);
-        var vm = new EditViewModel<ProductDto>(currentProduct, _dialogService);
+        var vm = new EditProductViewModel(currentProduct);
 
         if (_dialogService.ShowDialog(typeof(EditProductPage), vm))
         {

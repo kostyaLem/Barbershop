@@ -34,4 +34,17 @@ public class EditServiceViewModel : EditViewModel<ServiceDto>
         AddSeniorServiceCommand = new DelegateCommand(() => Item.SeniorSkill = new ServiceSkillLevelDto());
         RemoveSerniorServiceCommand = new DelegateCommand(() => Item.SeniorSkill = null);
     }
+
+    public override IReadOnlyList<string> GetErrors()
+    {
+        var errors = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(Item.Name))
+            errors.Add("Введите название услуги.");
+
+        if (Item.JuniorSkill is null || Item.MiddleSkill is null || Item.SeniorSkill == null)
+            errors.Add("Заполните все уровни мастерства.");
+
+        return errors;
+    }
 }

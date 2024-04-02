@@ -7,7 +7,7 @@ namespace Barbershop.UI.ViewModels.Base;
 /// Модель редактирования сущности.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class EditViewModel<T> : BaseViewModel where T : class, new()
+public class EditViewModel<T> : EditViewModel where T : class, new()
 {
     protected string _viewModelName = ViewPrefixService.Get<T>();
 
@@ -34,4 +34,10 @@ public class EditViewModel<T> : BaseViewModel where T : class, new()
 
         preUpdate?.Invoke(Item);
     }
+}
+
+public abstract class EditViewModel : BaseViewModel
+{
+    public virtual IReadOnlyList<string> GetErrors()
+        => Array.Empty<string>();
 }

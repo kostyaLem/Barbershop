@@ -1,5 +1,8 @@
-﻿using Barbershop.UI.ViewModels.Pages.Edit;
+﻿using Barbershop.Contracts.Models;
+using Barbershop.UI.ViewModels.Base;
+using Barbershop.UI.ViewModels.Pages.Edit;
 using Barbershop.UI.Views.Pages.Edit;
+using HandyControl.Controls;
 using System.Windows.Controls;
 using Window = HandyControl.Controls.Window;
 
@@ -54,6 +57,19 @@ public partial class EditView : Window
 
     private void btnOk_Click(object sender, System.Windows.RoutedEventArgs e)
     {
+        var editViewModel = ContextItem.DataContext as EditViewModel;
+
+        if (editViewModel != null)
+        {
+            var errors = editViewModel.GetErrors();
+
+            if (errors.Any())
+            {
+                MessageBox.Warning(string.Join(Environment.NewLine, errors), "Заполните нужные поля");
+                return;
+            }
+        }
+
         DialogResult = true;
         _isAccept = true;
         this.Close();

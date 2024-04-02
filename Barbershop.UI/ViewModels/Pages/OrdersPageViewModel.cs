@@ -145,18 +145,21 @@ public sealed class OrdersPageViewModel : BaseViewModel
         RaisePropertiesChanged(nameof(Barbers), nameof(Clients));
     }
 
-    private async Task FilterOrders(object arg = null)
+    private async Task FilterOrders(object arg = default!)
     {
-        var selectedBarbers = ((System.Collections.IList)(arg as object[])[0]).Cast<BarberDto>().Select(x => x.Id);
-        var selectedClients = ((System.Collections.IList)(arg as object[])[1]).Cast<ClientDto>().Select(x => x.Id);
-
         var orders = _orders.Select(x => x);
 
-        if (selectedBarbers.Any())
-            orders = orders.Where(x => selectedBarbers.Contains(x.Barber?.Id ?? -1));
+        if (arg != null)
+        {
+            var selectedBarbers = ((System.Collections.IList)(arg as object[])[0]).Cast<BarberDto>().Select(x => x.Id);
+            var selectedClients = ((System.Collections.IList)(arg as object[])[1]).Cast<ClientDto>().Select(x => x.Id);
 
-        if (selectedClients.Any())
-            orders = orders.Where(x => selectedClients.Contains(x.Client?.Id ?? -1));
+            if (selectedBarbers.Any())
+                orders = orders.Where(x => selectedBarbers.Contains(x.Barber?.Id ?? -1));
+
+            if (selectedClients.Any())
+                orders = orders.Where(x => selectedClients.Contains(x.Client?.Id ?? -1));
+        }
 
         if (SelectCanceled)
             orders = orders.Where(x => x.Status == OrderStatusDto.Canceled);

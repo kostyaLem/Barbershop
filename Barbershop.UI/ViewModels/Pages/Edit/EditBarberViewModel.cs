@@ -50,4 +50,23 @@ public class EditBarberViewModel : EditViewModel<BarberDto>
         Item.Photo = Array.Empty<byte>();
         RaisePropertyChanged(nameof(Item));
     }
+
+    public override IReadOnlyList<string> GetErrors()
+    {
+        var errors = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(Item.Login))
+            errors.Add("Введите логин.");
+
+        if (Item.Id == 0 && string.IsNullOrWhiteSpace(Args.Password as string))
+            errors.Add("Пароль при создании учетной записи обязателен.");
+
+        if (string.IsNullOrWhiteSpace(Item.FirstName))
+            errors.Add("Введите имя.");
+
+        if (string.IsNullOrWhiteSpace(Item.PhoneNumber))
+            errors.Add("Введите телефон.");
+
+        return errors;
+    }
 }
