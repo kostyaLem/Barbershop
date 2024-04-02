@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Barbershop.DAL.Migrations
 {
     [DbContext(typeof(BarbershopContext))]
-    [Migration("20240314234134_ChangeDeleteBahavior2")]
-    partial class ChangeDeleteBahavior2
+    [Migration("20240402220149_InitData")]
+    partial class InitData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,24 +13,6 @@ public static class MigrationManager
 
         var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
 
-        if (pendingMigrations.Any())
-        {
-            context.Database.Migrate();
-
-            await context.Admins.AddAsync(new Domain.Models.Admin()
-            {
-                User = new()
-                {
-                    FirstName = "Администратор",
-                    PhoneNumber = "89211234567",
-                    Birthday = DateTime.Now.AddYears(-22),
-                    Email = "admin@mail.ru",
-                },
-                Login = "admin",
-                PasswordHash = "x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="
-            });
-
-            await context.SaveChangesAsync();
-        }
+        await context.Database.MigrateAsync();
     }
 }
