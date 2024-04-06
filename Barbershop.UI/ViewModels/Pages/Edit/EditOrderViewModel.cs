@@ -49,7 +49,7 @@ public class EditOrderViewModel : EditViewModel<OrderDto>
 
         ProductsToSelect = new(products.ExceptBy(Item.Products.Select(x => x.Id), x => x.Id));
         SelectedProducts = new(Item.Products);
-        RaisePropertiesChanged(nameof(ProductsToSelect), nameof(SelectedProducts));
+        RaisePropertiesChanged(nameof(ProductsToSelect), nameof(SelectedProducts), nameof(TotalCost));
     }
 
     private void SelectProduct()

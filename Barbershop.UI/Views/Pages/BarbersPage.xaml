@@ -100,7 +100,7 @@
                             Header="Email"
                             IsReadOnly="True" />
                         <DataGridTextColumn
-                            Width="120"
+                            Width="150"
                             Binding="{Binding PhoneNumber}"
                             Header="Телефон"
                             IsReadOnly="True" />

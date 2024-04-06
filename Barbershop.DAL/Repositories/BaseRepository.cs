@@ -65,7 +65,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
             query = query.Include(include);
         }
 
-        return await query.ToListAsync();
+        return await query.OrderBy(x => x.Id).ToListAsync();
     }
 
     public async Task<List<T>> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInclude)
@@ -77,7 +77,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
         if (thenInclude != null)
             query = thenInclude.Invoke(query);
 
-        return await query.ToListAsync();
+        return await query.OrderBy(x => x.Id).ToListAsync();
     }
 
     public async Task<IReadOnlyList<T>> FindAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)
@@ -91,7 +91,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : Entity, new()
             query = query.Include(include);
         }
 
-        return await query.ToListAsync();
+        return await query.OrderBy(x => x.Id).ToListAsync();
     }
 
     public async Task<T?> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] including)

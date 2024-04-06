@@ -60,6 +60,7 @@ public sealed class CreateOrderViewModel : BaseViewModel
         get => GetValue<DateTime?>(nameof(SelectedDate));
         set => SetValue(value, () =>
         {
+            FilterTimeSlots();
             RaisePropertyChanged(nameof(CanCreateOrder));
         }, nameof(SelectedDate));
     }
@@ -240,6 +241,9 @@ public sealed class CreateOrderViewModel : BaseViewModel
 
     private async Task FilterTimeSlots()
     {
+        if (TimeSlots is null)
+            return;
+
         SelectedTimeSlot = null;
         TimeSlots.ForEach(x => x.State = TimeSlotState.Open);
 
